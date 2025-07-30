@@ -12,6 +12,13 @@ HOST = os.getenv("HOST")
 PORT = os.getenv("PORT")
 SID = os.getenv("SID")
 
-print("Iniciando Teste: ")
 instance = f"oracle+oracledb://{USER}:{PASSWORD}@{HOST}/?service_name={SID}"
-print(instance)
+
+engine = create_engine(instance, echo=True)
+session = scoped_session(sessionmaker(bind=engine))
+
+clientes = session.execute(text("SELECT * FROM CLIENTE"))
+
+print(clientes)
+
+#oracle+oracledb://ControleEstoque:oracle@localhost/?service_name=XEPDB1
