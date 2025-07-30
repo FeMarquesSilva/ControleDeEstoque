@@ -13,5 +13,5 @@ PORT = os.getenv("PORT")
 SID = os.getenv("SID")
 
 instance = f"oracle+oracledb://{USER}:{PASSWORD}@{HOST}/?service_name={SID}"
-engine = create_engine(instance, echo=True)
+engine = create_engine(instance, echo=False)
 session = scoped_session(sessionmaker(bind=engine))
