@@ -1,6 +1,10 @@
 import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+
+    const navigate = useNavigate();
+
     return (
         <Flex flexDir={"column"} backgroundColor={"rgba(255, 226, 171, 1)"} w={"100%"} h={"100vh"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
             <Flex flexDir={"row"} backgroundColor={"rgba(223, 152, 0, 1)"} p={"15px"} borderRadius={"15px"} alignItems={"center"}>
@@ -20,7 +24,7 @@ const Login = () => {
 
             <Flex gap={"15px"} mt={"12px"}>
                 <Button h={"30px"} backgroundColor={"rgba(44, 76, 165, 1)"} color={"white"}>Cadastrar</Button>
-                <Button h={"30px"} backgroundColor={"rgba(82, 165, 44, 1)"} color={"white"}>Entrar</Button>
+                <Button h={"30px"} backgroundColor={"rgba(82, 165, 44, 1)"} color={"white"} onClick={() => {navigate("/home")}}>Entrar</Button>
             </Flex>
 
         </Flex>
