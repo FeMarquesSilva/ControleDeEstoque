@@ -1,8 +1,12 @@
+import { Box, Text } from "@chakra-ui/react";
+
 const Login = () => {
     return (
-        <div>
-            <h1>Login</h1>
-        </div>
+        <Box backgroundColor={"rgba(255, 197, 89, 1)"}>
+            <Box>
+                <Text>Login</Text>
+            </Box>
+        </Box>
     );
 }
 
