@@ -17,3 +17,17 @@ def listar_clientes():
         return jsonify(clientes_list)
     finally:
         session.remove()
+
+def listar_cliente_id(id):
+    cliente = session.query(Cliente).get(id)
+    if not cliente:
+        session.close()
+        return jsonify({'erro': 'Cliente não encontrado'}), 404
+    return jsonify({
+        'id': cliente.id,
+        'nome': cliente.nome,
+        'cnpj': cliente.cnpj,
+        'email': cliente.email,
+        'telefone': cliente.telefone,
+        'endereco': cliente.endereco
+    })

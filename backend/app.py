@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from database import session
 from models import Cliente
-from controllers import listar_clientes
+from controllers import listar_clientes, listar_cliente_id
 from flask import request, jsonify
 
 app = Flask(__name__)
@@ -12,6 +12,11 @@ CORS(app)  # Permite CORS para todas rotas e origens
 @app.route('/clientes', methods=['GET'])
 def get_clientes():
     return listar_clientes()  
+
+# Rota para buscar cliente por ID
+@app.route('/clientes/<int:id>', methods=['GET'])
+def get_cliente(id):
+    return listar_cliente_id(id)
 
 # Rota para deletar cliente pelo ID
 @app.route('/clientes/<int:id>', methods=['DELETE'])
@@ -55,19 +60,6 @@ def create_cliente():
     session.close()
     return jsonify({'mensagem': 'Cliente criado com sucesso', 'id': id_cliente}), 201
 
-# Rota para buscar cliente por ID
-@app.route('/clientes/<int:id>', methods=['GET'])
-def get_cliente(id):
-    cliente = session.query(Cliente).get(id)
-    if not cliente:
-        session.close()
-        return jsonify({'erro': 'Cliente não encontrado'}), 404
-    resultado = jsonify({
-        'id': cliente.id,
-        'nome': cliente.nome,
-        'cnpj': cliente.cnpj,
-        'email': cliente.email
-    })
     
 if __name__ == "__main__":
    app.run(debug=True)
