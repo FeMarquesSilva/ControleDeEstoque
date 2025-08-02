@@ -14,8 +14,6 @@ from controllers.clientes_controller import (
 
 from flask import request, jsonify
 
-
-
 app = Flask(__name__)
 CORS(app)  # Permite CORS para todas rotas e origens
 

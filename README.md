@@ -13,3 +13,4 @@ Projeto desenvolvido na PUC para a Coamo - Projeto de Desenvolvimento de Softwar
 - React
 - React-Router-Dom
 
+Yup

@@ -2,10 +2,10 @@ from typing import List, Optional
 
 from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, PrimaryKeyConstraint, Table, VARCHAR
 from sqlalchemy.dialects.oracle import FLOAT, NUMBER
-from sqlalchemy.orm import DeclarativeBase, Mapped, MappedAsDataclass, mapped_column, relationship
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
 
-class Base(MappedAsDataclass, DeclarativeBase):
+class Base(DeclarativeBase):
     pass
 
 class Categoria(Base):
