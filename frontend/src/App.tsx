@@ -8,6 +8,8 @@ import Login from './pages/Login';
 import Home from './pages/Home';
 import Produto from './pages/Produto';
 import AdicionarProduto from "./pages/RoutesProduto/AdicionarProduto";
+import Fornecedor from './pages/Fornecedor';
+import AdicionarFornecedor from './pages/RoutesFornecedor/AdicionarForncedor';
 
 // Definindo as rotas do aplicativo:
 const router = createBrowserRouter([
@@ -15,6 +17,8 @@ const router = createBrowserRouter([
   { path: "/home", element: <Home /> },
   { path: "/produtos", element: <Produto /> },
   { path: "/produtos/adicionar", element: <AdicionarProduto /> },
+  { path: "/fornecedores", element: <Fornecedor /> },
+  { path: "/fornecedores/adicionar", element: <AdicionarFornecedor /> }
 ]);
 
 const App: React.FC = () => {
