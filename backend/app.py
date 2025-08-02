@@ -2,8 +2,19 @@ from flask import Flask
 from flask_cors import CORS
 from database import session
 from models import Cliente
-from controllers import listar_clientes, listar_cliente_id, busca_cliente, delete_cliente, update_cliente, create_cliente
+
+from controllers.clientes_controller import (
+    listar_clientes,
+    listar_cliente_id,
+    busca_cliente,
+    delete_cliente,
+    update_cliente,
+    create_cliente
+)
+
 from flask import request, jsonify
+
+
 
 app = Flask(__name__)
 CORS(app)  # Permite CORS para todas rotas e origens
