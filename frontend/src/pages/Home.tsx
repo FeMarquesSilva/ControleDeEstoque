@@ -15,19 +15,22 @@ const Home = () => {
                 display={"flex"}
                 alignItems={"center"}
                 justifyContent={"center"}
-                gap={"20px"}>
+                gap={"40px"}>
 
                 {sections.map((info) => {
                     return (
                         <Box
                             backgroundColor={"rgba(223, 152, 0, 1)"}
-                            w={"150px"} textAlign={"center"} p={"15px"}
+                            w={"800px"} h={"150px"} textAlign={"center"} p={"5px"}
                             borderRadius={"15px"}
-                            _hover={{ backgroundColor: "rgba(200, 130, 0, 1)", padding: "20px", width: "170px", cursor: "pointer" }}
+                            _hover={{ backgroundColor: "rgba(200, 130, 0, 1)", width: "840px", h: "160px" , cursor: "pointer" }}
                             key={info}
-                            transition={"all 0.3s"}>
+                            transition={"all 0.3s"}
+                            display={"flex"}
+                            alignItems={"center"}
+                            justifyContent={"center"}>
 
-                            <Text>{info}</Text>
+                            <Text fontSize={"60px"}>{info}</Text>
 
                         </Box>
                     );

@@ -15,6 +15,3 @@ def get_clientes():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
-
-lote = ["1", "2", "3", "4", "5"]
