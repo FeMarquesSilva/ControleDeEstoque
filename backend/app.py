@@ -11,7 +11,10 @@ CORS(app)  # Permite CORS para todas rotas e origens
 # Rota para listar clientes "/clientes"
 @app.route('/clientes', methods=['GET'])
 def get_clientes():
-    return listar_clientes()    
+    return listar_clientes()  
 
 if __name__ == "__main__":
     app.run(debug=True)
+    
+
+lote = ["1", "2", "3", "4", "5"]
