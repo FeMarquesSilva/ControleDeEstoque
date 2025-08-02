@@ -6,11 +6,13 @@ import React from 'react';
 //Importando o componentes do sistema:
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Produto from './pages/Produto';
 
 // Definindo as rotas do aplicativo:
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
   { path: "/home", element: <Home /> },
+  { path: "/produtos", element: <Produto /> },
 ]);
 
 const App: React.FC = () => {
