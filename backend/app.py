@@ -11,20 +11,20 @@ CORS(app)  # Permite CORS para todas rotas e origens
 # Rota para listar clientes "/clientes"
 @app.route('/clientes', methods=['GET'])
 def get_clientes():
-    return listar_clientes()  
-
-if __name__ == "__main__":
-    app.run(debug=True)
-<<<<<<< HEAD
+    resultado = listar_clientes()
+    session.close()
+    return resultado
 
 # Rota para deletar cliente pelo ID
 @app.route('/clientes/<int:id>', methods=['DELETE'])
 def delete_cliente(id):
     cliente = session.query(Cliente).get(id)
     if not cliente:
+        session.close()
         return jsonify({'erro': 'Cliente não encontrado'}), 404
     session.delete(cliente)
     session.commit()
+    session.close()
     return jsonify({'mensagem': 'Cliente deletado com sucesso'})
 
 # Rota para atualizar cliente pelo ID
@@ -33,11 +33,13 @@ def update_cliente(id):
     data = request.json
     cliente = session.query(Cliente).get(id)
     if not cliente:
+        session.close()
         return jsonify({'erro': 'Cliente não encontrado'}), 404
     cliente.nome = data.get('nome', cliente.nome)
     cliente.cnpj = data.get('cnpj', cliente.cnpj)
     cliente.email = data.get('email', cliente.email)
     session.commit()
+    session.close()
     return jsonify({'mensagem': 'Cliente atualizado com sucesso'})
 
 # Rota para criar cliente
@@ -51,22 +53,44 @@ def create_cliente():
     )
     session.add(novo_cliente)
     session.commit()
-    return jsonify({'mensagem': 'Cliente criado com sucesso', 'id': novo_cliente.id}), 201
+    id_cliente = novo_cliente.id
+    session.close()
+    return jsonify({'mensagem': 'Cliente criado com sucesso', 'id': id_cliente}), 201
 
 # Rota para buscar cliente por ID
 @app.route('/clientes/<int:id>', methods=['GET'])
 def get_cliente(id):
     cliente = session.query(Cliente).get(id)
     if not cliente:
+        session.close()
         return jsonify({'erro': 'Cliente não encontrado'}), 404
-    return jsonify({
+    resultado = jsonify({
         'id': cliente.id,
         'nome': cliente.nome,
         'cnpj': cliente.cnpj,
         'email': cliente.email
     })
-=======
-    
+    session.close()
+    return resultado
 
-lote = ["1", "2", "3", "4", "5"]
->>>>>>> 0ff1b4b225c220dc49edcfd95ee0612195fcefb6
+# Rota para buscar clientes por nome
+@app.route('/clientes/busca', methods=['GET'])
+def busca_cliente_nome():
+    nome = request.args.get('nome')
+    clientes = session.query(Cliente).filter(Cliente.nome.ilike(f"%{nome}%")).all()
+    lista = [
+        {'id': c.id, 'nome': c.nome, 'cnpj': c.cnpj, 'email': c.email}
+        for c in clientes
+    ]
+    session.close()
+    return jsonify(lista)
+
+
+@app.route('/clientes/count', methods=['GET'])
+def count_clientes():
+    total = session.query(Cliente).count()
+    session.close()
+    return jsonify({'total_clientes': total})
+
+if __name__ == "__main__":
+    app.run(debug=True)
