@@ -7,12 +7,14 @@ import React from 'react';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Produto from './pages/Produto';
+import AdicionarProduto from "./pages/RoutesProduto/AdicionarProduto";
 
 // Definindo as rotas do aplicativo:
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
   { path: "/home", element: <Home /> },
   { path: "/produtos", element: <Produto /> },
+  { path: "/produtos/adicionar", element: <AdicionarProduto /> },
 ]);
 
 const App: React.FC = () => {

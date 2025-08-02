@@ -16,8 +16,7 @@ const Home = () => {
         <Box>
             <Header />
             <Flex
-                flexDir={"column"}
-                backgroundColor={"rgba(255, 226, 171, 1)"}
+                flexDir={"column"}        
                 w={"100%"} h={"100vh"}
                 display={"flex"}
                 alignItems={"center"}
