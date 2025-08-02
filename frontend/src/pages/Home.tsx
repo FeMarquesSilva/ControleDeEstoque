@@ -14,7 +14,7 @@ const Home = () => {
 
     return (
         <Box>
-            <Header />
+            <Header tittle="Home" />
             <Flex
                 flexDir={"column"}        
                 w={"100%"} h={"100vh"}
