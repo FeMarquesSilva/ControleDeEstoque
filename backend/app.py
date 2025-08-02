@@ -11,10 +11,11 @@ CORS(app)  # Permite CORS para todas rotas e origens
 # Rota para listar clientes "/clientes"
 @app.route('/clientes', methods=['GET'])
 def get_clientes():
-    return listar_clientes()    
+    return listar_clientes()  
 
 if __name__ == "__main__":
     app.run(debug=True)
+<<<<<<< HEAD
 
 # Rota para deletar cliente pelo ID
 @app.route('/clientes/<int:id>', methods=['DELETE'])
@@ -64,3 +65,8 @@ def get_cliente(id):
         'cnpj': cliente.cnpj,
         'email': cliente.email
     })
+=======
+    
+
+lote = ["1", "2", "3", "4", "5"]
+>>>>>>> 0ff1b4b225c220dc49edcfd95ee0612195fcefb6
