@@ -18,6 +18,7 @@ def listar_clientes():
     finally:
         session.remove()
 
+# Função para listar cliente por ID
 def listar_cliente_id(id):
     cliente = session.query(Cliente).get(id)
     if not cliente:
@@ -33,7 +34,6 @@ def listar_cliente_id(id):
     })
 
 # Rota para buscar cliente por nome
-@app.route('/clientes/busca', methods=['GET'])
 def busca_cliente():
     nome = request.args.get('nome')
     if not nome:
@@ -51,7 +51,6 @@ def busca_cliente():
     } for c in cliente])
 
 # Rota para deletar cliente pelo ID
-@app.route('/clientes/<int:id>', methods=['DELETE'])
 def delete_cliente(id):
     cliente = session.query(Cliente).get(id)
     if not cliente:
@@ -63,7 +62,6 @@ def delete_cliente(id):
     return jsonify({'mensagem': 'Cliente deletado com sucesso'})
 
 # Rota para atualizar cliente pelo ID
-@app.route('/clientes/<int:id>', methods=['PUT'])
 def update_cliente(id):
     data = request.json
     cliente = session.query(Cliente).get(id)
@@ -78,7 +76,6 @@ def update_cliente(id):
     return jsonify({'mensagem': 'Cliente atualizado com sucesso'})
 
 # Rota para criar cliente
-@app.route('/clientes', methods=['POST'])
 def create_cliente():
     data = request.json
     novo_cliente = Cliente(
