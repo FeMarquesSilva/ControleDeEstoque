@@ -1,4 +1,4 @@
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 
@@ -55,8 +55,8 @@ const AdicionarFornecedor = () => {
                         <input type={"email"} placeholder={"Email do Fornecedor"} style={stylesInputs} />
                     </Box>
 
+                <Button mt={"15px"} w={"100%"}>Salvar</Button>
                 </Flex>
-
             </Box>
         </Box>
     );
