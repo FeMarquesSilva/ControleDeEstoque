@@ -22,17 +22,17 @@ const AdicionarFornecedor = () => {
                 alignItems={"center"}
             >
 
-                <Flex 
-                mt={"80px"} 
-                backgroundColor={"rgba(172, 132, 59, 1)"} 
-                flexDir={"column"} 
-                p={"15px"} 
-                borderRadius={"15px"}
-                gap={"5px"}>
+                <Flex
+                    mt={"80px"}
+                    backgroundColor={"rgba(177, 141, 75, 1)"}
+                    flexDir={"column"}
+                    p={"15px"}
+                    borderRadius={"15px"}
+                    gap={"5px"}>
 
                     <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
                         Preencha os dados abaixo:
-                        </Text>
+                    </Text>
 
                     <Box>
                         <Text>Nome</Text>
@@ -55,7 +55,13 @@ const AdicionarFornecedor = () => {
                         <input type={"email"} placeholder={"Email do Fornecedor"} style={stylesInputs} />
                     </Box>
 
-                <Button mt={"15px"} w={"100%"}>Salvar</Button>
+                    <Button
+                        mt={"15px"}
+                        w={"100%"}
+                        backgroundColor={"rgba(46, 126, 39, 1)"}
+                        color={"white"}
+                        transition={"all 0.3s"} 
+                        _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}>Salvar</Button>
                 </Flex>
             </Box>
         </Box>
