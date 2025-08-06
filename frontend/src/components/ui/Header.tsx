@@ -1,10 +1,15 @@
+import React from "react";
 import { Box, Flex, Text } from "@chakra-ui/react";
 
-const Header = () => {
+interface Props {
+    tittle: string
+};
+
+const Header = (props: Props) => {
     return (
         <Box w={"100%"} h={"80px"} backgroundColor={"rgba(170, 111, 0, 1)"}>
             <Flex textAlign={"center"} alignItems={"center"} justifyContent={"space-between"} h={"100%"} px={"20px"}>
-                <Text fontSize={"24px"} fontWeight={"bold"} color={"white"}>Controle de Estoque</Text>
+                <Text fontSize={"24px"} fontWeight={"bold"} color={"white"}>Controle de Estoque - {props.tittle}</Text>
                 <Box>
                     <Box 
                     w={"50px"} 

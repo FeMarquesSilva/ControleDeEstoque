@@ -11,7 +11,7 @@ const Fornecedor = () => {
     ];
     return (
         <Box>
-            <Header />
+            <Header tittle="Fornecedor" />
             <BTReturn />
             <Flex
                 flexDir={"column"}

@@ -5,7 +5,7 @@ import BTReturn from "../../components/ui/BTReturn";
 const AdicionarProduto = () => {
     return (
         <Box>
-            <Header />
+            <Header tittle="Cadastrar Produto" />
             <BTReturn />
 
             { /* Componente do formulário para cadastro do produto */ }

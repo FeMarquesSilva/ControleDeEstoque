@@ -14,7 +14,7 @@ const Produto = () => {
 
     return (
         <Box>
-            <Header />
+            <Header tittle="Produto" />
             <BTReturn />
 
             <Flex
