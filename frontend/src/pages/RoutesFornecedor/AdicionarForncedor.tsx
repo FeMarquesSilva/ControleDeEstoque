@@ -3,6 +3,7 @@ import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { useState } from "react";
 import { Fornecedor } from "./Interfaces";
+import { handleSubmitFornecedor } from "./Services";
 
 const stylesInputs = {
     width: "100%",
@@ -22,10 +23,25 @@ const AdicionarFornecedor = () => {
         email: "",
     })
 
+    const submitForn = async () => {
+        if (loading) return;
+        setLoading(true);
 
+        //Criar validação dos campo.
 
-    const handleTeste = () => {
-        console.log(fornecedor);
+        await handleSubmitFornecedor(fornecedor).then((response) => {
+            setLoading(false);
+            if (response?.status === 201) {
+                alert("Fornecedor cadastrado com sucesso!");
+            } else {
+                alert("Erro ao cadastrar fornecedor. Tente novamente.");
+            }
+        }).catch((error) => {
+            console.error(error);
+            setLoading(false);
+            alert("Erro ao cadastrar fornecedor. Tente novamente.");
+        });
+
     }
 
     return (
@@ -85,7 +101,7 @@ const AdicionarFornecedor = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => {handleTeste()}}>{ loading ? <Spinner/> : "Salvar"}</Button>
+                        onClick={() => {submitForn()}}>{ loading ? <Spinner/> : "Salvar"}</Button>
                 </Flex>
             </Box>
         </Box>
