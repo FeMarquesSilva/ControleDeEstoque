@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { useState } from "react";
@@ -13,6 +13,7 @@ const stylesInputs = {
 
 const AdicionarFornecedor = () => {
 
+    const [loading, setLoading] = useState(false);
     const [fornecedor, setFornecedor] = useState<Fornecedor>({
         nome: "",
         cnpj: "",
@@ -22,6 +23,8 @@ const AdicionarFornecedor = () => {
     })
 
     const handleTeste = () => {
+        if (loading) return;
+        setLoading(true);
         console.log(fornecedor);
     }
 
@@ -82,7 +85,7 @@ const AdicionarFornecedor = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => {handleTeste()}}>Salvar</Button>
+                        onClick={() => {handleTeste()}}>{ loading ? <Spinner/> : "Salvar"}</Button>
                 </Flex>
             </Box>
         </Box>
