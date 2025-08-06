@@ -23,7 +23,8 @@ from controllers.clientes_controller import (
 from flask import request, jsonify
 
 app = Flask(__name__)
-CORS(app)  # Permite CORS para todas rotas e origens
+# Permitir somente o localhost:3000 e o 5000
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
 
 # Rota para listar clientes "/clientes"
 @app.route('/clientes', methods=['GET'])
@@ -37,22 +38,18 @@ def get_cliente(id):
 
 # Rota para deletar cliente pelo ID
 @app.route('/clientes/<int:id>', methods=['DELETE'])
-def delete_cliente(id):
+def del_cliente(id):
     return delete_cliente(id)
 
 # Rota para atualizar cliente pelo ID
 @app.route('/clientes/<int:id>', methods=['PUT'])
-def update_cliente(id):
+def update_cliente_id(id):
     return update_cliente(id)
 
 # Rota para criar cliente
 @app.route('/clientes', methods=['POST'])
-def create_cliente():
+def post_cliente():
     return create_cliente()
-
-    
-if __name__ == "__main__":
-   app.run(debug=True)
 
 # Rota para listar fornecedores "/fornecedores"
 @app.route('/fornecedores', methods=['GET'])
@@ -66,17 +63,17 @@ def get_fornecedor(id):
 
 # Rota para deletar fornecedor pelo ID
 @app.route('/fornecedores/<int:id>', methods=['DELETE'])
-def delete_fornecedor(id):
+def del_fornecedor(id):
     return delete_fornecedor(id)
 
 # Rota para atualizar fornecedor pelo ID
 @app.route('/fornecedores/<int:id>', methods=['PUT'])
-def update_fornecedor(id):
+def upt_fornecedor(id):
     return update_fornecedor(id)
 
 # Rota para criar fornecedor
 @app.route('/fornecedores', methods=['POST'])
-def create_fornecedor():
+def post_fornecedor():
     return create_fornecedor()
 
 if __name__ == "__main__":

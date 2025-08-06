@@ -15,8 +15,8 @@ const BTReturn = () => {
             position={"absolute"}
             cursor={"pointer"}
             fontSize={"24px"}
-            width={"60px"}
-            height={"60px"}
+            width={"45px"}
+            height={"45px"}
             color={"white"}
             margin={"20px"}
             zIndex={1}

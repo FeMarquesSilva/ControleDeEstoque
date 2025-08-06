@@ -10,7 +10,7 @@ const Clientes = () => {
     ];
     return (
         <Box>
-            <Header />
+            <Header tittle="Cliente" />
             <BTReturn />
            <Flex
                            flexDir={"column"}
