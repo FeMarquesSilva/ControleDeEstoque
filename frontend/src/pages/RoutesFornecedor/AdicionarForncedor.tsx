@@ -22,9 +22,9 @@ const AdicionarFornecedor = () => {
         email: "",
     })
 
+
+
     const handleTeste = () => {
-        if (loading) return;
-        setLoading(true);
         console.log(fornecedor);
     }
 
