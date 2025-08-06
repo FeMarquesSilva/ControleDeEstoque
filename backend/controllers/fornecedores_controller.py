@@ -1,6 +1,6 @@
 from database import session
 from models import Fornecedor
-from flask import jsonify
+from flask import request, jsonify
 
 # Função para listar fornecedores
 def listar_fornecedores():
@@ -97,7 +97,7 @@ def create_fornecedor():
         nome=data.get('nome'),
         cnpj=data.get('cnpj'),
         email=data.get('email'),
-        telefone=data.get('telefone'),
+        contato=data.get('contato'),
         endereco=data.get('endereco')
     )
     
@@ -111,7 +111,7 @@ def create_fornecedor():
             'nome': novo_fornecedor.nome,
             'cnpj': novo_fornecedor.cnpj,
             'email': novo_fornecedor.email,
-            'telefone': novo_fornecedor.telefone,
+            'contato': novo_fornecedor.contato,
             'endereco': novo_fornecedor.endereco
         }
     }), 201

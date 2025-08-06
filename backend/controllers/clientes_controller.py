@@ -1,6 +1,6 @@
 from database import session
 from models import Cliente
-from flask import jsonify
+from flask import request, jsonify
 
 # Função para listar clientes;
 def listar_clientes():
