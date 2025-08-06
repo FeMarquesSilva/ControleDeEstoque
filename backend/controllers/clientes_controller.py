@@ -78,10 +78,12 @@ def update_cliente(id):
 # Rota para criar cliente
 def create_cliente():
     data = request.json
-    novo_cliente = Cliente(
+    novo_cliente = Cliente (
         nome=data.get('nome'),
         cnpj=data.get('cnpj'),
-        email=data.get('email')
+        email=data.get('email'),
+        telefone=data.get('telefone'),
+        endereco=data.get('endereco'),
     )
     session.add(novo_cliente)
     session.commit()
