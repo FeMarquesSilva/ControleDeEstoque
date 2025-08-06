@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Fornecedor } from "./Interfaces";
 import { deleteFornecedor, fetchFornecedores } from "./Services";
 import { useNavigate } from "react-router-dom";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const ListarFornecedores = () => {
 
@@ -17,7 +18,7 @@ const ListarFornecedores = () => {
             if (response?.status === 200) {
                 setFornecedores(response.data);
             } else {
-                alert("Erro ao buscar fornecedores. Tente novamente.");
+                menssage("Erro", "Erro ao buscar fornecedores. Tente novamente.", "error");
             }
         };
         fetchData();
@@ -28,15 +29,15 @@ const ListarFornecedores = () => {
         if (window.confirm("Tem certeza que deseja excluir este fornecedor?")) {
             await deleteFornecedor(id).then((response) => {
                 if (response?.status === 200) {
-                    alert("Fornecedor excluído com sucesso!");
+                    menssage("Sucesso", "Fornecedor excluído com sucesso!", "success"); 
                     setFornecedores(fornecedores.filter(fornecedor => fornecedor.id !== id));
                 } else {
-                    alert("Erro ao excluir fornecedor. Tente novamente.");
+                    menssage("Erro", "Erro ao excluir fornecedor. Tente novamente.", "error");
                 }
             }
             ).catch((error) => {
                 console.error(error);
-                alert("Erro ao excluir fornecedor. Tente novamente.");
+                menssage("Erro", "Erro ao excluir fornecedor. Tente novamente.", "error");
             });
         }
     }

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { Fornecedor } from "./Interfaces";
 import { fetchFornecedorById, handleSubmitFornecedor, updateFornecedor } from "./Services";
 import { useNavigate, useParams } from "react-router-dom";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const stylesInputs = {
     width: "100%",
@@ -32,11 +33,11 @@ const EditarFornecedor = () => {
             if (response?.status === 200) {
                 setFornecedor(response.data);
             } else {
-                alert("Erro ao buscar fornecedor. Tente novamente.");
+                menssage("Erro", "Erro ao buscar fornecedor. Tente novamente.", "error");
             }
         }).catch((error) => {
             console.error(error);
-            alert("Erro ao buscar fornecedor. Tente novamente.");
+            menssage("Erro", "Erro ao buscar fornecedor. Tente novamente.", "error");
         });
     }
 
@@ -55,10 +56,10 @@ const EditarFornecedor = () => {
         await updateFornecedor(fornecedor).then((response) => {
             setLoading(false);
             if (response?.status === 200) {
-                alert("Fornecedor atualizado com sucesso!");
+                menssage("Sucesso", "Fornecedor atualizado com sucesso!", "success");
                 navigate(`/fornecedores/listar`);
             } else {
-                alert("Erro ao atualizar fornecedor. Tente novamente.");
+                menssage("Erro", "Erro ao atualizar fornecedor. Tente novamente.", "error");
             }
         });
 
