@@ -5,7 +5,7 @@ import BTReturn from "../../components/ui/BTReturn";
 const ListarFornecedores = () => {
     return (
         <Box>
-            <Header />
+            <Header tittle="Lista de Fornecedores"/>
             <BTReturn />
             {/* Conteúdo da página de Listar Fornecedores */}
         </Box>
