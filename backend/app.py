@@ -1,7 +1,15 @@
 from flask import Flask
 from flask_cors import CORS
 from database import session
-from models import Cliente
+from models import Cliente, Fornecedor
+from controllers.fornecedores_controller import (
+    listar_fornecedores,
+    listar_fornecedor_id,
+    busca_fornecedor,
+    delete_fornecedor,
+    update_fornecedor,
+    create_fornecedor
+)
 
 from controllers.clientes_controller import (
     listar_clientes,
@@ -43,5 +51,33 @@ def create_cliente():
     return create_cliente()
 
     
+if __name__ == "__main__":
+   app.run(debug=True)
+
+# Rota para listar fornecedores "/fornecedores"
+@app.route('/fornecedores', methods=['GET'])
+def get_fornecedores():
+    return listar_fornecedores()
+
+# Rota para buscar fornecedor por ID
+@app.route('/fornecedores/<int:id>', methods=['GET'])
+def get_fornecedor(id):
+    return listar_fornecedor_id(id)
+
+# Rota para deletar fornecedor pelo ID
+@app.route('/fornecedores/<int:id>', methods=['DELETE'])
+def delete_fornecedor(id):
+    return delete_fornecedor(id)
+
+# Rota para atualizar fornecedor pelo ID
+@app.route('/fornecedores/<int:id>', methods=['PUT'])
+def update_fornecedor(id):
+    return update_fornecedor(id)
+
+# Rota para criar fornecedor
+@app.route('/fornecedores', methods=['POST'])
+def create_fornecedor():
+    return create_fornecedor()
+
 if __name__ == "__main__":
    app.run(debug=True)
