@@ -1,1 +1,1 @@
-from models.models import Cliente
+from models.models import Cliente, Fornecedor

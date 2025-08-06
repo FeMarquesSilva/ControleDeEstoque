@@ -7,7 +7,7 @@ const Fornecedor = () => {
     const navigate = useNavigate();
     const sections = [
         { nome: "Adicionar Fornecedor", link: "/fornecedores/adicionar" },
-        { nome: "Listar Fornecedores", link: "/listar-fornecedores" },
+        { nome: "Listar Fornecedores", link: "/fornecedores/listar" },
     ];
     return (
         <Box>
