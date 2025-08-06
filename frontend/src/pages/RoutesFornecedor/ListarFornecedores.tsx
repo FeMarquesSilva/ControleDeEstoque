@@ -3,7 +3,7 @@ import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { useEffect, useState } from "react";
 import { Fornecedor } from "./Interfaces";
-import { fetchFornecedores } from "./Services";
+import { deleteFornecedor, fetchFornecedores } from "./Services";
 
 const ListarFornecedores = () => {
 
@@ -22,12 +22,20 @@ const ListarFornecedores = () => {
     }
         , []);
 
-    const handleDell = (id: number | null) => {
+    const handleDell = async (id: number | null) => {
         if (window.confirm("Tem certeza que deseja excluir este fornecedor?")) {
-            // Aqui você pode chamar a função para excluir o fornecedor
-            alert(`Fornecedor com ID ${id} excluído!`);
-            // Após a exclusão, você pode atualizar a lista de fornecedores
-            setFornecedores(fornecedores.filter(f => f.id !== id));
+            await deleteFornecedor(id).then((response) => {
+                if (response?.status === 200) {
+                    alert("Fornecedor excluído com sucesso!");
+                    setFornecedores(fornecedores.filter(fornecedor => fornecedor.id !== id));
+                } else {
+                    alert("Erro ao excluir fornecedor. Tente novamente.");
+                }
+            }
+            ).catch((error) => {
+                console.error(error);
+                alert("Erro ao excluir fornecedor. Tente novamente.");
+            });
         }
     }
 

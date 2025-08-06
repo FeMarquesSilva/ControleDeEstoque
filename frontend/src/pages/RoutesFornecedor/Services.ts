@@ -29,3 +29,17 @@ export const fetchFornecedores = async () => {
         return
     }
 }
+
+export const deleteFornecedor = async (id: number | null) => {
+    try {
+        const response = await axios.delete(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        return response
+    } catch (error) {
+        console.error(error)
+        return
+    }
+}
