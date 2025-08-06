@@ -88,7 +88,7 @@ const EditarFornecedor = () => {
                         gap={"5px"}>
 
                         <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
-                            Preencha os dados abaixo:
+                            Atualize os dados abaixo:
                         </Text>
 
                         <Box>
