@@ -11,7 +11,7 @@ def listar_fornecedores():
             "nome": f.nome,
             "cnpj": f.cnpj,
             "email": f.email,
-            "telefone": f.telefone,
+            "contato": f.contato,
             "endereco": f.endereco
         } for f in fornecedores]
         return jsonify(fornecedores_list)
@@ -29,7 +29,7 @@ def listar_fornecedor_id(id):
         'nome': fornecedor.nome,
         'cnpj': fornecedor.cnpj,
         'email': fornecedor.email,
-        'telefone': fornecedor.telefone,
+        'contato': fornecedor.contato,
         'endereco': fornecedor.endereco
     })
 
@@ -46,7 +46,7 @@ def busca_fornecedor():
         'nome': f.nome,
         'cnpj': f.cnpj,
         'email': f.email,
-        'telefone': f.telefone,
+        'contato': f.contato,
         'endereco': f.endereco
     } for f in fornecedor])
 
