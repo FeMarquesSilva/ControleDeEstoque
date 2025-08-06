@@ -4,6 +4,7 @@ import BTReturn from "../../components/ui/BTReturn";
 import { useState } from "react";
 import { Cliente } from "./Interfaces";
 import { handleSubmitCliente } from "./Services";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const stylesInputs = {
     width: "100%",
@@ -32,14 +33,14 @@ const AdicionarCliente = () => {
         await handleSubmitCliente(cliente).then((response) => {
             setLoading(false);
             if (response?.status === 201) {
-                alert("Cliente cadastrado com sucesso!");
+                menssage("Sucesso", "Cliente cadastrado com sucesso!", "success");
             } else {
-                alert("Erro ao cadastrar cliente. Tente novamente.");
+                menssage("Erro", "Erro ao cadastrar cliente. Tente novamente.", "error");
             }
         }).catch((error) => {
             console.error(error);
             setLoading(false);
-            alert("Erro ao cadastrar cliente. Tente novamente.");
+            menssage("Erro", "Erro ao cadastrar cliente. Tente novamente.", "error");
         });
 
     }
