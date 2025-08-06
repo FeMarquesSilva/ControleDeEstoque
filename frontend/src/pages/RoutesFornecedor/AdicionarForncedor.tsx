@@ -16,6 +16,7 @@ const AdicionarFornecedor = () => {
 
     const [loading, setLoading] = useState(false);
     const [fornecedor, setFornecedor] = useState<Fornecedor>({
+        id: null,
         nome: "",
         cnpj: "",
         contato: "",

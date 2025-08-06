@@ -8,11 +8,24 @@ export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
                 'Content-Type': 'application/json',
             },
         })
-        console.log("Resposta do servidor:", response);
         return response
     } catch (error) {
         console.error(error)
         return
     }
 
+}
+
+export const fetchFornecedores = async () => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        return response
+    } catch (error) {
+        console.error(error)
+        return
+    }
 }
