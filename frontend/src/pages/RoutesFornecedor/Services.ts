@@ -1,6 +1,7 @@
 import { Fornecedor } from "./Interfaces"
 import axios from "axios"
 
+// Função para enviar os dados do fornecedor para a API
 export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
     try {
         const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, fornecedor, {
@@ -16,6 +17,7 @@ export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
 
 }
 
+// Função para buscar a lista de fornecedores da API
 export const fetchFornecedores = async () => {
     try {
         const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, {
@@ -30,9 +32,40 @@ export const fetchFornecedores = async () => {
     }
 }
 
+// Função para deletar um fornecedor da API
 export const deleteFornecedor = async (id: number | null) => {
     try {
         const response = await axios.delete(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        return response
+    } catch (error) {
+        console.error(error)
+        return
+    }
+}
+
+// Função para buscar um fornecedor específico da API
+export const fetchFornecedorById = async (id: number | null) => {
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        return response
+    } catch (error) {
+        console.error(error)
+        return
+    }
+}
+
+// Função para atualizar um fornecedor na API
+export const updateFornecedor = async (fornecedor: Fornecedor) => {
+    try {
+        const response = await axios.put(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/${fornecedor.id}`, fornecedor, {
             headers: {
                 'Content-Type': 'application/json',
             },

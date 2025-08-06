@@ -4,10 +4,12 @@ import BTReturn from "../../components/ui/BTReturn";
 import { useEffect, useState } from "react";
 import { Fornecedor } from "./Interfaces";
 import { deleteFornecedor, fetchFornecedores } from "./Services";
+import { useNavigate } from "react-router-dom";
 
 const ListarFornecedores = () => {
 
     const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -81,8 +83,16 @@ const ListarFornecedores = () => {
                             <Box flex="2">{fornecedor.contato}</Box>
                             <Box flex="3">{fornecedor.endereco}</Box>
                             <Flex gap={2} flex="1">
-                                <Button backgroundColor={"rgba(62, 43, 143, 1)"} _hover={{ backgroundColor: "rgba(113, 100, 172, 1)" }} color={"white"}>Editar</Button>
-                                <Button backgroundColor={"rgba(141, 23, 23, 1)"} _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }} color={"white"} onClick={() => { handleDell(fornecedor.id) }}>Excluir</Button>
+                                <Button
+                                    backgroundColor={"rgba(62, 43, 143, 1)"}
+                                    _hover={{ backgroundColor: "rgba(113, 100, 172, 1)" }}
+                                    color={"white"}
+                                    onClick={() => {navigate(`/fornecedores/editar/${fornecedor.id}`)}}>Editar</Button>
+                                <Button
+                                    backgroundColor={"rgba(141, 23, 23, 1)"}
+                                    _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
+                                    color={"white"}
+                                    onClick={() => { handleDell(fornecedor.id) }}>Excluir</Button>
                             </Flex>
                         </Flex>
                     ))}

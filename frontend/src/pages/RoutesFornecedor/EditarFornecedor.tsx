@@ -1,0 +1,134 @@
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import Header from "../../components/ui/Header";
+import BTReturn from "../../components/ui/BTReturn";
+import { useEffect, useState } from "react";
+import { Fornecedor } from "./Interfaces";
+import { fetchFornecedorById, handleSubmitFornecedor, updateFornecedor } from "./Services";
+import { useNavigate, useParams } from "react-router-dom";
+
+const stylesInputs = {
+    width: "100%",
+    padding: "5px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+};
+
+const EditarFornecedor = () => {
+
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const [fornecedor, setFornecedor] = useState<Fornecedor>({
+        id: null,
+        nome: "",
+        cnpj: "",
+        contato: "",
+        endereco: "",
+        email: "",
+    })
+
+    const { id } = useParams<{ id: string }>();
+    const searchForncedorById = async (id: number | null) => {
+        await fetchFornecedorById(id).then((response) => {
+            if (response?.status === 200) {
+                setFornecedor(response.data);
+            } else {
+                alert("Erro ao buscar fornecedor. Tente novamente.");
+            }
+        }).catch((error) => {
+            console.error(error);
+            alert("Erro ao buscar fornecedor. Tente novamente.");
+        });
+    }
+
+    useEffect(() => {
+        if (id) {
+            searchForncedorById(Number(id));
+        }
+    }, [id]);
+
+    const submitUptForn = async () => {
+        if (loading) return;
+        setLoading(true);
+
+        //Criar validação dos campo.
+
+        await updateFornecedor(fornecedor).then((response) => {
+            setLoading(false);
+            if (response?.status === 200) {
+                alert("Fornecedor atualizado com sucesso!");
+                navigate(`/fornecedores/listar`);
+            } else {
+                alert("Erro ao atualizar fornecedor. Tente novamente.");
+            }
+        });
+
+    }
+
+    return (
+        <Box>
+            <Header tittle="Edição de Fornecedor" />
+            <BTReturn />
+
+            { /* Componente do formulário para cadastro do produto */}
+            <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+            >
+
+                {fornecedor.id === null ? <Text mt={"100px"} fontSize={"20px"} fontWeight={"bold"}>Carregando...</Text> :
+
+                    <Flex
+                        mt={"80px"}
+                        backgroundColor={"rgba(177, 141, 75, 1)"}
+                        flexDir={"column"}
+                        p={"15px"}
+                        borderRadius={"15px"}
+                        gap={"5px"}>
+
+                        <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
+                            Preencha os dados abaixo:
+                        </Text>
+
+                        <Box>
+                            <Text>Nome</Text>
+                            <input type={"text"} placeholder={"Nome do Fornecedor"} value={fornecedor.nome} style={stylesInputs}
+                                onChange={(e) => setFornecedor({ ...fornecedor, nome: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>CNPJ</Text>
+                            <input type={"text"} placeholder={"CNPJ do Fornecedor"} value={fornecedor.cnpj} style={stylesInputs}
+                                onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>Contato</Text>
+                            <input type={"text"} placeholder={"Contato do Fornecedor"} value={fornecedor.contato} style={stylesInputs}
+                                onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>Endereço</Text>
+                            <input type={"text"} placeholder={"Endereço do Fornecedor"} value={fornecedor.endereco} style={stylesInputs}
+                                onChange={(e) => setFornecedor({ ...fornecedor, endereco: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>Email</Text>
+                            <input type={"email"} placeholder={"Email do Fornecedor"} value={fornecedor.email} style={stylesInputs}
+                                onChange={(e) => setFornecedor({ ...fornecedor, email: e.target.value })} />
+                        </Box>
+
+                        <Button
+                            mt={"15px"}
+                            w={"100%"}
+                            backgroundColor={"rgba(46, 126, 39, 1)"}
+                            color={"white"}
+                            transition={"all 0.3s"}
+                            _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
+                            onClick={() => { submitUptForn() }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                    </Flex>
+                }
+            </Box>
+        </Box>
+    );
+};
+
+export default EditarFornecedor;
