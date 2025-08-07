@@ -1,34 +1,73 @@
-import { Box, Button, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Link, Text } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  return (
+    <Flex w={"100%"} h={"100vh"} align={"center"} justify={"center"}>
+      <Box
+        bg={"#CC9E3A"}
+        p={10}
+        borderRadius={"20px"}
+        boxShadow={"0 4px 12px rgba(0, 0, 0, 0.2)"}
+        maxW={"400px"}
+        w={"100%"}
+      >
+        <Text fontSize={"28px"} fontWeight={"bold"} textAlign={"center"} mb={6} color={"white"}>Login</Text>
 
-    return (
-        <Flex flexDir={"column"} backgroundColor={"rgba(255, 226, 171, 1)"} w={"100%"} h={"100vh"} display={"flex"} alignItems={"center"} justifyContent={"center"}>
-            <Flex flexDir={"row"} backgroundColor={"rgba(223, 152, 0, 1)"} p={"15px"} borderRadius={"15px"} alignItems={"center"}>
+        <Text fontSize={"18px"} mb={1} color={"white"}>Usuário:</Text>
+        <Input
+          placeholder={"Digite seu e-mail"}
+          borderRadius={"10px"}
+          mb={4}
+          bg={"black"}
+        />
 
-                <Flex flexDir={"column"} gap={"5px"}>
-                    <Text textAlign={"center"} fontSize={"22px"} fontWeight={"bold"} mb={"10px"}>Login</Text>
+        <Text fontSize={"18px"} mb={1} color={"white"}>Senha:</Text>
+        <Input
+          type={"password"}
+          placeholder={"Digite sua senha"}
+          borderRadius={"10px"}
+          mb={2}
+          bg={"black"}
+        />
 
-                    <Text fontSize={"18px"}>Usuário: </Text>
-                    <input type="text" placeholder="Digite seu e-mail" style={{ borderRadius: "10px", padding: "5px" }} />
+        <Link
+          fontSize={"14px"}
+          fontWeight={"bold"}
+          color={"white"}
+          _hover={{ textDecoration: "underline" }}
+          display={"block"}
+          mb={4}
+        >
+          Esqueci minha senha
+        </Link>
 
-                    <Text fontSize={"18px"}>Senha: </Text>
-                    <input type="password" placeholder="Digite sua senha" style={{ borderRadius: "10px", padding: "5px" }} />
-                    <Link fontSize={"16px"} mt={"5px"} fontWeight={"bold"}>Esqueci minha senha</Link>
-                </Flex>
-
-            </Flex>
-
-            <Flex gap={"15px"} mt={"12px"}>
-                <Button h={"30px"} backgroundColor={"rgba(44, 76, 165, 1)"} color={"white"}>Cadastrar</Button>
-                <Button h={"30px"} backgroundColor={"rgba(82, 165, 44, 1)"} color={"white"} onClick={() => {navigate("/home")}}>Entrar</Button>
-            </Flex>
-
+        <Flex gap={4}>
+          <Button
+            flex={1}
+            h={"36px"}
+            bg={"#2C4CA5"}
+            color={"white"}
+            _hover={{ bg: "#223b84" }}
+          >
+            Cadastrar
+          </Button>
+          <Button
+            flex={1}
+            h={"36px"}
+            bg={"#52A52C"}
+            color={"white"}
+            _hover={{ bg: "#3e8122" }}
+            onClick={() => navigate("/home")}
+          >
+            Entrar
+          </Button>
         </Flex>
-    );
-}
+      </Box>
+    </Flex>
+  );
+};
 
 export default Login;
