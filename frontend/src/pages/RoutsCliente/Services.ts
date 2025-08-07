@@ -8,7 +8,6 @@ export const handleSubmitCliente = async (cliente: Cliente) => {
                 'Content-Type': 'application/json',
             },
         })
-        console.log("Resposta do servidor:", response);
         return response
     } catch (error) {
         console.error(error)

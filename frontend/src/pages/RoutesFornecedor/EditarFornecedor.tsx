@@ -57,7 +57,7 @@ const EditarFornecedor = () => {
             setLoading(false);
             if (response?.status === 200) {
                 menssage("Sucesso", "Fornecedor atualizado com sucesso!", "success");
-                navigate(`/fornecedores/listar`);
+                navigate(-1);
             } else {
                 menssage("Erro", "Erro ao atualizar fornecedor. Tente novamente.", "error");
             }
