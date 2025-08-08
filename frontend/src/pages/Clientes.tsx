@@ -7,6 +7,7 @@ const Clientes = () => {
     const navigate = useNavigate();
     const sections = [
         { nome: "Adicionar Cliente", link: "/clientes/adicionar" },
+        { nome: "Listar Clientes", link: "/clientes/listar" },
     ];
     return (
         <Box>
