@@ -17,6 +17,7 @@ const AdicionarCliente = () => {
 
     const [loading, setLoading] = useState(false);
     const [cliente, setCliente] = useState<Cliente>({
+        id: null,
         nome: "",
         cnpj: "",
         telefone: "",

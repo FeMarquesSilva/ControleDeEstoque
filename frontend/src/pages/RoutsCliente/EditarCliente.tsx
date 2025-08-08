@@ -1,0 +1,135 @@
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import Header from "../../components/ui/Header";
+import BTReturn from "../../components/ui/BTReturn";
+import { useEffect, useState } from "react";
+import { Cliente } from "./Interfaces";
+import { fetchClienteById, handleSubmitCliente, updateCliente } from "./Services";
+import { useNavigate, useParams } from "react-router-dom";
+import { menssage } from "../../components/ui/toastMenssage";
+
+const stylesInputs = {
+    width: "100%",
+    padding: "5px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+};
+
+const EditarCliente = () => {
+
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const [cliente, setCliente] = useState<Cliente>({
+        id: null,
+        nome: "",
+        cnpj: "",
+        telefone: "",
+        endereco: "",
+        email: "",
+    })
+
+    const { id } = useParams<{ id: string }>();
+    const searchClienteById = async (id: number | null) => {
+        await fetchClienteById(id).then((response) => {
+            if (response?.status === 200) {
+                setCliente(response.data);
+            } else {
+                menssage("Erro", "Erro ao buscar cliente. Tente novamente.", "error");
+            }
+        }).catch((error) => {
+            console.error(error);
+            menssage("Erro", "Erro ao buscar cliente. Tente novamente.", "error");
+        });
+    }
+
+    useEffect(() => {
+        if (id) {
+            searchClienteById(Number(id));
+        }
+    }, [id]);
+
+    const submitUptCliente = async () => {
+        if (loading) return;
+        setLoading(true);
+
+        //Criar validação dos campo.
+
+        await updateCliente(cliente).then((response) => {
+            setLoading(false);
+            if (response?.status === 200) {
+                menssage("Sucesso", "Cliente atualizado com sucesso!", "success");
+                navigate(-1);
+            } else {
+                menssage("Erro", "Erro ao atualizar cliente. Tente novamente.", "error");
+            }
+        });
+
+    }
+
+    return (
+        <Box>
+            <Header tittle="Edição de Cliente" />
+            <BTReturn />
+
+            { /* Componente do formulário para cadastro do produto */}
+            <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+            >
+
+                {cliente.id === null ? <Text mt={"100px"} fontSize={"20px"} fontWeight={"bold"}>Carregando...</Text> :
+
+                    <Flex
+                        mt={"80px"}
+                        backgroundColor={"rgba(177, 141, 75, 1)"}
+                        flexDir={"column"}
+                        p={"15px"}
+                        borderRadius={"15px"}
+                        gap={"5px"}>
+
+                        <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
+                            Atualize os dados abaixo:
+                        </Text>
+
+                        <Box>
+                            <Text>Nome</Text>
+                            <input type={"text"} placeholder={"Nome do Cliente"} value={cliente.nome} style={stylesInputs}
+                                onChange={(e) => setCliente({ ...cliente, nome: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>CNPJ</Text>
+                            <input type={"text"} placeholder={"CNPJ do Cliente"} value={cliente.cnpj} style={stylesInputs}
+                                onChange={(e) => setCliente({ ...cliente, cnpj: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>Contato</Text>
+                            <input type={"text"} placeholder={"Contato do Cliente"} value={cliente.telefone} style={stylesInputs}
+                                onChange={(e) => setCliente({ ...cliente, telefone: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>Endereço</Text>
+                            <input type={"text"} placeholder={"Endereço do Cliente"} value={cliente.endereco} style={stylesInputs}
+                                onChange={(e) => setCliente({ ...cliente, endereco: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>Email</Text>
+                            <input type={"email"} placeholder={"Email do Cliente"} value={cliente.email} style={stylesInputs}
+                                onChange={(e) => setCliente({ ...cliente, email: e.target.value })} />
+                        </Box>
+
+                        <Button
+                            mt={"15px"}
+                            w={"100%"}
+                            backgroundColor={"rgba(46, 126, 39, 1)"}
+                            color={"white"}
+                            transition={"all 0.3s"}
+                            _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
+                            onClick={() => { submitUptCliente() }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                    </Flex>
+                }
+            </Box>
+        </Box>
+    );
+};
+
+export default EditarCliente;
