@@ -4,7 +4,7 @@ import { Toaster } from "./components/ui/toaster";
 import React from 'react';
 
 //Importando o componentes do sistema:
-import Login from './pages/Login';
+import Login from './pages/auth/Login';
 import Home from './pages/Home';
 import Produto from './pages/Produto';
 import AdicionarProduto from "./pages/RoutesProduto/AdicionarProduto";
