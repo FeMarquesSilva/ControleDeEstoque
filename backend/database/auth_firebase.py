@@ -1,11 +1,18 @@
+import os
 import pyrebase
-from config.firebase import firebaseConfig
+from dotenv import load_dotenv
 
-print("Iniciando conexão com o Firebase...")
-print("Configuração do Firebase:", firebaseConfig)
+load_dotenv()
+
+firebaseConfig = {
+    "apiKey": os.getenv("FIREBASE_API_KEY"),
+    "authDomain": os.getenv("FIREBASE_AUTH_DOMAIN"),
+    "projectId": os.getenv("FIREBASE_PROJECT_ID"),
+    "databaseURL": os.getenv("FIREBASE_DATABASE_URL"),
+    "storageBucket": os.getenv("FIREBASE_STORAGE_BUCKET"),
+    "messagingSenderId": os.getenv("FIREBASE_MESSAGING_SENDER_ID"),
+    "appId": os.getenv("FIREBASE_APP_ID"),
+}
 
 firebase = pyrebase.initialize_app(firebaseConfig)
 auth = firebase.auth()
-
-user = auth.create_user_with_email_and_password("teste@testes.com", "123456")
-print("Usuário criado:", user)
