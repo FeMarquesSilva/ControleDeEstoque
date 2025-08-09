@@ -1,8 +1,36 @@
-import { Box, Button, Flex, Input, Link, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Link, Spinner, Text } from "@chakra-ui/react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { user } from "./Interface";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [usuario, setUsuario] = useState<user>(
+    {
+      id: null,
+      email: "",
+      password: ""
+    }
+  );
+
+  const validateData = () => {
+    if (!usuario.email || !usuario.password) {
+      menssage("Erro", "Preencha todos os campos!", "error");
+      setLoading(false);
+      return false;
+    }
+    return true;
+  }
+
+  const handleLogin = async () => {
+    if (loading) return;
+    setLoading(true);
+    if (!validateData()) return;
+
+    navigate("/home")
+  };
 
   return (
     <Flex w={"100%"} h={"100vh"} align={"center"} justify={"center"}>
@@ -22,7 +50,9 @@ const Login = () => {
           borderRadius={"10px"}
           mb={4}
           bg={"black"}
+          onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
         />
+
 
         <Text fontSize={"18px"} mb={1} color={"white"}>Senha:</Text>
         <Input
@@ -31,6 +61,7 @@ const Login = () => {
           borderRadius={"10px"}
           mb={2}
           bg={"black"}
+          onChange={(e) => setUsuario({ ...usuario, password: e.target.value })}
         />
 
         <Link
@@ -57,12 +88,12 @@ const Login = () => {
           <Button
             flex={1}
             h={"36px"}
-            bg={"#52A52C"}
+            bg={ loading ? "#83bb81ff" : "#52A52C"}
             color={"white"}
-            _hover={{ bg: "#3e8122" }}
-            onClick={() => navigate("/home")}
+            _hover={{ bg: "#83bb81ff" }}
+            onClick={() => handleLogin()}
           >
-            Entrar
+            { loading ? <Spinner /> : "Entrar" }
           </Button>
         </Flex>
       </Box>
