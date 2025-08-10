@@ -1,7 +1,6 @@
 from flask import Flask
 from flask_cors import CORS
 from database import session
-from models import Cliente, Fornecedor
 
 from controllers.user_auth_controller import (
     cadastrar_usuario

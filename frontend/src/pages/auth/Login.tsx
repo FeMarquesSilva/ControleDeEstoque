@@ -10,13 +10,14 @@ const Login = () => {
   const [usuario, setUsuario] = useState<user>(
     {
       id: null,
+      nome: null,
       email: "",
-      password: ""
+      senha: ""
     }
   );
 
   const validateData = () => {
-    if (!usuario.email || !usuario.password) {
+    if (!usuario.email || !usuario.senha) {
       menssage("Erro", "Preencha todos os campos!", "error");
       setLoading(false);
       return false;
@@ -61,7 +62,7 @@ const Login = () => {
           borderRadius={"10px"}
           mb={2}
           bg={"black"}
-          onChange={(e) => setUsuario({ ...usuario, password: e.target.value })}
+          onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
         />
 
         <Link
@@ -82,18 +83,19 @@ const Login = () => {
             bg={"#2C4CA5"}
             color={"white"}
             _hover={{ bg: "#223b84" }}
+            onClick={() => navigate("/register")}
           >
             Cadastrar
           </Button>
           <Button
             flex={1}
             h={"36px"}
-            bg={ loading ? "#83bb81ff" : "#52A52C"}
+            bg={loading ? "#83bb81ff" : "#52A52C"}
             color={"white"}
             _hover={{ bg: "#83bb81ff" }}
             onClick={() => handleLogin()}
           >
-            { loading ? <Spinner /> : "Entrar" }
+            {loading ? <Spinner /> : "Entrar"}
           </Button>
         </Flex>
       </Box>

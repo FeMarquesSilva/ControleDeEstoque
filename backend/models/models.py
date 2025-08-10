@@ -63,9 +63,8 @@ class Usuario(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    uid_firebase: Mapped[str] = mapped_column(VARCHAR(128), unique=True, nullable=False))
+    uid_firebase: Mapped[str] = mapped_column(VARCHAR(128), unique=True, nullable=False)
     nome: Mapped[str] = mapped_column(VARCHAR(100))
-    senha: Mapped[str] = mapped_column(VARCHAR(100))
     email: Mapped[str] = mapped_column(VARCHAR(100))
 
     #entradaestoque: Mapped[List['Entradaestoque']] = relationship('Entradaestoque', back_populates='usuario')

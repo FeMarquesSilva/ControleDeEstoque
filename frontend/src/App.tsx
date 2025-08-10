@@ -5,6 +5,7 @@ import React from 'react';
 
 //Importando o componentes do sistema:
 import Login from './pages/auth/Login';
+import Register from './pages/auth/Register';
 import Home from './pages/Home';
 import Produto from './pages/Produto';
 import AdicionarProduto from "./pages/RoutesProduto/AdicionarProduto";
@@ -20,6 +21,7 @@ import ListarClientes from "./pages/RoutsCliente/ListarClientes";
 // Definindo as rotas do aplicativo:
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
+  { path: "/register", element: <Register /> },
   { path: "/home", element: <Home /> },
   { path: "/produtos", element: <Produto /> },
   { path: "/produtos/adicionar", element: <AdicionarProduto /> },
