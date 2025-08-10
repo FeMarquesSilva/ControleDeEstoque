@@ -8,21 +8,21 @@
 - Crie um arquivo .env dentro do backend e do frontend.
 
 - No arquivo .env do backend, adicione e configure as seguintes variáveis:
- -USER=""
- -PASSWORD=""
- -HOST=""
- -PORT=""
- -SID=""
- -FIREBASE_API_KEY=""
- -FIREBASE_AUTH_DOMAIN=""
- -FIREBASE_PROJECT_ID=""
- -FIREBASE_DATABASE_URL=""
- -FIREBASE_STORAGE_BUCKET=""
- -FIREBASE_MESSAGING_SENDER_ID=""
- -FIREBASE_APP_ID=1:""
+    - USER=""
+    - PASSWORD=""
+    - HOST=""
+    - PORT=""
+    - SID=""
+    - FIREBASE_API_KEY=""
+    - FIREBASE_AUTH_DOMAIN=""
+    - FIREBASE_PROJECT_ID=""
+    - FIREBASE_DATABASE_URL=""
+    - FIREBASE_STORAGE_BUCKET=""
+    - FIREBASE_MESSAGING_SENDER_ID=""
+    - FIREBASE_APP_ID=1:""
 
 - No arquivo .env do frontend, adicione e configure as seguintes variáveis:
--REACT_APP_NEXT_PUBLIC_API_URL=""
+    - REACT_APP_NEXT_PUBLIC_API_URL=""
 
 ## Modo de Utilizar
 1. Clone o repositório.
@@ -36,7 +36,7 @@
 9. Acesse o site em http://localhost:3000.
 
 ## Tecnologias Utilizadas
-**Backend:**
+**Backend**
 - flask 2.3.3                # Framework web para criar APIs e aplicações Python;
 - flask-cors 6.0.1           # Suporte a CORS para Flask (acesso de domínios diferentes);
 - SQLAlchemy 2.0.23          # ORM para interação com bancos de dados;
