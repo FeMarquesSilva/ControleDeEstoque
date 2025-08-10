@@ -5,6 +5,24 @@
 - O projeto foi desenvolvido em Python, utilizando react com typeScript e Chakra ui
 - Para rodar o projeto, é necessário possuir python em sua maquina, versão =< 12
 - Para rodar o projeto, é necessário possuir node.js em sua maquina, versão >= 6.9.0
+- Cire um arquivo .env dentro do backend e do frontend.
+
+- No arquivo .env do backend, adicione e configure as seguintes variáveis:
+ -USER=""
+ -PASSWORD=""
+ -HOST=""
+ -PORT=""
+ -SID=""
+ -FIREBASE_API_KEY=""
+ -FIREBASE_AUTH_DOMAIN=""
+ -FIREBASE_PROJECT_ID=""
+ -FIREBASE_DATABASE_URL=""
+ -FIREBASE_STORAGE_BUCKET=""
+ -FIREBASE_MESSAGING_SENDER_ID=""
+ -FIREBASE_APP_ID=1:""
+
+- No arquivo .env do frontend, adicione e configure as seguintes variáveis:
+-REACT_APP_NEXT_PUBLIC_API_URL=""
 
 ## Modo de Utilizar
 1. Clone o repositório.
