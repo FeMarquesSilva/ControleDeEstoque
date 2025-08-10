@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { user } from "./Interface";
 import { menssage } from "../../components/ui/toastMenssage";
 import { handleRegisterUser } from "./Services";
+import BTReturn from "../../components/ui/BTReturn";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -56,6 +57,11 @@ const Register = () => {
 
     return (
         <Flex w={"100%"} h={"100vh"} align={"center"} justify={"center"}>
+
+            <Box position={"absolute"} top={5} left={5}>
+                <BTReturn />
+            </Box>
+
             <Box
                 bg={"#CC9E3A"}
                 p={10}
@@ -64,6 +70,7 @@ const Register = () => {
                 maxW={"400px"}
                 w={"100%"}
             >
+
                 <Text fontSize={"28px"} fontWeight={"bold"} textAlign={"center"} mb={6} color={"white"}>Cadastro de Usuário</Text>
 
                 <Text fontSize={"18px"} mb={1} color={"white"}>Nome de Usuário:</Text>
