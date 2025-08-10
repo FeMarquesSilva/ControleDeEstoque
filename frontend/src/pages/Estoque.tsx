@@ -3,14 +3,14 @@ import Header from "../components/ui/Header";
 import BTReturn from "../components/ui/BTReturn";
 import { useNavigate } from "react-router-dom";
 
-const Produto = () => {
+const Estoque = () => {
 
     const navigate = useNavigate();
 
     const sections = [
-        { nome: "Adicionar Produto", link: "/produtos/adicionar" },
-        { nome: "Adicionar Categoria", link: "/produtos/adicionar-categoria" },
-        { nome: "Listar Produtos", link: "/listar-produtos" },
+        { nome: "Realizar Entrada", link: "/estoque/entrada" },
+        { nome: "Realizar Saida", link: "/estoque/saida" },
+        { nome: "Listar Estoque", link: "/listar-estoque" },
     ];
 
     return (
@@ -49,4 +49,4 @@ const Produto = () => {
     );
 }
 
-export default Produto;
+export default Estoque;

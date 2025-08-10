@@ -17,6 +17,7 @@ import AdicionarCliente from "./pages/RoutsCliente/AdicionarCliente";
 import EditarFornecedor from "./pages/RoutesFornecedor/EditarFornecedor";
 import EditarCliente from "./pages/RoutsCliente/EditarCliente";
 import ListarClientes from "./pages/RoutsCliente/ListarClientes";
+import Estoque from "./pages/Estoque";
 
 // Definindo as rotas do aplicativo:
 const router = createBrowserRouter([
@@ -33,6 +34,7 @@ const router = createBrowserRouter([
   { path: "/fornecedores/editar/:id", element: <EditarFornecedor /> },
   { path: "/clientes/editar/:id", element: <EditarCliente /> },
   { path: "/clientes/listar", element: <ListarClientes /> },
+  { path: "/estoque", element: <Estoque /> },
 ]);
 
 const App: React.FC = () => {
