@@ -3,9 +3,9 @@
 
 ### Comentarios Importantes
 - O projeto foi desenvolvido em Python, utilizando react com typeScript e Chakra ui
-- Para rodar o projeto, é necessário possuir python em sua maquina, versão =< 12
-- Para rodar o projeto, é necessário possuir node.js em sua maquina, versão >= 6.9.0
-- Cire um arquivo .env dentro do backend e do frontend.
+- Para rodar o projeto, é necessário possuir python em sua maquina, versão =< 3.12
+- Para rodar o projeto, é necessário possuir node.js em sua maquina, versão >= 16.0.0
+- Crie um arquivo .env dentro do backend e do frontend.
 
 - No arquivo .env do backend, adicione e configure as seguintes variáveis:
  -USER=""
@@ -29,7 +29,7 @@
 2. Acesse a pasta "backend" com o comando "cd ./backend".
 3. Crie um ambiente virtual de python com o comando "python -m venv (nome do ambiente)"
 4. Instale as dependências com o comando `pip install -r requirements.txt`.
-5. Rode o backend com o coando "python app.py" ainda no ambiente virutal.
+5. Rode o backend com o comando "python app.py" ainda no ambiente virtual.
 6. Acesse a pasta "frontend" com o comando "cd ./frontend".
 7. Instale as dependências com o comando `npm install`.
 8. Rode o frontend com o comando `npm start`.
