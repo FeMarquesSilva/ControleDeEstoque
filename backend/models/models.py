@@ -33,6 +33,7 @@ class Cliente(Base):
     cnpj: Mapped[str] = mapped_column(VARCHAR(14))
     telefone: Mapped[str] = mapped_column(VARCHAR(11))
     email: Mapped[str] = mapped_column(VARCHAR(50))
+    usuario_id: Mapped[int] = mapped_column(Integer)
 
     #venda: Mapped[List['Venda']] = relationship('Venda', back_populates='cliente')
 
@@ -49,6 +50,7 @@ class Fornecedor(Base):
     contato: Mapped[str] = mapped_column(VARCHAR(11))
     endereco: Mapped[str] = mapped_column(VARCHAR(100))
     email: Mapped[str] = mapped_column(VARCHAR(50))
+    usuario_id: Mapped[int] = mapped_column(Integer)
 
     #produto: Mapped[List['Produto']] = relationship('Produto', secondary='fornecedorproduto', back_populates='fornecedor')
 
@@ -61,10 +63,10 @@ class Usuario(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    uid_firebase: Mapped[str] = mapped_column(VARCHAR(128), unique=True, nullable=False))
     nome: Mapped[str] = mapped_column(VARCHAR(100))
+    senha: Mapped[str] = mapped_column(VARCHAR(100))
     email: Mapped[str] = mapped_column(VARCHAR(100))
-    senhahash: Mapped[str] = mapped_column(VARCHAR(255))
-    tipo: Mapped[str] = mapped_column(VARCHAR(50))
 
     #entradaestoque: Mapped[List['Entradaestoque']] = relationship('Entradaestoque', back_populates='usuario')
     #saidaestoque: Mapped[List['Saidaestoque']] = relationship('Saidaestoque', back_populates='usuario')
@@ -86,6 +88,7 @@ class Produto(Base):
     status: Mapped[float] = mapped_column(NUMBER(asdecimal=False))
     fornecedor_id: Mapped[int] = mapped_column(Integer)
     categoriaid: Mapped[Optional[int]] = mapped_column(Integer)
+    usuario_id: Mapped[int] = mapped_column(Integer)
 
     #fornecedor: Mapped[List['Fornecedor']] = relationship('Fornecedor', secondary='fornecedorproduto', back_populates='produto')
     #categoria: Mapped[Optional['Categoria']] = relationship('Categoria', back_populates='produto')

@@ -2,6 +2,11 @@ from flask import Flask
 from flask_cors import CORS
 from database import session
 from models import Cliente, Fornecedor
+
+from controllers.user_auth_controller import (
+    cadastrar_usuario
+)
+
 from controllers.fornecedores_controller import (
     listar_fornecedores,
     listar_fornecedor_id,
@@ -25,6 +30,8 @@ from flask import request, jsonify
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
+
+## ============== [ Rotas de Clientes ] ==============
 
 # Rota para listar clientes "/clientes"
 @app.route('/clientes', methods=['GET'])
@@ -51,6 +58,8 @@ def update_cliente_id(id):
 def post_cliente():
     return create_cliente()
 
+## ============== [ Rotas de Fornecedores ] ==============
+
 # Rota para listar fornecedores "/fornecedores"
 @app.route('/fornecedores', methods=['GET'])
 def get_fornecedores():
@@ -75,6 +84,12 @@ def upt_fornecedor(id):
 @app.route('/fornecedores', methods=['POST'])
 def post_fornecedor():
     return create_fornecedor()
+
+## ============== [ Rotas de Usuario ] ==============
+
+@app.route('/usuarios/cadastrar', methods=['POST'])
+def post_user():
+    return cadastrar_usuario()
 
 if __name__ == "__main__":
    app.run(debug=True)
