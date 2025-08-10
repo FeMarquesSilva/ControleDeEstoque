@@ -10,6 +10,7 @@ const Home = () => {
         { nome: "Produtos", link: "/produtos" },
         { nome: "Clientes", link: "/clientes" },
         { nome: "Fornecedores", link: "/fornecedores" },
+        { nome: "Estoque", link: "/estoque" },
     ];
 
     return (

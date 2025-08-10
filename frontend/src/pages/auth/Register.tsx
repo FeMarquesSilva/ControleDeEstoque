@@ -91,7 +91,6 @@ const Register = () => {
                     onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
                 />
 
-
                 <Text fontSize={"18px"} mb={1} color={"white"}>Senha:</Text>
                 <Input
                     type={"password"}

@@ -12,7 +12,7 @@ const BTReturn = () => {
             transition={"all 0.3s"}
             borderRadius={"150px"}
             as={ArrowLeft}
-            position={"absolute"}
+            position={"fixed"}
             cursor={"pointer"}
             fontSize={"24px"}
             width={"45px"}
