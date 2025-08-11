@@ -3,7 +3,8 @@ from flask_cors import CORS
 from database import session
 
 from controllers.user_auth_controller import (
-    cadastrar_usuario
+    cadastrar_usuario,
+    login_usuario
 )
 
 from controllers.fornecedores_controller import (
@@ -89,6 +90,10 @@ def post_fornecedor():
 @app.route('/usuarios/cadastrar', methods=['POST'])
 def post_user():
     return cadastrar_usuario()
+
+@app.route('/usuarios/login', methods=['POST'])
+def post_login():
+    return login_usuario()
 
 if __name__ == "__main__":
    app.run(debug=True)
