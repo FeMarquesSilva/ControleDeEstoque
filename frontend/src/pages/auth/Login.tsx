@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { user } from "./Interface";
 import { menssage } from "../../components/ui/toastMenssage";
+import { handleLoginUser } from "./Services";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -29,6 +30,12 @@ const Login = () => {
     if (loading) return;
     setLoading(true);
     if (!validateData()) return;
+    const response = await handleLoginUser(usuario.email, usuario.senha);
+    if (!response) {
+      menssage("Erro", "Falha ao fazer login", "error");
+      setLoading(false);
+      return;
+    }
 
     navigate("/home")
   };
