@@ -7,8 +7,7 @@ from database import session
 
 from controllers.user_auth_controller import (
     cadastrar_usuario,
-    login_usuario,
-    validar_token
+    login_usuario
 )
 
 from controllers.fornecedores_controller import (
@@ -29,18 +28,9 @@ from controllers.clientes_controller import (
     create_cliente
 )
 
-
-cred = credentials.Certificate("secrets/firebase-admin.json")
-initialize_app(cred)
-
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
-
-## ============== [ Rota para validar o token ] ===============
-@app.route('/validate-token', methods=['POST'])
-def post_token():
-    return validar_token()
 
 ## ============== [ Rotas de Clientes ] ==============
 
@@ -72,9 +62,9 @@ def post_cliente():
 ## ============== [ Rotas de Fornecedores ] ==============
 
 # Rota para listar fornecedores "/fornecedores"
-@app.route('/fornecedores', methods=['GET'])
-def get_fornecedores(usuario_id):
-    return listar_fornecedores(usuario_id)
+@app.route('/fornecedores', methods=['POST'])
+def get_fornecedores():
+    return listar_fornecedores()
 
 # Rota para buscar fornecedor por ID
 @app.route('/fornecedores/<int:id>', methods=['GET'])
