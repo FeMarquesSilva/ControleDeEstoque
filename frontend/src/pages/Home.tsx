@@ -7,9 +7,9 @@ const Home = () => {
     const navigate =useNavigate();
 
     const sections = [
-        { nome: "Produtos", link: "/produtos" },
-        { nome: "Clientes", link: "/clientes" },
         { nome: "Fornecedores", link: "/fornecedores" },
+        { nome: "Clientes", link: "/clientes" },
+        { nome: "Produtos", link: "/produtos" },
         { nome: "Estoque", link: "/estoque" },
     ];
 
