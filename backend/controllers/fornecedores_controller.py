@@ -3,9 +3,14 @@ from models import Fornecedor
 from flask import request, jsonify
 
 # Função para listar fornecedores
-def listar_fornecedores():
+def listar_fornecedores(usuario_id):
     try:
-        fornecedores = session.query(Fornecedor).all()
+        fornecedores = (
+            session.query(Fornecedor)
+            .filter(Fornecedor.usuario_id == usuario_id)
+            .all()
+        )
+        
         fornecedores_list = [{
             "id": f.id,
             "nome": f.nome,
@@ -14,6 +19,7 @@ def listar_fornecedores():
             "contato": f.contato,
             "endereco": f.endereco
         } for f in fornecedores]
+        
         return jsonify(fornecedores_list)
     finally:
         session.remove()

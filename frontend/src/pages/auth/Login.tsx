@@ -31,13 +31,19 @@ const Login = () => {
     setLoading(true);
     if (!validateData()) return;
     const response = await handleLoginUser(usuario.email, usuario.senha);
+    console.log(response)
+
+    //Buscamos e armazenamos o token do firebase no localStorage do navegador para validações;
+    const token = response.data.token;    
+    localStorage.setItem("token", token);
+
     if (!response) {
       menssage("Erro", "Falha ao fazer login", "error");
       setLoading(false);
       return;
     }
 
-    navigate("/home")
+    //navigate("/home")
   };
 
   return (

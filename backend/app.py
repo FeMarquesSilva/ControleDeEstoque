@@ -62,8 +62,8 @@ def post_cliente():
 
 # Rota para listar fornecedores "/fornecedores"
 @app.route('/fornecedores', methods=['GET'])
-def get_fornecedores():
-    return listar_fornecedores()
+def get_fornecedores(usuario_id):
+    return listar_fornecedores(usuario_id)
 
 # Rota para buscar fornecedor por ID
 @app.route('/fornecedores/<int:id>', methods=['GET'])

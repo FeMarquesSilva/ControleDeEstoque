@@ -25,7 +25,7 @@ export const handleLoginUser = async (email: string, senha: string) => {
                 'Content-Type': 'application/json',
             },
         });
-        return response;
+        return response.data;
     } catch (error) {
         console.error(error);
         return;
