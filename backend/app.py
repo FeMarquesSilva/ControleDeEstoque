@@ -1,6 +1,6 @@
 import firebase_admin
-from firebase_admin import credentials, auth
-
+from firebase_admin import credentials, auth, initialize_app
+from flask import request, jsonify
 from flask import Flask
 from flask_cors import CORS
 from database import session
@@ -28,7 +28,9 @@ from controllers.clientes_controller import (
     create_cliente
 )
 
-from flask import request, jsonify
+
+cred = credentials.Certificate("secrets/firebase-admin.json")
+initialize_app(cred)
 
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
