@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Fornecedor } from "./Interfaces";
 import { handleSubmitFornecedor } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
+import { useNavigate } from "react-router-dom";
 
 const stylesInputs = {
     width: "100%",
@@ -15,6 +16,7 @@ const stylesInputs = {
 
 const AdicionarFornecedor = () => {
 
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [fornecedor, setFornecedor] = useState<Fornecedor>({
         id: null,
@@ -24,17 +26,16 @@ const AdicionarFornecedor = () => {
         endereco: "",
         email: "",
     })
-
+        
     const submitForn = async () => {
         if (loading) return;
         setLoading(true);
-
-        //Criar validação dos campo.
 
         await handleSubmitFornecedor(fornecedor).then((response) => {
             setLoading(false);
             if (response?.status === 201) {
                 menssage("Sucesso", "Fornecedor cadastrado com sucesso!", "success");
+                navigate("/fornecedores/listar")
             } else {
                 menssage("Erro", "Erro ao cadastrar fornecedor. Tente novamente.", "error");
             }
