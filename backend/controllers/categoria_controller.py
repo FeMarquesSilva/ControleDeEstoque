@@ -1,0 +1,44 @@
+from database import session
+from models import Categoria
+from flask import request, jsonify
+
+# Função para criar categoria
+def create_categoria():
+    data = request.get_json()
+    nova_categoria = Categoria(**data)
+    session.add(nova_categoria)
+    session.commit()
+    return jsonify(nova_categoria.to_dict()), 201
+
+# Função para listar categorias
+def listar_categorias():
+    categorias = session.query(Categoria).all()
+    lista = [c.to_dict() for c in categorias]
+    return jsonify(lista), 200
+
+# Função para obter uma categoria pelo ID
+def obter_categoria(id):
+    categoria = session.query(Categoria).get(id)
+    if not categoria:
+        return jsonify({"error": "Categoria não encontrada"}), 404
+    return jsonify(categoria.to_dict()), 200
+
+# Função para atualizar uma categoria
+def atualizar_categoria(id):
+    data = request.get_json()
+    categoria = session.query(Categoria).get(id)
+    if not categoria:
+        return jsonify({"error": "Categoria não encontrada"}), 404
+    for key, value in data.items():
+        setattr(categoria, key, value)
+    session.commit()
+    return jsonify(categoria.to_dict()), 200
+
+# Função para deletar uma categoria
+def deletar_categoria(id):
+    categoria = session.query(Categoria).get(id)
+    if not categoria:
+        return jsonify({"error": "Categoria não encontrada"}), 404
+    session.delete(categoria)
+    session.commit()
+    return jsonify({"message": "Categoria deletada"}), 204

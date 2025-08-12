@@ -26,6 +26,14 @@ from controllers.clientes_controller import (
     create_cliente
 )
 
+from controllers.categoria_controller import (
+    create_categoria,
+    listar_categorias,
+    obter_categoria,
+    atualizar_categoria,
+    deletar_categoria,
+)
+
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
@@ -93,6 +101,28 @@ def post_user():
 @app.route('/usuarios/login', methods=['POST'])
 def post_login():
     return login_usuario()
+
+## ============== [ Rotas de Categoria ] ==============
+
+@app.route('/categorias', methods=['GET'])
+def route_listar_categorias():
+    return listar_categorias()
+
+@app.route('/categorias/<int:id>', methods=['GET'])
+def route_obter_categoria(id):
+    return obter_categoria(id)
+
+@app.route('/categorias', methods=['POST'])
+def route_criar_categoria():
+    return create_categoria()
+
+@app.route('/categorias/<int:id>', methods=['PUT'])
+def route_atualizar_categoria(id):
+    return atualizar_categoria(id)
+
+@app.route('/categorias/<int:id>', methods=['DELETE'])
+def route_deletar_categoria(id):
+    return deletar_categoria(id)
 
 if __name__ == "__main__":
    app.run(debug=True)
