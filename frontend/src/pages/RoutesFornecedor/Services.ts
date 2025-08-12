@@ -18,9 +18,9 @@ export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
 }
 
 // Função para buscar a lista de fornecedores da API
-export const fetchFornecedores = async () => {
+export const fetchFornecedores = async (usuario_id: number) => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, {
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, {usuario_id}, {
             headers: {
                 'Content-Type': 'application/json',
             },

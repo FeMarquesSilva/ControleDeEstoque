@@ -14,7 +14,11 @@ const ListarFornecedores = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetchFornecedores();
+
+            const userString = localStorage.getItem("user");
+            const usuario = userString ? JSON.parse(userString) : null;
+
+            const response = await fetchFornecedores(usuario);
             if (response?.status === 200) {
                 setFornecedores(response.data);
             } else {

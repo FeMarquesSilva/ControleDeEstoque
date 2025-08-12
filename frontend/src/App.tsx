@@ -22,37 +22,26 @@ import { menssage } from "./components/ui/toastMenssage";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); // Para gerenciar o estado de carregamento
+  const [loading, setLoading] = useState(true);
 
-  const token = localStorage.getItem('token'); // Pegando o token do localStorage
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    // Função para validar o token
     const checkToken = async () => {
       if (!token) {
-        setLoading(false);
         menssage('Usuário Inválido', 'Você precisa estar logado para acessar essa página.', 'error');
+        setLoading(false);
         navigate('/');
         return;
       }
+
+      setLoading(false);
     };
 
     checkToken();
   }, [token, navigate]);
 
-  if (!loading) {
-    return <Flex
-      direction="column"
-      align="center"
-      justify="center"
-      height="100vh"
-    >
-      <Box mb={4}>Carregando...</Box>
-      <Spinner size="xl" color="blue.900" />
-    </Flex>; // Mostrar um carregando enquanto valida o token
-  }
-
-  return <>{element}</>; // Se o token for válido, renderiza a página protegida
+  return <>{element}</>;
 };
 
 // Definindo as rotas do aplicativo:
@@ -62,15 +51,15 @@ const router = createBrowserRouter([
   { path: "/home", element: (<PrivateRoute element={<Home />} />) },
   { path: "/produtos", element: (<PrivateRoute element={<Produto />} />) },
   { path: "/produtos/adicionar", element: (<PrivateRoute element={<AdicionarProduto />} />) },
-  { path: "/fornecedores", element: (<PrivateRoute element={ <Fornecedor />} />) },
-  { path: "/fornecedores/adicionar", element: (<PrivateRoute element={ <AdicionarFornecedor />} />) },
-  { path: "/clientes", element: (<PrivateRoute element={ <Clientes />} />) },
-  { path: "/fornecedores/listar", element: (<PrivateRoute element={ <ListarFornecedores />} />) },
-  { path: "/clientes/adicionar", element: (<PrivateRoute element={ <AdicionarCliente />} />) },
-  { path: "/fornecedores/editar/:id", element: (<PrivateRoute element={ <EditarFornecedor />} />) },
-  { path: "/clientes/editar/:id", element: (<PrivateRoute element={ <EditarCliente />} />) },
-  { path: "/clientes/listar", element: (<PrivateRoute element={ <ListarClientes />} />) },
-  { path: "/estoque", element: (<PrivateRoute element={ <Estoque />} />) },
+  { path: "/fornecedores", element: (<PrivateRoute element={<Fornecedor />} />) },
+  { path: "/fornecedores/adicionar", element: (<PrivateRoute element={<AdicionarFornecedor />} />) },
+  { path: "/clientes", element: (<PrivateRoute element={<Clientes />} />) },
+  { path: "/fornecedores/listar", element: (<PrivateRoute element={<ListarFornecedores />} />) },
+  { path: "/clientes/adicionar", element: (<PrivateRoute element={<AdicionarCliente />} />) },
+  { path: "/fornecedores/editar/:id", element: (<PrivateRoute element={<EditarFornecedor />} />) },
+  { path: "/clientes/editar/:id", element: (<PrivateRoute element={<EditarCliente />} />) },
+  { path: "/clientes/listar", element: (<PrivateRoute element={<ListarClientes />} />) },
+  { path: "/estoque", element: (<PrivateRoute element={<Estoque />} />) },
 ]);
 
 const App: React.FC = () => {

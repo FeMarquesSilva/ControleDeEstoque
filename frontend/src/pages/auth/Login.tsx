@@ -36,6 +36,10 @@ const Login = () => {
     const token: string = response.token;   
     localStorage.setItem("token", token);
 
+    //Armazeno no localStorage o user:
+    const user: user = response.user;
+    localStorage.setItem("user", JSON.stringify(user));
+
     if (!response) {
       menssage("Erro", "Falha ao fazer login", "error");
       setLoading(false);
