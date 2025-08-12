@@ -1,5 +1,3 @@
-import firebase_admin
-from firebase_admin import credentials, auth, initialize_app
 from flask import request, jsonify
 from flask import Flask
 from flask_cors import CORS
