@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Categoria as CategoriaInterface } from "./Interfaces";
 import { handleSubmitCategoria } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import Header from "../../components/ui/Header";
 
 const stylesInputs = {
     width: "100%",
@@ -20,16 +22,6 @@ const AdicionarCategoria = () => {
         descricao: ""
     });
 
-    // Atualiza os campos do formulário
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        const { name, value } = e.target;
-        setCategoria((prev) => ({
-            ...prev,
-            [name]: value
-        }));
-    };
-
-    // Função de envio
     const submitCategoria = async () => {
         if (loading) return;
 
@@ -59,43 +51,52 @@ const AdicionarCategoria = () => {
     };
 
     return (
-        <div style={{ padding: "20px" }}>
+        <Box>
+            <Header tittle="Cadastrar de Categoria" />
             <BTReturn />
 
-            <h2>Adicionar Categoria</h2>
-
-            <input
-                style={stylesInputs}
-                type="text"
-                name="nome"
-                placeholder="Nome da Categoria"
-                value={categoria.nome}
-                onChange={handleChange}
-            />
-
-            <textarea
-                style={stylesInputs}
-                name="descricao"
-                placeholder="Descrição da Categoria"
-                value={categoria.descricao}
-                onChange={handleChange}
-            />
-
-            <button
-                style={{
-                    padding: "10px 15px",
-                    backgroundColor: loading ? "#999" : "#007bff",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "5px",
-                    cursor: loading ? "not-allowed" : "pointer"
-                }}
-                onClick={submitCategoria}
-                disabled={loading}
+            { /* Componente do formulário para cadastro do produto */}
+            <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
             >
-                {loading ? "Enviando..." : "Cadastrar"}
-            </button>
-        </div>
+
+                <Flex
+                    mt={"80px"}
+                    backgroundColor={"rgba(177, 141, 75, 1)"}
+                    flexDir={"column"}
+                    p={"15px"}
+                    borderRadius={"15px"}
+                    gap={"5px"}>
+
+                    <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
+                        Preencha os dados abaixo:
+                    </Text>
+
+                    <Box>
+                        <Text>Nome</Text>
+                        <input type={"text"} placeholder={"Nome da Categoria"} style={stylesInputs}
+                            onChange={(e) => setCategoria({ ...categoria, nome: e.target.value })} />
+                    </Box>
+                    <Box>
+                        <Text>Descrição</Text>
+                        <input type={"text"} placeholder={"Descrição da Categoria"} style={stylesInputs}
+                            onChange={(e) => setCategoria({ ...categoria, descricao: e.target.value })} />
+                    </Box>
+
+                    <Button
+                        mt={"15px"}
+                        w={"100%"}
+                        backgroundColor={"rgba(46, 126, 39, 1)"}
+                        color={"white"}
+                        transition={"all 0.3s"}
+                        _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
+                        onClick={() => { submitCategoria() }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                </Flex>
+            </Box>
+
+        </Box>
     );
 };
 
