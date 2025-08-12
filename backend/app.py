@@ -82,7 +82,7 @@ def upt_fornecedor(id):
     return update_fornecedor(id)
 
 # Rota para criar fornecedor
-@app.route('/fornecedores', methods=['POST'])
+@app.route('/fornecedores/cadastro', methods=['POST'])
 def post_fornecedor():
     return create_fornecedor()
 

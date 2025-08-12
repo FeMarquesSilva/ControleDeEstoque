@@ -102,11 +102,12 @@ def create_fornecedor():
         return jsonify({'erro': 'Dados não fornecidos'}), 400
     
     novo_fornecedor = Fornecedor(
-        nome=data.get('nome'),
-        cnpj=data.get('cnpj'),
-        email=data.get('email'),
-        contato=data.get('contato'),
-        endereco=data.get('endereco')
+        nome=data.get('fornecedor').get('nome'),
+        cnpj=data.get('fornecedor').get('cnpj'),
+        email=data.get('fornecedor').get('email'),
+        contato=data.get('fornecedor').get('contato'),
+        endereco=data.get('fornecedor').get('endereco'),
+        usuario_id=data.get('usuario').get('id')
     )
     
     session.add(novo_fornecedor)
