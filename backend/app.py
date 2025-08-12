@@ -1,3 +1,6 @@
+import firebase_admin
+from firebase_admin import credentials, auth
+
 from flask import Flask
 from flask_cors import CORS
 from database import session
