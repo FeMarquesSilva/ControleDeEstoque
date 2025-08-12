@@ -19,8 +19,9 @@ import EditarCliente from "./pages/RoutsCliente/EditarCliente";
 import ListarClientes from "./pages/RoutsCliente/ListarClientes";
 import Estoque from "./pages/Estoque";
 import { menssage } from "./components/ui/toastMenssage";
-import { Categoria } from "./pages/RoutsCategoria/Interfaces";
+import { Categoria as CategoriaType } from "./pages/RoutsCategoria/Interfaces";
 import AdicionarCategoria from "./pages/RoutsCategoria/AdicionarCategoria";
+import Categoria from "./pages/Categoria";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const router = createBrowserRouter([
   { path: "/clientes/listar", element: (<PrivateRoute element={<ListarClientes />} />) },
   { path: "/estoque", element: (<PrivateRoute element={<Estoque />} />) },
   { path: "/categorias/adicionar", element: (<PrivateRoute element={<AdicionarCategoria />} />) },
+  { path: "/categorias", element: (<PrivateRoute element={<Categoria />} />) },
 ]);
 
 const App: React.FC = () => {
