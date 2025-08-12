@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Cliente } from "./Interfaces";
 import { handleSubmitCliente } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
+import { useNavigate } from "react-router-dom";
 
 const stylesInputs = {
     width: "100%",
@@ -15,6 +16,7 @@ const stylesInputs = {
 
 const AdicionarCliente = () => {
 
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [cliente, setCliente] = useState<Cliente>({
         id: null,
@@ -35,6 +37,7 @@ const AdicionarCliente = () => {
             setLoading(false);
             if (response?.status === 201) {
                 menssage("Sucesso", "Cliente cadastrado com sucesso!", "success");
+                navigate('/clientes/listar')
             } else {
                 menssage("Erro", "Erro ao cadastrar cliente. Tente novamente.", "error");
             }
