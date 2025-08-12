@@ -7,7 +7,8 @@ from database import session
 
 from controllers.user_auth_controller import (
     cadastrar_usuario,
-    login_usuario
+    login_usuario,
+    validar_token
 )
 
 from controllers.fornecedores_controller import (
@@ -35,6 +36,11 @@ initialize_app(cred)
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
+
+## ============== [ Rota para validar o token ] ===============
+@app.route('/validate-token', methods=['POST'])
+def post_token():
+    return validar_token()
 
 ## ============== [ Rotas de Clientes ] ==============
 

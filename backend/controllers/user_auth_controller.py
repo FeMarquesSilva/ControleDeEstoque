@@ -3,6 +3,27 @@ from models import Usuario
 from flask import request, jsonify
 from database import auth
 
+
+def validar_token():
+    auth_header = request.headers.get("Authorization")
+
+    if not auth_header:
+        return None, jsonify({"error": "Token não fornecido"}), 401
+
+    parts = auth_header.split()
+    if len(parts) != 2 or parts[0].lower() != "bearer":
+        return None, jsonify({"error": "Header Authorization inválido"}), 401
+
+    token = parts[1]
+
+    try:
+        decoded_token = auth.verify_id_token(token)
+        uid = decoded_token['uid']
+        return uid, None
+    except Exception as e:
+        return None, jsonify({"error": f"Token inválido: {str(e)}"}), 401
+    
+
 def cadastrar_usuario():
     data = request.get_json()
     
