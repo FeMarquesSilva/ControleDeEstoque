@@ -3,8 +3,12 @@ import axios from "axios"
 
 // Função para enviar os dados do fornecedor para a API
 export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
+
+    const userString = localStorage.getItem("user");
+    const usuario = userString ? JSON.parse(userString) : null;
+
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, fornecedor, {
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/cadastro`, {fornecedor, usuario}, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -20,7 +24,7 @@ export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
 // Função para buscar a lista de fornecedores da API
 export const fetchFornecedores = async (usuario_id: number) => {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, {usuario_id}, {
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, { usuario_id }, {
             headers: {
                 'Content-Type': 'application/json',
             },
