@@ -15,6 +15,9 @@ const Header = (props: Props) => {
         navigate("/");
     };
 
+    const userString = localStorage.getItem("user");
+    const usuario = userString ? JSON.parse(userString) : null;
+
     const headerHeight = "80px";
 
     return (
@@ -23,7 +26,7 @@ const Header = (props: Props) => {
                 <Flex textAlign={"center"} alignItems={"center"} justifyContent={"space-between"} h={"100%"} px={"20px"}>
                     <Text fontSize={"24px"} fontWeight={"bold"} color={"white"}>Controle de Estoque - {props.tittle}</Text>
                     <Box justifyItems={"right"} display={"flex"} alignItems={"center"} gap={"10px"}>
-                        <Text fontSize={"18px"} fontWeight={"bold"} color={"white"}>Bem-vindo(a) ao sistema!</Text>
+                        <Text fontSize={"18px"} fontWeight={"bold"} color={"white"}>Bem-vindo(a), {usuario.nome} ao sistema!</Text>
                         <Box
                             w={"50px"}
                             h={"50px"}
@@ -44,7 +47,7 @@ const Header = (props: Props) => {
                 </Flex>
                 {/* Placeholder para ocupar o espaço do header */}
             </Box>
-                <Box h={headerHeight} />
+            <Box h={headerHeight} />
         </Flex>
     );
 }
