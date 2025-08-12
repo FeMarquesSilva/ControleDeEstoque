@@ -49,17 +49,8 @@ def login_usuario():
 
     try:
         # Faz login no Firebase
-        user = auth.sign_in_with_email_and_password(email, senha)
-        
-        #info = auth.get_account_info(user['idToken'])
-        #nome = info['users'][0].get('displayName', None)
-        #print(info)
-        
+        user = auth.sign_in_with_email_and_password(email, senha)     
         id_token = user['idToken']
-        #print(id_token)
-        
-        teste = auth.get_account_info(id_token)
-        print(teste.get('localId'))
 
         # Busca o usuário no banco local
         usuario = session.query(Usuario).filter_by(uid_firebase=user['localId']).first()
