@@ -31,10 +31,9 @@ const Login = () => {
     setLoading(true);
     if (!validateData()) return;
     const response = await handleLoginUser(usuario.email, usuario.senha);
-    console.log(response)
 
     //Buscamos e armazenamos o token do firebase no localStorage do navegador para validações;
-    const token = response.data.token;    
+    const token: string = response.token;   
     localStorage.setItem("token", token);
 
     if (!response) {
@@ -43,7 +42,7 @@ const Login = () => {
       return;
     }
 
-    //navigate("/home")
+    navigate("/home")
   };
 
   return (

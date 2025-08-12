@@ -11,6 +11,7 @@ const Header = (props: Props) => {
 
     const navigate = useNavigate();
     const handleLogOut = () => {
+        localStorage.removeItem("token"); //Removo o token;
         navigate("/");
     };
 

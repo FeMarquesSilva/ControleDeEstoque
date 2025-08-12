@@ -18,6 +18,7 @@ import EditarFornecedor from "./pages/RoutesFornecedor/EditarFornecedor";
 import EditarCliente from "./pages/RoutsCliente/EditarCliente";
 import ListarClientes from "./pages/RoutsCliente/ListarClientes";
 import Estoque from "./pages/Estoque";
+import { menssage } from "./components/ui/toastMenssage";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
     const checkToken = async () => {
       if (!token) {
         setLoading(false);
+        menssage('Usuário Inválido', 'Você precisa estar logado para acessar essa página.', 'error');
         navigate('/');
         return;
       }
@@ -38,7 +40,7 @@ const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
     checkToken();
   }, [token, navigate]);
 
-  if (loading) {
+  if (!loading) {
     return <Flex
       direction="column"
       align="center"
