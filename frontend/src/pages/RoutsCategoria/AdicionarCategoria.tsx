@@ -5,6 +5,7 @@ import { handleSubmitCategoria } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
 import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
+import { useNavigate } from "react-router-dom";
 
 const stylesInputs = {
     backgroundColor: "#09090B",
@@ -16,6 +17,7 @@ const stylesInputs = {
 };
 
 const AdicionarCategoria = () => {
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [categoria, setCategoria] = useState<CategoriaInterface>({
         id: null,
@@ -39,7 +41,7 @@ const AdicionarCategoria = () => {
                 setLoading(false);
                 if (response?.status === 201) {
                     menssage("Sucesso", "Categoria cadastrada com sucesso!", "success");
-                    setCategoria({ id: null, nome: "", descricao: "" });
+                    navigate('/categorias/listar')
                 } else {
                     menssage("Erro", "Erro ao cadastrar categoria.", "error");
                 }

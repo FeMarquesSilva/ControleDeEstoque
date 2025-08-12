@@ -5,10 +5,13 @@ from flask import request, jsonify
 # Função para criar categoria
 def create_categoria():
     data = request.get_json()
-    nova_categoria = Categoria(**data)
+    nova_categoria = Categoria(
+        nome=data['nome'],
+        descricao=data['descricao']
+    )
     session.add(nova_categoria)
     session.commit()
-    return jsonify(nova_categoria.to_dict()), 201
+    return jsonify({'message': 'Categoria criada com sucesso'}), 201
 
 # Função para listar categorias
 def listar_categorias():
