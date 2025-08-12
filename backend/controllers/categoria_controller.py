@@ -15,9 +15,16 @@ def create_categoria():
 
 # Função para listar categorias
 def listar_categorias():
-    categorias = session.query(Categoria).all()
-    lista = [c.to_dict() for c in categorias]
-    return jsonify(lista), 200
+    try:
+        categorias = session.query(Categoria).all()
+        categoria_list = [{
+            'id': categoria.id,
+            'nome': categoria.nome,
+            'descricao': categoria.descricao
+            } for categoria in categorias]
+        return jsonify(categoria_list), 200
+    finally:
+        session.remove()
 
 # Função para obter uma categoria pelo ID
 def obter_categoria(id):

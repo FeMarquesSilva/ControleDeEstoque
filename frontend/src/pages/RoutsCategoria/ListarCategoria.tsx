@@ -58,12 +58,9 @@ const ListarCategoria = () => {
                     {/* Cabeçalho */}
                     <Flex backgroundColor={"rgba(146, 105, 29, 1)"} fontWeight="bold" p={3} borderBottom="1px solid #ccc" justifyContent="space-between" gap={"50px"}>
                         <Box flex="1">ID</Box>
-                        <Box flex="2">Nome</Box>
-                        <Box flex="2">CNPJ</Box>
-                        <Box flex="2">Email</Box>
-                        <Box flex="2">Contato</Box>
-                        <Box flex="3">Endereço</Box>
-                        <Box flex="1.6">Ação</Box>
+                        <Box flex="1">Nome</Box>
+                        <Box flex="2">Descrição</Box>
+                        <Box flex="1">Ações</Box>
                     </Flex>
 
                     {/* Linhas */}
@@ -78,8 +75,8 @@ const ListarCategoria = () => {
                             _hover={{ backgroundColor: 'rgba(250, 218, 158, 0.8)', cursor: 'pointer' }}
                         >
                             <Box flex="1">{categoria.id}</Box>
-                            <Box w={"650px"} flex="2">{categoria.nome}</Box>
-                            <Box flex="2">{categoria.descricao}</Box>
+                            <Box flex="1">{categoria.nome}</Box>
+                            <Box flex="2" w={"650px"}>{categoria.descricao}</Box>
                             <Flex gap={2} flex="1">
                                 <Button
                                     backgroundColor={"rgba(62, 43, 143, 1)"}
