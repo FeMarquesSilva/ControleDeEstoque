@@ -3,10 +3,11 @@ import { useState } from "react";
 import { Categoria as CategoriaInterface } from "./Interfaces";
 import { handleSubmitCategoria } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
 
 const stylesInputs = {
+    backgroundColor: "#09090B",
     width: "100%",
     marginBottom: "10px",
     padding: "8px",
@@ -81,8 +82,20 @@ const AdicionarCategoria = () => {
                     </Box>
                     <Box>
                         <Text>Descrição</Text>
-                        <input type={"text"} placeholder={"Descrição da Categoria"} style={stylesInputs}
-                            onChange={(e) => setCategoria({ ...categoria, descricao: e.target.value })} />
+                        <Textarea
+                            style={stylesInputs}
+                            placeholder="Descrição da Categoria"
+                            maxLength={100}
+                            minH="80px"
+                            resize="vertical"
+                            value={categoria.descricao}
+                            onChange={(e) =>
+                                setCategoria({ ...categoria, descricao: e.target.value })
+                            }
+                        />
+                        <Text fontSize="sm">
+                            {categoria.descricao.length} / 100
+                        </Text>
                     </Box>
 
                     <Button
