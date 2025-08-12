@@ -38,7 +38,6 @@ def cadastrar_usuario():
     
     return jsonify({'mensagem': 'Usuário cadastrado com sucesso'}), 201
 
-
 def login_usuario():
     data = request.get_json()
     email = data.get('email')
@@ -51,7 +50,16 @@ def login_usuario():
     try:
         # Faz login no Firebase
         user = auth.sign_in_with_email_and_password(email, senha)
+        
+        #info = auth.get_account_info(user['idToken'])
+        #nome = info['users'][0].get('displayName', None)
+        #print(info)
+        
         id_token = user['idToken']
+        #print(id_token)
+        
+        teste = auth.get_account_info(id_token)
+        print(teste.get('localId'))
 
         # Busca o usuário no banco local
         usuario = session.query(Usuario).filter_by(uid_firebase=user['localId']).first()

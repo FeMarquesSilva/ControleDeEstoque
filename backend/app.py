@@ -34,6 +34,10 @@ from controllers.categoria_controller import (
     deletar_categoria,
 )
 
+from controllers.search_id_user_controller import (
+    buscar_id_user
+)
+
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
@@ -68,9 +72,10 @@ def post_cliente():
 ## ============== [ Rotas de Fornecedores ] ==============
 
 # Rota para listar fornecedores "/fornecedores"
-@app.route('/fornecedores', methods=['POST'])
-def get_fornecedores():
-    return listar_fornecedores()
+@app.route('/fornecedores', methods=['GET'])
+def route_lista_fornecedores():
+    usuario_id = buscar_id_user()
+    return listar_fornecedores(usuario_id)
 
 # Rota para buscar fornecedor por ID
 @app.route('/fornecedores/<int:id>', methods=['GET'])

@@ -8,7 +8,7 @@ export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
     const usuario = userString ? JSON.parse(userString) : null;
 
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/cadastro`, {fornecedor, usuario}, {
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/cadastro`, { fornecedor, usuario }, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -22,13 +22,18 @@ export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
 }
 
 // Função para buscar a lista de fornecedores da API
-export const fetchFornecedores = async (usuario_id: number) => {
+export const fetchFornecedores = async () => {
+    const token = localStorage.getItem("token");
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`, { usuario_id }, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        const response = await axios.get(
+            `${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`, // envia o token
+                },
+            }
+        )
         return response
     } catch (error) {
         console.error(error)

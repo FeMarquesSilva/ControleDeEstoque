@@ -1,3 +1,4 @@
+from flask import request, jsonify
 from controllers.clientes_controller import (
     listar_clientes,
     listar_cliente_id,
@@ -6,7 +7,6 @@ from controllers.clientes_controller import (
     update_cliente,
     create_cliente
 )
-from flask import request, jsonify
 from controllers.fornecedores_controller import (
     listar_fornecedores,
     listar_fornecedor_id,
