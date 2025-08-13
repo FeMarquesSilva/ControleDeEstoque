@@ -80,7 +80,6 @@ class Produto(Base):
     categoriaid: Mapped[Optional[int]] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
 
-#Classe Venda - OK;
 class Venda(Base):
     __tablename__ = 'venda'
     __table_args__ = (
