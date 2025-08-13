@@ -3,11 +3,12 @@ from models import Categoria
 from flask import request, jsonify
 
 # Função para criar categoria
-def create_categoria():
+def create_categoria(id_usuario):
     data = request.get_json()
     nova_categoria = Categoria(
         nome=data['nome'],
-        descricao=data['descricao']
+        descricao=data['descricao'],
+        usuario_id=id_usuario
     )
     session.add(nova_categoria)
     session.commit()

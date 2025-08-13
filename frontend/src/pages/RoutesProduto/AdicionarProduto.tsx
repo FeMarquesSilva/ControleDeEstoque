@@ -22,7 +22,7 @@ const AdicionarProduto = () => {
     const [selected, setSelected] = React.useState("");
     const [fornOptions, setFornOptions] = useState<optionSelect[]>([]);
     const [categoriaOptions, setCategoriaOptions] = useState<optionSelect[]>([])
-    const [fornecedor, setFornecedor] = useState({
+    const [produto, setProduto] = useState({
         id: null,
         nome: "",
         cnpj: "",
@@ -94,22 +94,22 @@ const AdicionarProduto = () => {
                     <Box>
                         <Text>Nome</Text>
                         <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs}
-                            onChange={(e) => setFornecedor({ ...fornecedor, nome: e.target.value })} />
+                            onChange={(e) => setProduto({ ...produto, nome: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Descrição</Text>
                         <input type={"text"} placeholder={"Descrição do Produto"} style={stylesInputs}
-                            onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value })} />
+                            onChange={(e) => setProduto({ ...produto, cnpj: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>SKU</Text>
                         <input type={"text"} placeholder={"SKU"} style={stylesInputs}
-                            onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value })} />
+                            onChange={(e) => setProduto({ ...produto, contato: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Unidade de Medida</Text>
                         <input type={"text"} placeholder={"Unidade de Medida"} style={stylesInputs}
-                            onChange={(e) => setFornecedor({ ...fornecedor, endereco: e.target.value })} />
+                            onChange={(e) => setProduto({ ...produto, endereco: e.target.value })} />
                     </Box>
 
                     { /* Select dos fornecedores cadastrados no banco */}
