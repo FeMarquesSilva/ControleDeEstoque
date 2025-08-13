@@ -43,10 +43,17 @@ CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.
 
 ## ============== [ Rotas de Clientes ] ==============
 
+# Rota para criar cliente
+@app.route('/clientes', methods=['POST'])
+def route_post_cliente():
+    usuario_id = buscar_id_user()
+    return create_cliente(usuario_id)
+
 # Rota para listar clientes "/clientes"
 @app.route('/clientes', methods=['GET'])
-def get_clientes():
-    return listar_clientes()  
+def route_get_clientes():
+    usuario_id = buscar_id_user()
+    return listar_clientes(usuario_id)  
 
 # Rota para buscar cliente por ID
 @app.route('/clientes/<int:id>', methods=['GET'])
@@ -62,11 +69,6 @@ def del_cliente(id):
 @app.route('/clientes/<int:id>', methods=['PUT'])
 def update_cliente_id(id):
     return update_cliente(id)
-
-# Rota para criar cliente
-@app.route('/clientes', methods=['POST'])
-def post_cliente():
-    return create_cliente()
 
 ## ============== [ Rotas de Fornecedores ] ==============
 

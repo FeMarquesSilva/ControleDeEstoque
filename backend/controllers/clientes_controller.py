@@ -3,9 +3,14 @@ from models import Cliente
 from flask import request, jsonify
 
 # Função para listar clientes;
-def listar_clientes():
+def listar_clientes(usuario_id):
     try:
-        clientes = session.query(Cliente).all()
+        clientes = (
+            session.query(Cliente)
+            .filter(Cliente.usuario_id == usuario_id)
+            .all()
+        )
+        
         clientes_list = [{
             "id": c.id,
             "nome": c.nome,
@@ -76,7 +81,7 @@ def update_cliente(id):
     return jsonify({'mensagem': 'Cliente atualizado com sucesso'})
 
 # Rota para criar cliente
-def create_cliente():
+def create_cliente(usuario_id):
     data = request.json
     novo_cliente = Cliente (
         nome=data.get('nome'),
@@ -84,6 +89,7 @@ def create_cliente():
         email=data.get('email'),
         telefone=data.get('telefone'),
         endereco=data.get('endereco'),
+        usuario_id=usuario_id
     )
     session.add(novo_cliente)
     session.commit()

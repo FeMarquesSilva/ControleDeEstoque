@@ -2,10 +2,12 @@ import { Cliente } from "./Interfaces"
 import axios from "axios"
 
 export const handleSubmitCliente = async (cliente: Cliente) => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/clientes`, cliente, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
         return response
@@ -18,10 +20,12 @@ export const handleSubmitCliente = async (cliente: Cliente) => {
 
 // Função para buscar a lista de clientes da API
 export const fetchClientes = async () => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/clientes`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
         return response
