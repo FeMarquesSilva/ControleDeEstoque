@@ -1,7 +1,12 @@
 import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import React from "react";
+import SelectFilter from "../../components/selectFilter";
+import { optionSelect } from "./Interface";
+import { fetchFornecedores } from "../RoutesFornecedor/Services";
+import { Fornecedor } from "../RoutesFornecedor/Interfaces";
 
 const stylesInputs = {
     width: "100%",
@@ -12,6 +17,9 @@ const stylesInputs = {
 
 const AdicionarProduto = () => {
     const [loading, setLoading] = useState(false);
+    const [selected, setSelected] = React.useState("");
+    const [options, setOptions] = useState<optionSelect[]>([]);
+    const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
     const [fornecedor, setFornecedor] = useState({
         id: null,
         nome: "",
@@ -24,9 +32,25 @@ const AdicionarProduto = () => {
     const submitForn = async () => {
         if (loading) return;
         setLoading(true);
-
-
     }
+
+
+    useEffect(() => {
+        const searchFornecedores = async () => {
+            const response = await fetchFornecedores();
+
+            if (response?.data.length > 0 && options.length === 0) {
+                const novosItens = response?.data.map((fornecedor: Fornecedor) => ({
+                    value: fornecedor.id ?? "",
+                    label: fornecedor.nome,
+                }));
+                setOptions(novosItens);
+            }
+        };
+
+        searchFornecedores();
+    }, []);
+
 
     return (
         <Box>
@@ -72,16 +96,25 @@ const AdicionarProduto = () => {
                         <input type={"text"} placeholder={"Unidade de Medida"} style={stylesInputs}
                             onChange={(e) => setFornecedor({ ...fornecedor, endereco: e.target.value })} />
                     </Box>
+
+                    { /* Select dos fornecedores cadastrados no banco */}
                     <Box>
                         <Text>Fornecedor</Text>
-                        <input type={"email"} placeholder={"Nome do Fornecedor"} style={stylesInputs}
-                            onChange={(e) => setFornecedor({ ...fornecedor, email: e.target.value })} />
+
+                        <SelectFilter 
+                            options={options}
+                            value={selected}
+                            onChange={setSelected}
+                            placeholder="Fornecedor"
+                        />
                     </Box>
+
                     <Box>
                         <Text>Categoria</Text>
                         <input type={"email"} placeholder={"Categoria"} style={stylesInputs}
                             onChange={(e) => setFornecedor({ ...fornecedor, email: e.target.value })} />
                     </Box>
+
 
                     <Button
                         mt={"15px"}
