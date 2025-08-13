@@ -37,6 +37,10 @@ from controllers.search_id_user_controller import (
     buscar_id_user
 )
 
+from controllers.produto_controller import (
+    create_produto
+)
+
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
@@ -132,6 +136,14 @@ def route_atualizar_categoria(id):
 @app.route('/categorias/<int:id>', methods=['DELETE'])
 def route_deletar_categoria(id):
     return deletar_categoria(id)
+
+## ============== [ Rotas de Produto ] ==============
+
+# Rota para criar produto
+@app.route('/produtos/cadastro', methods=['POST'])
+def post_produto():
+    usuario_id = buscar_id_user()
+    return create_produto(usuario_id)
 
 if __name__ == "__main__":
    app.run(debug=True)

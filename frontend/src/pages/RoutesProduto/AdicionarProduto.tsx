@@ -4,11 +4,14 @@ import BTReturn from "../../components/ui/BTReturn";
 import { useEffect, useState } from "react";
 import React from "react";
 import SelectFilter from "../../components/selectFilter";
-import { optionSelect } from "./Interface";
+import { optionSelect, Produto } from "./Interface";
 import { fetchFornecedores } from "../RoutesFornecedor/Services";
 import { Fornecedor } from "../RoutesFornecedor/Interfaces";
 import { Categoria } from "../RoutsCategoria/Interfaces";
 import { fetchCategorias } from "../RoutsCategoria/Services";
+import { handlerProduto } from "./Services";
+import { menssage } from "../../components/ui/toastMenssage";
+import { useNavigate } from "react-router-dom";
 
 const stylesInputs = {
     width: "100%",
@@ -18,24 +21,22 @@ const stylesInputs = {
 };
 
 const AdicionarProduto = () => {
+    const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [selectedForn, setSelectedForn] = React.useState("");
     const [selectedCateg, setSelectedCateg] = React.useState("");
     const [fornOptions, setFornOptions] = useState<optionSelect[]>([]);
     const [categoriaOptions, setCategoriaOptions] = useState<optionSelect[]>([])
-    const [produto, setProduto] = useState({
+    const [produto, setProduto] = useState<Produto>({
         id: null,
         nome: "",
-        cnpj: "",
-        contato: "",
-        endereco: "",
-        email: "",
+        descricao: "",
+        sku: "",
+        unidademedida: "",
+        status: true,
+        fornecedor_id: null,
+        categoriaid: null
     });
-
-    const submitForn = async () => {
-        if (loading) return;
-        setLoading(true);
-    }
 
     useEffect(() => {
         const searchFornecedores = async () => {
@@ -68,8 +69,43 @@ const AdicionarProduto = () => {
 
     }, []);
 
-    const teste = () => {
-        console.log(produto)
+    //Valida se todos os campos de produto foram prenchidos, se não retorna menssagem e false:
+    const validarProduto = () => {
+        if (produto.nome === "" ||
+            produto.descricao === "" ||
+            produto.sku === "" ||
+            produto.unidademedida === "" ||
+            produto.fornecedor_id === null ||
+            produto.categoriaid === null) {
+            menssage("Erro", "Preencha todos os campos", "error");
+            return false
+        }
+        return true;
+    }
+
+    const submitForn = async () => {
+        if (loading) return;
+        setLoading(true);
+
+        if (!validarProduto()) {
+            setLoading(false)
+            return
+        }
+
+        await handlerProduto(produto).then((response) => {
+            setLoading(false);
+            if (response?.status === 201) {
+                menssage("Sucesso", "Produto cadastrado com sucesso!", "success");
+                navigate('/produtos/listar')
+            } else {
+                menssage("Erro", "Erro ao cadastrar produto. Tente novamente.", "error");
+            }
+        }).catch((error) => {
+            console.error(error);
+            setLoading(false);
+            menssage("Erro", "Erro ao cadastrar produto. Tente novamente.", "error");
+        });
+
     }
 
     return (
@@ -91,7 +127,6 @@ const AdicionarProduto = () => {
                     p={"15px"}
                     borderRadius={"15px"}
                     gap={"5px"}>
-                    <Button onClick={() => {teste()}}>TESTE</Button>
 
                     <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
                         Preencha os dados abaixo:
@@ -105,17 +140,17 @@ const AdicionarProduto = () => {
                     <Box>
                         <Text>Descrição</Text>
                         <input type={"text"} placeholder={"Descrição do Produto"} style={stylesInputs}
-                            onChange={(e) => setProduto({ ...produto, cnpj: e.target.value })} />
+                            onChange={(e) => setProduto({ ...produto, descricao: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>SKU</Text>
                         <input type={"text"} placeholder={"SKU"} style={stylesInputs}
-                            onChange={(e) => setProduto({ ...produto, contato: e.target.value })} />
+                            onChange={(e) => setProduto({ ...produto, sku: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Unidade de Medida</Text>
                         <input type={"text"} placeholder={"Unidade de Medida"} style={stylesInputs}
-                            onChange={(e) => setProduto({ ...produto, endereco: e.target.value })} />
+                            onChange={(e) => setProduto({ ...produto, unidademedida: e.target.value })} />
                     </Box>
 
                     { /* Select dos fornecedores cadastrados no banco */}
@@ -125,7 +160,13 @@ const AdicionarProduto = () => {
                         <SelectFilter
                             options={fornOptions}
                             value={selectedForn}
-                            onChange={setSelectedForn}
+                            onChange={(value) => {
+                                setSelectedForn(value);
+                                setProduto((prev) => ({
+                                    ...prev,
+                                    fornecedor_id: Number(value) || null
+                                }));
+                            }}
                             placeholder="Fornecedor"
                         />
                     </Box>
@@ -137,7 +178,13 @@ const AdicionarProduto = () => {
                         <SelectFilter
                             options={categoriaOptions}
                             value={selectedCateg}
-                            onChange={setSelectedCateg}
+                            onChange={(value) => {
+                                setSelectedCateg(value);
+                                setProduto((prev) => ({
+                                    ...prev,
+                                    categoriaid: Number(value) || null
+                                }));
+                            }}
                             placeholder="Categoria"
                         />
                     </Box>
