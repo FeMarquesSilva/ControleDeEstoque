@@ -94,7 +94,7 @@ def update_fornecedor(id):
     }), 200
 
 # Rota para criar fornecedor
-def create_fornecedor():
+def create_fornecedor(id_usuario):
     data = request.json
     if not data:
         return jsonify({'erro': 'Dados não fornecidos'}), 400
@@ -105,20 +105,12 @@ def create_fornecedor():
         email=data.get('fornecedor').get('email'),
         contato=data.get('fornecedor').get('contato'),
         endereco=data.get('fornecedor').get('endereco'),
-        usuario_id=data.get('usuario').get('id')
+        usuario_id=id_usuario
     )
     
     session.add(novo_fornecedor)
     session.commit()
     
     return jsonify({
-        'mensagem': 'Fornecedor criado com sucesso',
-        'fornecedor': {
-            'id': novo_fornecedor.id,
-            'nome': novo_fornecedor.nome,
-            'cnpj': novo_fornecedor.cnpj,
-            'email': novo_fornecedor.email,
-            'contato': novo_fornecedor.contato,
-            'endereco': novo_fornecedor.endereco
-        }
+        'mensagem': 'Fornecedor criado com sucesso'
     }), 201

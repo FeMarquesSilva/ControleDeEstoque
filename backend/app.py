@@ -95,7 +95,8 @@ def upt_fornecedor(id):
 # Rota para criar fornecedor
 @app.route('/fornecedores/cadastro', methods=['POST'])
 def post_fornecedor():
-    return create_fornecedor()
+    usuario_id = buscar_id_user()
+    return create_fornecedor(usuario_id)
 
 ## ============== [ Rotas de Usuario ] ==============
 

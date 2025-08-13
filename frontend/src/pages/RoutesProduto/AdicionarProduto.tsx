@@ -34,7 +34,6 @@ const AdicionarProduto = () => {
         setLoading(true);
     }
 
-
     useEffect(() => {
         const searchFornecedores = async () => {
             const response = await fetchFornecedores();
@@ -50,7 +49,6 @@ const AdicionarProduto = () => {
 
         searchFornecedores();
     }, []);
-
 
     return (
         <Box>
