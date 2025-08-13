@@ -75,7 +75,7 @@ class Produto(Base):
     descricao: Mapped[str] = mapped_column(VARCHAR(100))
     sku: Mapped[str] = mapped_column(VARCHAR(50))
     unidademedida: Mapped[str] = mapped_column(VARCHAR(10))
-    status: Mapped[float] = mapped_column(NUMBER(asdecimal=False))
+    status: Mapped[bool] = mapped_column(Boolean)
     fornecedor_id: Mapped[int] = mapped_column(Integer)
     categoriaid: Mapped[Optional[int]] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)

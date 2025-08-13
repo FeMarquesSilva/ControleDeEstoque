@@ -28,7 +28,7 @@ const ListarCategoria = () => {
     const handleDelete = async (id: number | null) => {
         if (window.confirm("Tem certeza que deseja excluir esta categoria?")) {
             await deleteCategoria(id).then((response) => {
-                if (response?.status === 200) {
+                if (response?.status === 204) {
                     menssage("Sucesso", "Categoria excluída com sucesso!", "success");
                     setCategorias(categorias.filter(categoria => categoria.id !== id));
                 } else {

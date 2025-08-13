@@ -19,7 +19,8 @@ const stylesInputs = {
 
 const AdicionarProduto = () => {
     const [loading, setLoading] = useState(false);
-    const [selected, setSelected] = React.useState("");
+    const [selectedForn, setSelectedForn] = React.useState("");
+    const [selectedCateg, setSelectedCateg] = React.useState("");
     const [fornOptions, setFornOptions] = useState<optionSelect[]>([]);
     const [categoriaOptions, setCategoriaOptions] = useState<optionSelect[]>([])
     const [produto, setProduto] = useState({
@@ -67,6 +68,10 @@ const AdicionarProduto = () => {
 
     }, []);
 
+    const teste = () => {
+        console.log(produto)
+    }
+
     return (
         <Box>
             <Header tittle="Cadastrar Produto" />
@@ -86,6 +91,7 @@ const AdicionarProduto = () => {
                     p={"15px"}
                     borderRadius={"15px"}
                     gap={"5px"}>
+                    <Button onClick={() => {teste()}}>TESTE</Button>
 
                     <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
                         Preencha os dados abaixo:
@@ -118,8 +124,8 @@ const AdicionarProduto = () => {
 
                         <SelectFilter
                             options={fornOptions}
-                            value={selected}
-                            onChange={setSelected}
+                            value={selectedForn}
+                            onChange={setSelectedForn}
                             placeholder="Fornecedor"
                         />
                     </Box>
@@ -130,8 +136,8 @@ const AdicionarProduto = () => {
 
                         <SelectFilter
                             options={categoriaOptions}
-                            value={selected}
-                            onChange={setSelected}
+                            value={selectedCateg}
+                            onChange={setSelectedCateg}
                             placeholder="Categoria"
                         />
                     </Box>
