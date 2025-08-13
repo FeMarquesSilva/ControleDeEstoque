@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, PrimaryKeyConstraint, Table, VARCHAR
+from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, PrimaryKeyConstraint, Table, VARCHAR
 from sqlalchemy.dialects.oracle import FLOAT, NUMBER
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
@@ -55,6 +55,7 @@ class Fornecedor(Base):
     endereco: Mapped[str] = mapped_column(VARCHAR(100))
     email: Mapped[str] = mapped_column(VARCHAR(50))
     usuario_id: Mapped[int] = mapped_column(Integer)
+    status: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
     #produto: Mapped[List['Produto']] = relationship('Produto', secondary='fornecedorproduto', back_populates='fornecedor')
 

@@ -10,7 +10,6 @@ from controllers.clientes_controller import (
 from controllers.fornecedores_controller import (
     listar_fornecedores,
     listar_fornecedor_id,
-    busca_fornecedor,
     delete_fornecedor,
     update_fornecedor,
     create_fornecedor

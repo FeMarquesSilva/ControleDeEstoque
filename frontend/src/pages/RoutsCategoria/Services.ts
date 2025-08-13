@@ -22,10 +22,12 @@ export const handleSubmitCategoria = async (categoria: Categoria) => {
 
 // Função para buscar a lista de categorias da API
 export const fetchCategorias = async () => {
+    const token = localStorage.getItem("token");
     try {
         const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/categorias`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response

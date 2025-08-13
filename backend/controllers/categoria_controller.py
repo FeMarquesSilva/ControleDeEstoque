@@ -15,9 +15,14 @@ def create_categoria(id_usuario):
     return jsonify({'message': 'Categoria criada com sucesso'}), 201
 
 # Função para listar categorias
-def listar_categorias():
+def listar_categorias(id_usuario):
+    print(id_usuario)
     try:
-        categorias = session.query(Categoria).all()
+        categorias = (
+            session.query(Categoria)
+            .filter(Categoria.usuario_id == id_usuario)
+            .all()
+        )
         categoria_list = [{
             'id': categoria.id,
             'nome': categoria.nome,

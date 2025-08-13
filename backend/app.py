@@ -11,7 +11,6 @@ from controllers.user_auth_controller import (
 from controllers.fornecedores_controller import (
     listar_fornecedores,
     listar_fornecedor_id,
-    busca_fornecedor,
     delete_fornecedor,
     update_fornecedor,
     create_fornecedor
@@ -84,7 +83,7 @@ def get_fornecedor(id):
 
 # Rota para deletar fornecedor pelo ID
 @app.route('/fornecedores/<int:id>', methods=['DELETE'])
-def del_fornecedor(id):
+def route_delete_fornecedor(id):
     return delete_fornecedor(id)
 
 # Rota para atualizar fornecedor pelo ID
@@ -118,7 +117,7 @@ def route_criar_categoria():
 @app.route('/categorias', methods=['GET'])
 def route_listar_categorias():
     usuario_id = buscar_id_user()
-    return listar_categorias()
+    return listar_categorias(usuario_id)
 
 @app.route('/categorias/<int:id>', methods=['GET'])
 def route_obter_categoria(id):
