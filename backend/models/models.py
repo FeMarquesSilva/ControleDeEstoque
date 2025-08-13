@@ -20,9 +20,6 @@ class Categoria(Base):
     descricao: Mapped[str] = mapped_column(VARCHAR(100))
     usuario_id: Mapped[int] = mapped_column(Integer)
 
-    #produto: Mapped[List['Produto']] = relationship('Produto', back_populates='categoria')
-
-
 class Cliente(Base):
     __tablename__ = 'cliente'
     __table_args__ = (
@@ -37,15 +34,11 @@ class Cliente(Base):
     email: Mapped[str] = mapped_column(VARCHAR(50))
     usuario_id: Mapped[int] = mapped_column(Integer)
 
-    #venda: Mapped[List['Venda']] = relationship('Venda', back_populates='cliente')
-
-
 class Fornecedor(Base):
     __tablename__ = 'fornecedor'
     __table_args__ = (
         ForeignKeyConstraint(['usuario_id'], ['usuario.id'], name='fornecedor_usuario_fk'),
         PrimaryKeyConstraint('id', name='fornecedor_pk'),
-        
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
@@ -56,9 +49,6 @@ class Fornecedor(Base):
     email: Mapped[str] = mapped_column(VARCHAR(50))
     usuario_id: Mapped[int] = mapped_column(Integer)
     status: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-
-    #produto: Mapped[List['Produto']] = relationship('Produto', secondary='fornecedorproduto', back_populates='fornecedor')
-
 
 class Usuario(Base):
     __tablename__ = 'usuario'
@@ -71,11 +61,6 @@ class Usuario(Base):
     uid_firebase: Mapped[str] = mapped_column(VARCHAR(128), unique=True, nullable=False)
     nome: Mapped[str] = mapped_column(VARCHAR(100))
     email: Mapped[str] = mapped_column(VARCHAR(100))
-    
-
-    #entradaestoque: Mapped[List['Entradaestoque']] = relationship('Entradaestoque', back_populates='usuario')
-    #saidaestoque: Mapped[List['Saidaestoque']] = relationship('Saidaestoque', back_populates='usuario')
-
 
 class Produto(Base):
     __tablename__ = 'produto'
@@ -95,10 +80,6 @@ class Produto(Base):
     categoriaid: Mapped[Optional[int]] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
 
-    #fornecedor: Mapped[List['Fornecedor']] = relationship('Fornecedor', secondary='fornecedorproduto', back_populates='produto')
-    #categoria: Mapped[Optional['Categoria']] = relationship('Categoria', back_populates='produto')
-    #lote: Mapped[List['Lote']] = relationship('Lote', back_populates='produto')
-
 #Classe Venda - OK;
 class Venda(Base):
     __tablename__ = 'venda'
@@ -113,9 +94,6 @@ class Venda(Base):
     numeronf: Mapped[int] = mapped_column(Integer)
     cliente_id: Mapped[int] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
-
-    #cliente: Mapped['Cliente'] = relationship('Cliente', back_populates='venda')
-
 
 t_fornecedorproduto = Table(
     'fornecedorproduto', Base.metadata,
@@ -140,12 +118,6 @@ class Lote(Base):
     quantidade: Mapped[Optional[int]] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
     
-
-    #produto: Mapped['Produto'] = relationship('Produto', back_populates='lote')
-    #entradaestoque: Mapped[List['Entradaestoque']] = relationship('Entradaestoque', back_populates='lote')
-    #saidaestoque: Mapped[List['Saidaestoque']] = relationship('Saidaestoque', back_populates='lote')
-
-
 t_vendaproduto = Table(
     'vendaproduto', Base.metadata,
     Column('qunatidade', Integer, nullable=False),
@@ -156,7 +128,6 @@ t_vendaproduto = Table(
     ForeignKeyConstraint(['produto_id'], ['produto.id'], name='vendaproduto_produto_fk'),
     ForeignKeyConstraint(['venda_id'], ['venda.id'], name='vendaproduto_venda_fk')
 )
-
 
 class Entradaestoque(Base):
     __tablename__ = 'entradaestoque'
@@ -173,10 +144,6 @@ class Entradaestoque(Base):
     usuario_id: Mapped[int] = mapped_column(Integer)
     lote_id: Mapped[int] = mapped_column(Integer)
 
-    #lote: Mapped['Lote'] = relationship('Lote', back_populates='entradaestoque')
-    #usuario: Mapped['Usuario'] = relationship('Usuario', back_populates='entradaestoque')
-
-
 class Saidaestoque(Base):
     __tablename__ = 'saidaestoque'
     __table_args__ = (
@@ -191,6 +158,3 @@ class Saidaestoque(Base):
     motivo: Mapped[str] = mapped_column(VARCHAR(30))
     usuario_id: Mapped[int] = mapped_column(Integer)
     lote_id: Mapped[int] = mapped_column(Integer)
-
-    #lote: Mapped['Lote'] = relationship('Lote', back_populates='saidaestoque')
-    #usuario: Mapped['Usuario'] = relationship('Usuario', back_populates='saidaestoque')
