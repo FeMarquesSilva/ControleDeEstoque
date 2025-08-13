@@ -7,6 +7,8 @@ import SelectFilter from "../../components/selectFilter";
 import { optionSelect } from "./Interface";
 import { fetchFornecedores } from "../RoutesFornecedor/Services";
 import { Fornecedor } from "../RoutesFornecedor/Interfaces";
+import { Categoria } from "../RoutsCategoria/Interfaces";
+import { fetchCategorias } from "../RoutsCategoria/Services";
 
 const stylesInputs = {
     width: "100%",
@@ -18,8 +20,8 @@ const stylesInputs = {
 const AdicionarProduto = () => {
     const [loading, setLoading] = useState(false);
     const [selected, setSelected] = React.useState("");
-    const [options, setOptions] = useState<optionSelect[]>([]);
-    const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
+    const [fornOptions, setFornOptions] = useState<optionSelect[]>([]);
+    const [categoriaOptions, setCategoriaOptions] = useState<optionSelect[]>([])
     const [fornecedor, setFornecedor] = useState({
         id: null,
         nome: "",
@@ -38,16 +40,31 @@ const AdicionarProduto = () => {
         const searchFornecedores = async () => {
             const response = await fetchFornecedores();
 
-            if (response?.data.length > 0 && options.length === 0) {
+            if (response?.data.length > 0 && fornOptions.length === 0) {
                 const novosItens = response?.data.map((fornecedor: Fornecedor) => ({
                     value: fornecedor.id ?? "",
                     label: fornecedor.nome,
                 }));
-                setOptions(novosItens);
+                setFornOptions(novosItens);
             }
         };
 
         searchFornecedores();
+
+        const searchCategorias = async () => {
+            const response = await fetchCategorias();
+
+            if (response?.data.length > 0 && categoriaOptions.length === 0) {
+                const novosItens = response?.data.map((categoria: Categoria) => ({
+                    value: categoria.id ?? "",
+                    label: categoria.nome,
+                }));
+                setCategoriaOptions(novosItens);
+            }
+        };
+
+        searchCategorias();
+
     }, []);
 
     return (
@@ -99,20 +116,25 @@ const AdicionarProduto = () => {
                     <Box>
                         <Text>Fornecedor</Text>
 
-                        <SelectFilter 
-                            options={options}
+                        <SelectFilter
+                            options={fornOptions}
                             value={selected}
                             onChange={setSelected}
                             placeholder="Fornecedor"
                         />
                     </Box>
 
+                    { /* Select dos fornecedores cadastrados no banco */}
                     <Box>
                         <Text>Categoria</Text>
-                        <input type={"email"} placeholder={"Categoria"} style={stylesInputs}
-                            onChange={(e) => setFornecedor({ ...fornecedor, email: e.target.value })} />
-                    </Box>
 
+                        <SelectFilter
+                            options={categoriaOptions}
+                            value={selected}
+                            onChange={setSelected}
+                            placeholder="Categoria"
+                        />
+                    </Box>
 
                     <Button
                         mt={"15px"}
