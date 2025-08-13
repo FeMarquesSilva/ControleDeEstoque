@@ -4,13 +4,13 @@ import axios from "axios"
 // Função para enviar os dados do fornecedor para a API
 export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
 
-    const userString = localStorage.getItem("user");
-    const usuario = userString ? JSON.parse(userString) : null;
+    const token = localStorage.getItem("token");
 
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/cadastro`, { fornecedor, usuario }, {
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/cadastro`, fornecedor, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
         return response

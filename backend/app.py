@@ -113,9 +113,6 @@ def post_login():
 @app.route('/categorias', methods=['POST'])
 def route_criar_categoria():
     usuario_id = buscar_id_user()
-    if not usuario_id:
-        print("## USUARIO NULL: " + usuario_id)
-        return jsonify({"erro": "Usuário inválido"}), 401
     return create_categoria(usuario_id)
 
 @app.route('/categorias', methods=['GET'])

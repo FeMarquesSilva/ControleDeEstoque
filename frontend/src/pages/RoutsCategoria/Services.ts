@@ -2,10 +2,14 @@ import { Categoria } from "./Interfaces"
 import axios from "axios"
 
 export const handleSubmitCategoria = async (categoria: Categoria) => {
+
+    const token = localStorage.getItem("token");
+
     try {
         const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/categorias`, categoria, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response
