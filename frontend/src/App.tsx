@@ -22,6 +22,7 @@ import { menssage } from "./components/ui/toastMenssage";
 import AdicionarCategoria from "./pages/RoutsCategoria/AdicionarCategoria";
 import Categoria from "./pages/Categoria";
 import ListarCategorias from "./pages/RoutsCategoria/ListarCategoria";
+import NotFound from "./pages/NotFound";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -66,6 +67,7 @@ const router = createBrowserRouter([
   { path: "/categorias/adicionar", element: (<PrivateRoute element={<AdicionarCategoria />} />) },
   { path: "/categorias", element: (<PrivateRoute element={<Categoria />} />) },
   { path: "/categorias/listar", element: (<PrivateRoute element={<ListarCategorias />} />) },
+  { path: "*", element: <NotFound /> },
 ]);
 
 const App: React.FC = () => {
