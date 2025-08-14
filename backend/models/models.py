@@ -50,6 +50,7 @@ class Fornecedor(Base):
     usuario_id: Mapped[int] = mapped_column(Integer)
     status: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
+# Classe para representar o usuario com encapsulamento
 class Usuario(Base):
     __tablename__ = 'usuario'
     __table_args__ = (
@@ -57,10 +58,53 @@ class Usuario(Base):
         Index('index_1v1', 'email', unique=True)
     )
 
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    uid_firebase: Mapped[str] = mapped_column(VARCHAR(128), unique=True, nullable=False)
-    nome: Mapped[str] = mapped_column(VARCHAR(100))
-    email: Mapped[str] = mapped_column(VARCHAR(100))
+    _id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    _uid_firebase: Mapped[str] = mapped_column(VARCHAR(128), unique=True, nullable=False)
+    _nome: Mapped[str] = mapped_column(VARCHAR(100))
+    _email: Mapped[str] = mapped_column(VARCHAR(100))
+
+    def __init__(self, uid_firebase: str, nome: str, email: str):
+        self._uid_firebase = uid_firebase
+        self._nome = nome
+        self._email = email
+
+    # Getter somente leitura para ID
+    @property
+    def id(self) -> int:
+        return self._id
+
+    # Getter e setter para UID Firebase
+    @property
+    def uid_firebase(self) -> str:
+        return self._uid_firebase
+
+    @uid_firebase.setter
+    def uid_firebase(self, value: str):
+        if not value.strip():
+            raise ValueError("UID Firebase não pode ser vazio.")
+        self._uid_firebase = value.strip()
+
+    # Getter e setter para Nome
+    @property
+    def nome(self) -> str:
+        return self._nome
+
+    @nome.setter
+    def nome(self, value: str):
+        if not value.strip():
+            raise ValueError("O nome não pode ser vazio.")
+        self._nome = value.strip()
+
+    # Getter e setter para Email
+    @property
+    def email(self) -> str:
+        return self._email
+
+    @email.setter
+    def email(self, value: str):
+        if "@" not in value or "." not in value:
+            raise ValueError("E-mail inválido.")
+        self._email = value.lower().strip()
 
 class Produto(Base):
     __tablename__ = 'produto'
