@@ -28,18 +28,28 @@ def create_produto(id_usuario):
 
 # função de listar produtos com join com fornecedores e categorias
 def get_produtos_com_fornecedores_categorias():
-    produtos = session.query(Produto).join(Fornecedor).join(Categoria).all()
-    return jsonify([{
-        'id': p.id,
-        'nome': p.nome,
-        'descricao': p.descricao,
-        'sku': p.sku,
-        'unidademedida': p.unidademedida,
-        'status': p.status,
-        'fornecedor': p.fornecedor.nome,
-        'categoria': p.categoria.nome,
-        'usuario_id': p.usuario_id
-    } for p in produtos]), 200
+    
+    produtos = (
+        session.query(Produto, Fornecedor, Categoria)
+        .join(Fornecedor, Produto.fornecedor_id == Fornecedor.id)
+        .join(Categoria, Produto.categoriaid == Categoria.id)
+        .all()
+    )
+        
+    return jsonify([
+        {
+            'id': p.id,
+            'nome': p.nome,
+            'descricao': p.descricao,
+            'sku': p.sku,
+            'unidademedida': p.unidademedida,
+            'status': p.status,
+            'fornecedor': f.nome,
+            'categoria': c.nome,
+            'usuario_id': p.usuario_id
+        }
+        for p, f, c in produtos
+    ]), 200
 
 # função de listar produtos por id
 def get_produto_por_id(id):

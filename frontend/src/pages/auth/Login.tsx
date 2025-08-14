@@ -30,19 +30,23 @@ const Login = () => {
     if (loading) return;
     setLoading(true);
     if (!validateData()) return;
-    const response = await handleLoginUser(usuario.email, usuario.senha);
 
-    //Buscamos e armazenamos o token do firebase no localStorage do navegador para validações;
-    const token: string = response.token;   
-    localStorage.setItem("token", token);
+    try {
 
-    if (!response) {
-      menssage("Erro", "Falha ao fazer login", "error");
+      const response = await handleLoginUser(usuario.email, usuario.senha);
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        console.log("Redirece")
+        navigate("/home")
+      } else {
+        menssage("Erro", "Credenciais inválidas!", "error");
+        setLoading(false);
+      }
+    } catch (error: any) {
+      console.error(error.response?.data || error.message);
       setLoading(false);
-      return;
+      menssage("Erro", "Falha ao fazer login", "error");
     }
-
-    navigate("/home")
   };
 
   return (

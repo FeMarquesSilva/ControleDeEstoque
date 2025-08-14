@@ -51,9 +51,10 @@ def login_usuario():
         # Faz login no Firebase
         user = auth.sign_in_with_email_and_password(email, senha)     
         id_token = user['idToken']
-
+        
         # Busca o usuário no banco local
-        usuario = session.query(Usuario).filter_by(uid_firebase=user['localId']).first()
+        usuario = session.query(Usuario).filter_by(_uid_firebase=user['localId']).first()
+
         if not usuario:
             return jsonify({'erro': 'Usuário não encontrado no banco local'}), 404
 

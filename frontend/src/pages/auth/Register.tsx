@@ -41,7 +41,7 @@ const Register = () => {
             const response = await handleRegisterUser(usuario);
             if (response) {
                 menssage("Sucesso", "Usuário cadastrado com sucesso!", "success");
-                navigate("/home");
+                navigate("/");
             } else {
                 menssage("Erro", "Falha ao cadastrar usuário!", "error");
                 setLoading(false);

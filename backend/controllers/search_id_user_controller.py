@@ -16,7 +16,7 @@ def buscar_id_user():
         info = auth.get_account_info(token)
         uid_firebase = info['users'][0]['localId']
 
-        usuario = session.query(Usuario).filter_by(uid_firebase=uid_firebase).first()
+        usuario = session.query(Usuario).filter_by(_uid_firebase=uid_firebase).first()
         return usuario.id if usuario else None
 
     except Exception:
