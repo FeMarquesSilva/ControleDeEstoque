@@ -58,10 +58,10 @@ class Usuario(Base):
         Index('index_1v1', 'email', unique=True)
     )
 
-    _id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    _uid_firebase: Mapped[str] = mapped_column(VARCHAR(128), unique=True, nullable=False)
-    _nome: Mapped[str] = mapped_column(VARCHAR(100))
-    _email: Mapped[str] = mapped_column(VARCHAR(100))
+    _id: Mapped[int] = mapped_column("id", Integer, primary_key=True)
+    _uid_firebase: Mapped[str] = mapped_column("uid_firebase", VARCHAR(128), unique=True, nullable=False)
+    _nome: Mapped[str] = mapped_column("nome", VARCHAR(100))
+    _email: Mapped[str] = mapped_column("email", VARCHAR(100))
 
     def __init__(self, uid_firebase: str, nome: str, email: str):
         self._uid_firebase = uid_firebase
