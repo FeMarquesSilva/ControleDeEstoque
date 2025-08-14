@@ -36,6 +36,8 @@ class Cliente(Base):
     email: Mapped[str] = mapped_column(VARCHAR(50))
     usuario_id: Mapped[int] = mapped_column(Integer)
 
+    usuario: Mapped["Usuario"] = relationship("Usuario", back_populates="clientes")
+
 class Fornecedor(Base):
     __tablename__ = 'fornecedor'
     __table_args__ = (
@@ -70,6 +72,13 @@ class Usuario(Base):
         back_populates="usuario",    # Relacionamento bidirecional
         cascade="save-update",       # Não apaga categorias quando o usuário é apagado
         passive_deletes=True
+    )
+
+        # Associação de Composição
+    clientes: Mapped[list["Cliente"]] = relationship(
+        "Cliente",
+        back_populates="usuario",
+        cascade="all, delete-orphan"  # Apaga clientes junto com o usuário
     )
 
     def __init__(self, uid_firebase: str, nome: str, email: str):
