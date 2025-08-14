@@ -20,6 +20,8 @@ class Categoria(Base):
     descricao: Mapped[str] = mapped_column(VARCHAR(100))
     usuario_id: Mapped[int] = mapped_column(Integer)
 
+    usuario: Mapped["Usuario"] = relationship("Usuario", back_populates="categorias")
+
 class Cliente(Base):
     __tablename__ = 'cliente'
     __table_args__ = (
@@ -62,6 +64,13 @@ class Usuario(Base):
     _uid_firebase: Mapped[str] = mapped_column("uid_firebase", VARCHAR(128), unique=True, nullable=False)
     _nome: Mapped[str] = mapped_column("nome", VARCHAR(100))
     _email: Mapped[str] = mapped_column("email", VARCHAR(100))
+
+    categorias: Mapped[list["Categoria"]] = relationship(
+        "Categoria",
+        back_populates="usuario",    # Relacionamento bidirecional
+        cascade="save-update",       # Não apaga categorias quando o usuário é apagado
+        passive_deletes=True
+    )
 
     def __init__(self, uid_firebase: str, nome: str, email: str):
         self._uid_firebase = uid_firebase
