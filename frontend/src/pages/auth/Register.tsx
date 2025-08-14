@@ -18,6 +18,25 @@ const Register = () => {
         }
     );
 
+    const validarEmail = () => {
+        const email = usuario.email;
+
+        if (!email) return false;
+
+        // Validação se possuí um "@".
+        const parts = email.split("@");
+        if (parts.length !== 2) return false;
+
+        // Validação se há pelo menos um caractere antes e depois do "@"
+        const [localPart, domain] = parts;
+        if (localPart.length === 0 || domain.length === 0) return false;
+
+        // Valida se o domínio contém pelo menos um ponto
+        if (!domain.includes(".")) return false;
+
+        return true
+    }
+
     const validateData = () => {
         if (!usuario.email || !usuario.senha) {
             menssage("Erro", "Preencha todos os campos!", "error");
@@ -35,7 +54,14 @@ const Register = () => {
     const handleSubmit = async () => {
         if (loading) return;
         setLoading(true);
+        
         if (!validateData()) return;
+
+        if (!validarEmail()) {
+            menssage("Erro", "E-mail inválido!", "error");
+            setLoading(false);
+            return;
+        }
 
         try {
             const response = await handleRegisterUser(usuario);
