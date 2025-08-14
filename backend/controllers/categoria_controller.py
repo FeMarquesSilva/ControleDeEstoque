@@ -16,7 +16,6 @@ def create_categoria(id_usuario):
 
 # Função para listar categorias
 def listar_categorias(id_usuario):
-    print(id_usuario)
     try:
         categorias = (
             session.query(Categoria)

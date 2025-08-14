@@ -10,7 +10,7 @@ const Produto = () => {
     const sections = [
         { nome: "Adicionar Produto", link: "/produtos/adicionar" },
         { nome: "Categoria", link: "/categorias" },
-        { nome: "Listar Produtos", link: "/listar-produtos" },
+        { nome: "Listar Produtos", link: "/produtos/listar" },
     ];
 
     return (
