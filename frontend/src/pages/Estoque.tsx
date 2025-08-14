@@ -10,7 +10,7 @@ const Estoque = () => {
     const sections = [
         { nome: "Realizar Entrada", link: "/estoque/entrada" },
         { nome: "Realizar Saida", link: "/estoque/saida" },
-        { nome: "Listar Estoque", link: "/listar-estoque" },
+        { nome: "Listar Estoque", link: "/estoque/listar" },
     ];
 
     return (

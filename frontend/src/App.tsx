@@ -23,24 +23,20 @@ import AdicionarCategoria from "./pages/RoutsCategoria/AdicionarCategoria";
 import Categoria from "./pages/Categoria";
 import ListarCategorias from "./pages/RoutsCategoria/ListarCategoria";
 import ListarProduto from "./pages/RoutesProduto/ListarProduto";
+import RealizarEntrada from "./pages/RoutesEstoque/RealizarEntrada";
 import NotFound from "./pages/NotFound";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
   const token = localStorage.getItem('token');
 
   useEffect(() => {
     const checkToken = async () => {
       if (!token) {
         menssage('Usuário Inválido', 'Você precisa estar logado para acessar essa página.', 'error');
-        setLoading(false);
         navigate('/');
         return;
       }
-
-      setLoading(false);
     };
 
     checkToken();
@@ -69,6 +65,7 @@ const router = createBrowserRouter([
   { path: "/categorias", element: (<PrivateRoute element={<Categoria />} />) },
   { path: "/categorias/listar", element: (<PrivateRoute element={<ListarCategorias />} />) },
   { path: "/produtos/listar", element: (<PrivateRoute element={<ListarProduto />} />) },
+  { path: "/estoque/entrada", element: (<PrivateRoute element={<RealizarEntrada /> } />) },
   { path: "*", element: <NotFound /> },
 ]);
 
