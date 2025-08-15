@@ -44,7 +44,9 @@ from controllers.produto_controller import (
     get_produtos_por_fornecedor,
     get_produtos_por_categoria,
     get_produtos_por_status,
-    delete_produto
+    delete_produto,
+    update_produto,
+    get_produtos_por_lote
 )
 
 app = Flask(__name__)
@@ -158,27 +160,27 @@ def get_produtos():
 
 # Rota para listar produtos por fornecedor
 @app.route('/produtos/fornecedor/<int:fornecedor_id>', methods=['GET'])
-def get_produtos_por_fornecedor(fornecedor_id):
+def route_get_produtos_por_fornecedor(fornecedor_id):
     return get_produtos_por_fornecedor(fornecedor_id)
 
 # Rota para listar produtos por categoria
 @app.route('/produtos/categoria/<int:categoria_id>', methods=['GET'])
-def get_produtos_por_categoria(categoria_id):
+def route_get_produtos_por_categoria(categoria_id):
     return get_produtos_por_categoria(categoria_id)
 
 # Rota para listar produtos por status
 @app.route('/produtos/status/<string:status>', methods=['GET'])
-def get_produtos_por_status(status):
+def route_get_produtos_por_status(status):
     return get_produtos_por_status(status)
 
 # Rota para deletar produtos
 @app.route('/produtos/<int:id>', methods=['DELETE'])
-def del_produto(id):
+def route_del_produto(id):
     return delete_produto(id)
 
 # Rota para atualizar produtos
 @app.route('/produtos/<int:id>', methods=['PUT'])
-def update_produto(id):
+def route_update_produto(id):
     data = request.json
     if not data:
         return jsonify({'erro': 'Dados não fornecidos'}), 400
@@ -186,7 +188,7 @@ def update_produto(id):
 
 # Rota para listar produtos por lote
 @app.route('/produtos/lote/<int:lote_id>', methods=['GET'])
-def get_produtos_por_lote(lote_id):
+def route_get_produtos_por_lote(lote_id):
     return get_produtos_por_lote(lote_id)
 
 if __name__ == "__main__":

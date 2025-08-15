@@ -1,8 +1,8 @@
 from database import session
-from models import Produto
+from models import Produto, Fornecedor, Categoria
 from flask import request, jsonify
-from models import Fornecedor, Categoria
 
+# Função para criar produto
 def create_produto(id_usuario):
     data = request.json
     if not data:
@@ -15,7 +15,7 @@ def create_produto(id_usuario):
         unidademedida=data.get('unidademedida'),
         status=data.get('status'),
         fornecedor_id=data.get('fornecedor_id'),
-        categoriaid=data.get('categoriaid'),
+        categoria_id=data.get('categoria_id'),  # ⚡ corrigido
         usuario_id=id_usuario
     )
     
@@ -23,19 +23,19 @@ def create_produto(id_usuario):
     session.commit()
     
     return jsonify({
-        'mensagem': 'Fornecedor criado com sucesso'
+        'mensagem': 'Produto criado com sucesso'
     }), 201
 
-# função de listar produtos com join com fornecedores e categorias
+
+# 🔹 Função de listar produtos com join com fornecedores e categorias
 def get_produtos_com_fornecedores_categorias():
-    
     produtos = (
         session.query(Produto, Fornecedor, Categoria)
-        .join(Fornecedor, Produto.fornecedor_id == Fornecedor.id)
-        .join(Categoria, Produto.categoriaid == Categoria.id)
+        .outerjoin(Fornecedor, Produto.fornecedor_id == Fornecedor.id)
+        .outerjoin(Categoria, Produto.categoria_id == Categoria.id)
         .all()
     )
-        
+    
     return jsonify([
         {
             'id': p.id,
@@ -44,16 +44,23 @@ def get_produtos_com_fornecedores_categorias():
             'sku': p.sku,
             'unidademedida': p.unidademedida,
             'status': p.status,
-            'fornecedor': f.nome,
-            'categoria': c.nome,
+            'fornecedor': f.nome if f else None,
+            'categoria': c.nome if c else None,
             'usuario_id': p.usuario_id
         }
         for p, f, c in produtos
     ]), 200
 
-# função de listar produtos por id
+
+# 🔹 Função de listar produto por ID
 def get_produto_por_id(id):
-    produto = session.query(Produto).join(Fornecedor).join(Categoria).filter(Produto.id == id).first()
+    produto = (
+        session.query(Produto)
+        .outerjoin(Fornecedor)
+        .outerjoin(Categoria)
+        .filter(Produto.id == id)
+        .first()
+    )
     if not produto:
         return jsonify({'erro': 'Produto não encontrado'}), 404
 
@@ -64,14 +71,15 @@ def get_produto_por_id(id):
         'sku': produto.sku,
         'unidademedida': produto.unidademedida,
         'status': produto.status,
-        'fornecedor': produto.fornecedor.nome,
-        'categoria': produto.categoria.nome,
+        'fornecedor': produto.fornecedor.nome if produto.fornecedor else None,
+        'categoria': produto.categoria.nome if produto.categoria else None,
         'usuario_id': produto.usuario_id
     }), 200
 
-# função de listar produtos por fornecedor
+
+# 🔹 Função de listar produtos por fornecedor
 def get_produtos_por_fornecedor(fornecedor_id):
-    produtos = session.query(Produto).join(Fornecedor).filter(Produto.fornecedor_id == fornecedor_id).all()
+    produtos = session.query(Produto).outerjoin(Fornecedor).filter(Produto.fornecedor_id == fornecedor_id).all()
     return jsonify([{
         'id': p.id,
         'nome': p.nome,
@@ -79,14 +87,15 @@ def get_produtos_por_fornecedor(fornecedor_id):
         'sku': p.sku,
         'unidademedida': p.unidademedida,
         'status': p.status,
-        'fornecedor': p.fornecedor.nome,
-        'categoria': p.categoria.nome,
+        'fornecedor': p.fornecedor.nome if p.fornecedor else None,
+        'categoria': p.categoria.nome if p.categoria else None,
         'usuario_id': p.usuario_id
     } for p in produtos]), 200
 
-# função de listar produtos por categoria
+
+# 🔹 Função de listar produtos por categoria
 def get_produtos_por_categoria(categoria_id):
-    produtos = session.query(Produto).join(Categoria).filter(Produto.categoriaid == categoria_id).all()
+    produtos = session.query(Produto).outerjoin(Categoria).filter(Produto.categoria_id == categoria_id).all()
     return jsonify([{
         'id': p.id,
         'nome': p.nome,
@@ -94,14 +103,17 @@ def get_produtos_por_categoria(categoria_id):
         'sku': p.sku,
         'unidademedida': p.unidademedida,
         'status': p.status,
-        'fornecedor': p.fornecedor.nome,
-        'categoria': p.categoria.nome,
+        'fornecedor': p.fornecedor.nome if p.fornecedor else None,
+        'categoria': p.categoria.nome if p.categoria else None,
         'usuario_id': p.usuario_id
     } for p in produtos]), 200
 
-# função de listar produtos por status
-def get_produtos_por_status(status):
-    produtos = session.query(Produto).filter(Produto.status == status).all()
+
+# 🔹 Função de listar produtos por status
+def get_produtos_por_status(status: str):
+    # Converte "true"/"false" para bool
+    status_bool = status.lower() == "true"
+    produtos = session.query(Produto).filter(Produto.status == status_bool).all()
     return jsonify([{
         'id': p.id,
         'nome': p.nome,
@@ -109,12 +121,13 @@ def get_produtos_por_status(status):
         'sku': p.sku,
         'unidademedida': p.unidademedida,
         'status': p.status,
-        'fornecedor': p.fornecedor.nome,
-        'categoria': p.categoria.nome,
+        'fornecedor': p.fornecedor.nome if p.fornecedor else None,
+        'categoria': p.categoria.nome if p.categoria else None,
         'usuario_id': p.usuario_id
     } for p in produtos]), 200
 
-# função de deletar produtos
+
+# 🔹 Função de deletar produtos
 def delete_produto(id):
     produto = session.query(Produto).filter(Produto.id == id).first()
     if not produto:
@@ -125,7 +138,8 @@ def delete_produto(id):
 
     return jsonify({'mensagem': 'Produto deletado com sucesso'}), 200
 
-# função de atualizar produtos
+
+# 🔹 Função de atualizar produtos
 def update_produto(id, data):
     produto = session.query(Produto).filter(Produto.id == id).first()
     if not produto:
@@ -138,9 +152,10 @@ def update_produto(id, data):
 
     return jsonify({'mensagem': 'Produto atualizado com sucesso'}), 200
 
-# função para listar produtos por lote
+
+# 🔹 Função para listar produtos por lote
 def get_produtos_por_lote(lote_id):
-    produtos = session.query(Produto).join(Fornecedor).join(Categoria).filter(Produto.lote_id == lote_id).all()
+    produtos = session.query(Produto).outerjoin(Fornecedor).outerjoin(Categoria).filter(Produto.lote_id == lote_id).all()
     return jsonify([{
         'id': p.id,
         'nome': p.nome,
@@ -148,7 +163,7 @@ def get_produtos_por_lote(lote_id):
         'sku': p.sku,
         'unidademedida': p.unidademedida,
         'status': p.status,
-        'fornecedor': p.fornecedor.nome,
-        'categoria': p.categoria.nome,
+        'fornecedor': p.fornecedor.nome if p.fornecedor else None,
+        'categoria': p.categoria.nome if p.categoria else None,
         'usuario_id': p.usuario_id
     } for p in produtos]), 200
