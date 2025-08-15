@@ -49,10 +49,9 @@ class Fornecedor(Base):
     usuario_id: Mapped[int] = mapped_column(Integer)
     status: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    # Agregação: Fornecedor → Produto
+    # 🔹 Agregação: Fornecedor possui Produtos, mas Produtos podem existir sem este Fornecedor
     produtos = relationship("Produto", back_populates="fornecedor", cascade="save-update, merge")
 
-# Classe para representar o usuario com encapsulamento
 class Usuario(Base):
     __tablename__ = 'usuario'
     __table_args__ = (
@@ -107,7 +106,7 @@ class Usuario(Base):
 class Produto(Base):
     __tablename__ = 'produto'
     __table_args__ = (
-        ForeignKeyConstraint(['categoriaid'], ['categoria.id'], name='produto_categoria_fk'),
+        ForeignKeyConstraint(['categoria_id'], ['categoria.id'], name='produto_categoria_fk'),
         PrimaryKeyConstraint('id', name='produto_pk'),
         Index('index_1', 'sku', unique=True)
     )
@@ -118,9 +117,9 @@ class Produto(Base):
     sku: Mapped[str] = mapped_column(VARCHAR(50))
     unidademedida: Mapped[str] = mapped_column(VARCHAR(10))
     status: Mapped[bool] = mapped_column(Boolean)
-    fornecedor_id: Mapped[int] = mapped_column(Integer)
-    categoriaid: Mapped[Optional[int]] = mapped_column(Integer)
-    usuario_id: Mapped[int] = mapped_column(Integer)
+    fornecedor_id: Mapped[int] = mapped_column(Integer, ForeignKey('fornecedor.id'))
+    categoria_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey('categoria.id'))
+    usuario_id: Mapped[int] = mapped_column(Integer, ForeignKey('usuario.id'))
 
     fornecedor = relationship("Fornecedor", back_populates="produtos")
 
@@ -138,7 +137,7 @@ class Venda(Base):
     cliente_id: Mapped[int] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
 
-    # Composição: Venda → VendaProduto
+    # 🔹 Composição: Venda → VendaProduto (itens só existem com Venda)
     itens = relationship("VendaProduto", back_populates="venda", cascade="all, delete-orphan")
 
 t_fornecedorproduto = Table(
@@ -176,8 +175,10 @@ t_vendaproduto = Table(
 class VendaProduto(Base):
     __table__ = t_vendaproduto
 
-    produto = relationship("Produto")
-    venda = relationship("Venda", back_populates="itens")
+    # 🔹 Composição: Produto relacionado à VendaProduto
+    produto = relationship("Produto", foreign_keys=[t_vendaproduto.c.produto_id])
+    # 🔹 Composição: Venda → VendaProduto
+    venda = relationship("Venda", back_populates="itens", foreign_keys=[t_vendaproduto.c.venda_id])
 
 class Entradaestoque(Base):
     __tablename__ = 'entradaestoque'
@@ -203,7 +204,7 @@ class Saidaestoque(Base):
     )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    qunatidade: Mapped[int] = mapped_column(Integer)
+    quantidade: Mapped[int] = mapped_column(Integer)
     datasaida: Mapped[datetime.datetime] = mapped_column(DateTime)
     motivo: Mapped[str] = mapped_column(VARCHAR(30))
     usuario_id: Mapped[int] = mapped_column(Integer)
