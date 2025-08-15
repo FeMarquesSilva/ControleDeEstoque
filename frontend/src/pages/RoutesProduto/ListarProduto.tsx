@@ -57,11 +57,13 @@ const ListarProduto = () => {
                     <Flex backgroundColor={"rgba(146, 105, 29, 1)"} fontWeight="bold" p={3} borderBottom="1px solid #ccc" justifyContent="space-between" gap={"50px"}>
                         <Box flex="1">ID</Box>
                         <Box flex="2">Nome</Box>
-                        <Box flex="2">CNPJ</Box>
-                        <Box flex="2">Email</Box>
-                        <Box flex="2">Contato</Box>
-                        <Box flex="3">Endereço</Box>
-                        <Box flex="1.6">Ação</Box>
+                        <Box flex="1">Descrição</Box>
+                        <Box flex="1">SKU</Box>
+                        <Box flex="1">UNM</Box>
+                        <Box flex="1">Status</Box>
+                        <Box flex="1">Fornecedor</Box>
+                        <Box flex="1">Categoria</Box>
+                        <Box flex="1.1">Ação</Box>
                     </Flex>
 
                     {/* Linhas de produtos */}
@@ -77,13 +79,12 @@ const ListarProduto = () => {
                         >
                             <Box flex="1">{produto.id}</Box>
                             <Box w={"650px"} flex="2">{produto.nome}</Box>
-                            <Box flex="2">{produto.nome}</Box>
                             <Box flex="2">{produto.descricao}</Box>
-                            <Box flex="2">{produto.sku}</Box>
-                            <Box flex="3">{produto.unidademedida}</Box>
-                            <Box flex="3">{produto.status}</Box>
-                            <Box flex="3">{produto.fornecedor_id}</Box>
-                            <Box flex="3">{produto.categoriaid}</Box>
+                            <Box flex="1">{produto.sku}</Box>
+                            <Box flex="1">{produto.unidademedida}</Box>
+                            <Box flex="1">{produto.status ? "Ativo" : "Inativo"}</Box>
+                            <Box flex="1">{produto.fornecedor}</Box>
+                            <Box flex="1">{produto.categoria}</Box>
                             <Flex gap={2} flex="1">
                                 <Button
                                     backgroundColor={"rgba(62, 43, 143, 1)"}

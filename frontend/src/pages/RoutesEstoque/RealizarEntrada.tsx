@@ -49,19 +49,19 @@ const RealizarEntrada = () => {
                     </Text>
 
                     <Box>
-                        <Text>Nome</Text>
+                        <Text>Numero do Lote</Text>
                         <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs}/>
                     </Box>
                     <Box>
-                        <Text>Descrição</Text>
+                        <Text>Produto</Text>
                         <input type={"text"} placeholder={"Descrição do Produto"} style={stylesInputs}/>
                     </Box>
                     <Box>
-                        <Text>SKU</Text>
+                        <Text>Validade</Text>
                         <input type={"text"} placeholder={"SKU"} style={stylesInputs} />
                     </Box>
                     <Box>
-                        <Text>Unidade de Medida</Text>
+                        <Text>Quantidade</Text>
                         <input type={"text"} placeholder={"Unidade de Medida"} style={stylesInputs}/>
                     </Box>
 

@@ -10,6 +10,8 @@ export interface Produto {
     sku: string;
     unidademedida: string;
     status: boolean;
-    fornecedor_id: number | null
+    fornecedor_id: number | null;
+    fornecedor: string;
     categoriaid: number | null
+    categoria: string;
 }

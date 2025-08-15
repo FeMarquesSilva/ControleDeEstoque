@@ -35,6 +35,8 @@ const AdicionarProduto = () => {
         unidademedida: "",
         status: true,
         fornecedor_id: null,
+        fornecedor: "",
+        categoria: "",
         categoriaid: null
     });
 
