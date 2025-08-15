@@ -1,6 +1,5 @@
 from typing import List, Optional
-
-from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, PrimaryKeyConstraint, Table, VARCHAR
+from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, PrimaryKeyConstraint, Table, VARCHAR, ForeignKey
 from sqlalchemy.dialects.oracle import FLOAT, NUMBER
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
@@ -50,6 +49,9 @@ class Fornecedor(Base):
     usuario_id: Mapped[int] = mapped_column(Integer)
     status: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
+    # Agregação: Fornecedor → Produto
+    produtos = relationship("Produto", back_populates="fornecedor", cascade="save-update, merge")
+
 # Classe para representar o usuario com encapsulamento
 class Usuario(Base):
     __tablename__ = 'usuario'
@@ -68,12 +70,10 @@ class Usuario(Base):
         self._nome = nome
         self._email = email
 
-    # Getter somente leitura para ID
     @property
     def id(self) -> int:
         return self._id
 
-    # Getter e setter para UID Firebase
     @property
     def uid_firebase(self) -> str:
         return self._uid_firebase
@@ -84,7 +84,6 @@ class Usuario(Base):
             raise ValueError("UID Firebase não pode ser vazio.")
         self._uid_firebase = value.strip()
 
-    # Getter e setter para Nome
     @property
     def nome(self) -> str:
         return self._nome
@@ -95,7 +94,6 @@ class Usuario(Base):
             raise ValueError("O nome não pode ser vazio.")
         self._nome = value.strip()
 
-    # Getter e setter para Email
     @property
     def email(self) -> str:
         return self._email
@@ -124,6 +122,8 @@ class Produto(Base):
     categoriaid: Mapped[Optional[int]] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
 
+    fornecedor = relationship("Fornecedor", back_populates="produtos")
+
 class Venda(Base):
     __tablename__ = 'venda'
     __table_args__ = (
@@ -137,6 +137,9 @@ class Venda(Base):
     numeronf: Mapped[int] = mapped_column(Integer)
     cliente_id: Mapped[int] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
+
+    # Composição: Venda → VendaProduto
+    itens = relationship("VendaProduto", back_populates="venda", cascade="all, delete-orphan")
 
 t_fornecedorproduto = Table(
     'fornecedorproduto', Base.metadata,
@@ -163,14 +166,18 @@ class Lote(Base):
     
 t_vendaproduto = Table(
     'vendaproduto', Base.metadata,
-    Column('qunatidade', Integer, nullable=False),
+    Column('produto_id', Integer, ForeignKey('produto.id'), primary_key=True),
+    Column('venda_id', Integer, ForeignKey('venda.id'), primary_key=True),
+    Column('quantidade', Integer, nullable=False),
     Column('valorunitario', FLOAT(2), nullable=False),
-    Column('valortotal', FLOAT(2), nullable=False),
-    Column('produto_id', Integer, nullable=False),
-    Column('venda_id', Integer, nullable=False),
-    ForeignKeyConstraint(['produto_id'], ['produto.id'], name='vendaproduto_produto_fk'),
-    ForeignKeyConstraint(['venda_id'], ['venda.id'], name='vendaproduto_venda_fk')
+    Column('valortotal', FLOAT(2), nullable=False)
 )
+
+class VendaProduto(Base):
+    __table__ = t_vendaproduto
+
+    produto = relationship("Produto")
+    venda = relationship("Venda", back_populates="itens")
 
 class Entradaestoque(Base):
     __tablename__ = 'entradaestoque'
