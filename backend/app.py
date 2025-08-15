@@ -49,6 +49,14 @@ from controllers.produto_controller import (
     get_produtos_por_lote
 )
 
+from controllers.venda_controller import (
+    criar_venda,
+    listar_vendas,
+    listar_vendas_por_cliente,
+    listar_vendas_por_produto,
+    listar_vendas_por_data
+)
+
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
@@ -190,6 +198,33 @@ def route_update_produto(id):
 @app.route('/produtos/lote/<int:lote_id>', methods=['GET'])
 def route_get_produtos_por_lote(lote_id):
     return get_produtos_por_lote(lote_id)
+
+## ============== [ Rotas de Vendas ] ==============
+
+# Rota para criar venda
+@app.route('/vendas', methods=['POST'])
+def post_venda():
+    return criar_venda()
+
+# Rota para listar vendas
+@app.route('/vendas', methods=['GET'])
+def get_vendas():
+    return listar_vendas()
+
+# Rota para listar vendas por cliente
+@app.route('/vendas/cliente/<int:cliente_id>', methods=['GET'])
+def get_vendas_por_cliente(cliente_id):
+    return listar_vendas_por_cliente(cliente_id)
+
+# Rota para listar vendas por produto
+@app.route('/vendas/produto/<int:produto_id>', methods=['GET'])
+def get_vendas_por_produto(produto_id):
+    return listar_vendas_por_produto(produto_id)
+
+# Rota para listar vendas por data
+@app.route('/vendas/data/<string:data>', methods=['GET'])
+def get_vendas_por_data(data):
+    return listar_vendas_por_data(data)
 
 if __name__ == "__main__":
    app.run(debug=True)
