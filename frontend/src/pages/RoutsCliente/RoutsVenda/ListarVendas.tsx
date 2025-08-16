@@ -3,7 +3,7 @@ import Header from "../../../components/ui/Header";
 import BTReturn from "../../../components/ui/BTReturn";
 import { useEffect, useState, useMemo } from "react";
 import { Venda, ItemVenda } from "./Interfaces";
-import { fetchVendas } from "./Services";
+import { fetchVendasClientes } from "./Services";
 import { fetchClientes } from "../Services";
 import { fetchProdutos } from "../../RoutesProduto/Services";
 import { menssage } from "../../../components/ui/toastMenssage";
@@ -42,7 +42,7 @@ const ListarVendas = () => {
     const fetchData = async () => {
       try {
         const [vendasRes, clientesRes, produtosRes] = await Promise.all([
-          fetchVendas(),
+          fetchVendasClientes(),
           fetchClientes(),
           fetchProdutos(),
         ]);

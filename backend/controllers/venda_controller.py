@@ -55,24 +55,32 @@ def criar_venda(id_usuario):
         session.rollback()
         return jsonify({'error': str(e)}), 500
     
-# Funções para listar vendas
-def listar_vendas():
+# Listar todas vendas com clientes
+def listar_vendas_com_clientes():
     try:
-        # Faz o join entre Venda e Cliente
-        vendas = session.query(Venda, Cliente).join(
-            Cliente, Venda.cliente_id == Cliente.id
-        ).all()
-
+        vendas = session.query(Venda).all()
         resultado = []
-        for venda, cliente in vendas:
+
+        for venda in vendas:
+            cliente = session.query(Cliente).filter(Cliente.id == venda.cliente_id).first()
+            itens_query = session.query(VendaProduto).filter(VendaProduto.venda_id == venda.id).all()
+            itens = []
+
+            for item in itens_query:
+                produto = session.query(Produto).filter(Produto.id == item.produto_id).first()
+                itens.append({
+                    'produto_id': item.produto_id,
+                    'quantidade': item.quantidade,
+                    'valorunitario': item.valorunitario,
+                    'produto_nome': produto.nome if produto else "Produto Desconhecido"
+                })
+
             resultado.append({
                 'id': venda.id,
                 'numeronf': venda.numeronf,
-                'cliente': {
-                    'id': cliente.id,
-                    'nome': cliente.nome
-                },
-                'valor_total': venda.valor_total  # use o nome correto do campo
+                'valor_total': venda.valor_total,
+                'cliente': [{'id': cliente.id, 'nome': cliente.nome}] if cliente else [],
+                'itens': itens
             })
 
         return jsonify(resultado), 200

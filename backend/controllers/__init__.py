@@ -55,7 +55,7 @@ from controllers.user_auth_controller import (
 
 from controllers.venda_controller import (
     criar_venda,
-    listar_vendas,
+    listar_vendas_com_clientes,
     listar_vendas_por_cliente,
     listar_vendas_por_produto,
     listar_vendas_por_data,

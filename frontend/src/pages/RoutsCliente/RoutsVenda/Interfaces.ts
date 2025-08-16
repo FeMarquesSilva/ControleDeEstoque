@@ -1,4 +1,4 @@
-   
+  
 export interface Venda {
     cliente_id: number | null;
     numeronf: number;
@@ -10,4 +10,16 @@ export interface ItemVenda {
     venda: Venda | null;
     quantidade: number;
     valorunitario: number;
+}
+
+export interface VendaCorreta {
+    id: number | null;
+    numeronf: string;
+    valor_total: number;
+    cliente: ClienteVenda[]
+}
+
+interface ClienteVenda {
+    id: number | null;
+    nome: string
 }
