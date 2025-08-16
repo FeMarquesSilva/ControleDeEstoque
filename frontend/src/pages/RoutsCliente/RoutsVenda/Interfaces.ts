@@ -13,3 +13,16 @@ export interface Venda {
         subtotal: number;
     }>;
 }
+
+
+{ /* 
+    
+export interface Venda {
+    cliente_id: number | null;
+    numeronf: number;
+    quantidade: number;
+    valorunitario: number;
+    produto_id: number | null;
+}
+    
+    */}
