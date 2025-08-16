@@ -78,7 +78,7 @@ const AdicionarVenda = () => {
 
     // Adiciona produto na lista de itens
     const adicionarItem = () => {
-        if (!produto.nome || produto.quantidade <= 0 || produto.preco_unitario <= 0) {
+        if (!produto.produto_id || produto.quantidade <= 0 || produto.preco_unitario <= 0) {
             menssage("Atenção", "Preencha os dados do produto corretamente.", "warning");
             return;
         }
@@ -161,7 +161,7 @@ const AdicionarVenda = () => {
                                 setSelectedCliente(value);
                                 setVenda((prev) => ({
                                     ...prev,
-                                    produto_id: Number(value) || null
+                                    cliente_id: Number(value) || null
                                 }));
                             }}
                             placeholder="Selecione o Cliente"
@@ -185,7 +185,7 @@ const AdicionarVenda = () => {
                             placeholder="Selecione o Produto"
                         />
                     </Box>
-                    
+
                     <Text>Quantidade</Text>
                     <Input
                         type="text"
@@ -206,7 +206,7 @@ const AdicionarVenda = () => {
                     </Button>
 
                     {venda.itens.length > 0 && (
-                        <Box mt="10px" background="white" borderRadius="10px" p="10px">
+                        <Box mt="10px" background="rgba(75, 129, 82, 1)" borderRadius="10px" p="10px">
                             <Text fontWeight="bold">Produtos na Venda:</Text>
                             {venda.itens.map((item, index) => (
                                 <Text key={index}>
