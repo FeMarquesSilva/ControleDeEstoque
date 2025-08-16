@@ -7,6 +7,7 @@ import { optionSelect } from "../RoutesProduto/Interface";
 import SelectFilter from "../../components/selectFilter";
 import { DescartEstoque, Lote } from "./Interfaces";
 import { handlerBuscarLotes } from "./Service";
+import { formatDate } from "../Functions";
 
 const stylesInputs = {
     width: "100%",
@@ -19,6 +20,8 @@ const RealizarSaida = () => {
 
     const [loading, setLoading] = useState(false);
     const [selectedMotiv, setSelectedMotiv] = React.useState("");
+    const [selectedLote, setSelectedLote] = React.useState("");
+    const [numLoteOptions, setNumLoteOptions] = useState<optionSelect[]>([]);
     const [lotes, setLotes] = useState<Lote[]>([]);
     const [descarte, setDescarte] = useState<DescartEstoque>({
         numero_lote: "",
@@ -26,7 +29,7 @@ const RealizarSaida = () => {
         motivo: "",
     });
     const [motivOptions, setMotivOptions] = useState<optionSelect[]>([
-        { value: 1, label: "Descarte de Lote" },
+        { value: 1, label: "Descarte de Produto" },
         { value: 2, label: "Venda" },
     ]);
 
@@ -34,6 +37,15 @@ const RealizarSaida = () => {
         const searchLotes = async () => {
             const response = await handlerBuscarLotes()
             setLotes(response?.data)
+
+            if (response?.data.length > 0 && numLoteOptions.length === 0) {
+                const novosItens = response?.data.map((lote: Lote) => ({
+                    value: lote.id ?? "",
+                    label: lote.numero_lote,
+                }));
+                setNumLoteOptions(novosItens);
+            }
+
         }
         searchLotes()
     }, [])
@@ -65,8 +77,12 @@ const RealizarSaida = () => {
 
                     <Box>
                         <Text>Informe o Lote</Text>
-                        <input type={"text"} placeholder={"Número do Lote"} style={stylesInputs}
-                        //onChange={(e) => setFornecedor({ ...fornecedor, nome: e.target.value })} 
+
+                        <SelectFilter
+                            options={numLoteOptions}
+                            value={selectedLote}
+                            placeholder="Número do Lote"
+                            onChange={(value) => setSelectedLote(value)}
                         />
                     </Box>
 
@@ -103,6 +119,7 @@ const RealizarSaida = () => {
                         ""
                     }
 
+
                     <Button
                         mt={"15px"}
                         w={"100%"}
@@ -112,6 +129,41 @@ const RealizarSaida = () => {
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
                         onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}</Button>
                 </Flex>
+
+                {selectedLote ?
+
+                    <Box
+                        position={"absolute"}
+                        right={0}
+                        top={0}
+                        mt={"100px"}
+                        marginRight={"20px"}
+                        backgroundColor={"rgba(68, 131, 112, 1)"}
+                        minW={"250px"}
+                        padding={"5px"}
+                        borderRadius={"8px"}
+                    >
+                        <Text fontWeight={"bold"}>Dados do Lote</Text>
+                        <Text>Número do Lote: {lotes.find((l) => l.id === Number(selectedLote))?.numero_lote || "Não encontrado"}</Text>
+                        <Text>Quantidade: {lotes.find((l) => l.id === Number(selectedLote))?.quantidade || "Não encontrado"}</Text>
+                        <Text>
+                            Data Validade: {
+                                (() => {
+                                    const validade = lotes.find((l) => l.id === Number(selectedLote))?.validade;
+                                    if (!validade) return "Não encontrado";
+
+                                    const date = new Date(validade);
+                                    date.setDate(date.getDate() + 1); // Adiciona 1 dia; 
+
+                                    return formatDate(date);
+                                })()
+                            }
+                        </Text>
+                    </Box>
+                    :
+                    ""
+                }
+
             </Box>
         </Box>
     );
