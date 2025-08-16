@@ -6,11 +6,31 @@ import { menssage } from "../../components/ui/toastMenssage";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { ListaEstoque } from "./Interfaces";
+import { handlerListarEstoque } from "./Service";
 
 const ListarEstoque = () => {
 
     const [estoque, setEstoque] = useState<ListaEstoque[]>([]);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const searchEstoque = async () => {
+            const response = await handlerListarEstoque();
+            setEstoque(response?.data);
+        }
+
+        searchEstoque();
+
+    }, [])
+
+    const formatDate = (data: string | number | Date) => {
+        const date = new Date(data);
+        return date.toLocaleDateString('pt-BR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+        });
+    }
 
 
 
@@ -52,8 +72,8 @@ const ListarEstoque = () => {
                             <Box flex="2">{estoque.numero_lote}</Box>
                             <Box flex="2">{estoque.nome_produto}</Box>
                             <Box flex="2">{estoque.qtd_produto}</Box>
-                            <Box flex="1">{estoque.data_entrada.toLocaleDateString()}</Box>
-                            <Box flex="1">{estoque.data_validade.toLocaleDateString()}</Box>
+                            <Box flex="2">{formatDate(estoque.data_entrada)}</Box>
+                            <Box flex="2">{formatDate(estoque.data_validade)}</Box>
                             <Box flex="1">{estoque.categoria}</Box>
                             <Flex gap={2} flex="1">
                                 <Button
@@ -67,7 +87,7 @@ const ListarEstoque = () => {
                                     backgroundColor={"rgba(141, 23, 23, 1)"}
                                     _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
                                     color={"white"}
-                                    onClick={() => {}}>
+                                    onClick={() => { }}>
                                     Excluir
                                 </Button>
                             </Flex>

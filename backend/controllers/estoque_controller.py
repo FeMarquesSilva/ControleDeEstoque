@@ -49,11 +49,11 @@ def buscar_estoque():
             Lote.numero_lote,
             Produto.nome.label("nome_produto"),
             Lote.quantidade.label("qtd_produto"),
-            EntradaEstoque.dataentrada.label("data_entrada"),
+            Entradaestoque.dataentrada.label("data_entrada"),
             Lote.validade.label("data_validade"),
             Categoria.nome.label("categoria")
         )
-        .join(EntradaEstoque, EntradaEstoque.lote_id == Lote.id)
+        .join(Entradaestoque, Entradaestoque.lote_id == Lote.id)
         .join(Produto, Produto.id == Lote.produto_id)
         .join(Categoria, Categoria.id == Produto.categoria_id)
         .all()
