@@ -6,7 +6,7 @@ import { menssage } from "../../components/ui/toastMenssage";
 import { optionSelect } from "../RoutesProduto/Interface";
 import SelectFilter from "../../components/selectFilter";
 import { DescartEstoque, Lote } from "./Interfaces";
-import { handlerBuscarLotes } from "./Service";
+import { handlerBuscarLotes, handlerDescarteProduto } from "./Service";
 import { formatDate } from "../Functions";
 
 const stylesInputs = {
@@ -50,6 +50,31 @@ const RealizarSaida = () => {
         searchLotes()
     }, [])
 
+    const preencherNumLote = (value: string) => {
+        setDescarte({ ...descarte, numero_lote: lotes.find((l) => l.id === Number(value))?.numero_lote || "" })
+        setSelectedLote(value)
+    }
+
+    const preencherMotivo = (value: string) => {
+        setSelectedMotiv(value)
+        if (value === "1") {
+            setDescarte({ ...descarte, motivo: "Descarte de Produto" })
+        }
+    }
+
+    const finalizarSaida = async () => {
+        //if (loading) return;
+        //setLoading(true)
+
+        if (selectedMotiv === "1") {
+
+
+
+            console.log(descarte)
+            //const response = await handlerDescarteProduto(descarte)
+        }
+    }
+
 
     return (
         <Box>
@@ -82,7 +107,7 @@ const RealizarSaida = () => {
                             options={numLoteOptions}
                             value={selectedLote}
                             placeholder="Número do Lote"
-                            onChange={(value) => setSelectedLote(value)}
+                            onChange={(value) => preencherNumLote(value)}
                         />
                     </Box>
 
@@ -93,7 +118,7 @@ const RealizarSaida = () => {
                             options={motivOptions}
                             value={selectedMotiv}
                             placeholder="Escolha um Motivo"
-                            onChange={(value) => setSelectedMotiv(value)}
+                            onChange={(value) => preencherMotivo(value)}
                         />
                     </Box>
 
@@ -112,7 +137,7 @@ const RealizarSaida = () => {
                         <Box>
                             <Text>Quantidade</Text>
                             <input type={"text"} placeholder={"Qtd. do Produto do Lote"} style={stylesInputs}
-                            //onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value })} 
+                                onChange={(e) => setDescarte({ ...descarte, quantidade: Number(e.target.value) })}
                             />
                         </Box>
                         :
@@ -127,7 +152,7 @@ const RealizarSaida = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                        onClick={() => { finalizarSaida() }}>{loading ? <Spinner /> : "Salvar"}</Button>
                 </Flex>
 
                 {selectedLote ?
