@@ -19,11 +19,11 @@ const stylesInputs = {
 
 const RealizarEntrada = () => {
     const navigate = useNavigate()
+    const [fila, setFila] = useState<EntradaEstoque[]>([]);
     const [loading, setLoading] = useState(false);
     const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
     const [selectedProd, setSelectedProd] = React.useState("");
     const [entradaEstoque, setEntradaEstoque] = useState<EntradaEstoque>({
-        id: null,
         quantidade: 0,
         validade: new Date(),
         produto_id: null,
@@ -42,11 +42,12 @@ const RealizarEntrada = () => {
                 setProdOptions(novosItens);
             }
         };
-
         searchProdutos();
-
-
     }, []);
+
+    const addEntradaFile = (newItem: EntradaEstoque) => {
+        setFila((prev) => [...prev, newItem]);
+    };
 
     return (
         <Box>
@@ -108,11 +109,22 @@ const RealizarEntrada = () => {
                     <Button
                         mt={"15px"}
                         w={"100%"}
+                        backgroundColor={"rgba(39, 77, 126, 1)"}
+                        color={"white"}
+                        transition={"all 0.3s"}
+                        _hover={{ backgroundColor: "rgba(80, 103, 138, 1)" }}
+                        onClick={() => { addEntradaFile(entradaEstoque) }}>Adicionar na fila
+                    </Button>
+
+                    <Button
+                        mt={"15px"}
+                        w={"100%"}
                         backgroundColor={"rgba(46, 126, 39, 1)"}
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                        onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}
+                    </Button>
                 </Flex>
             </Box>
 
@@ -124,12 +136,32 @@ const RealizarEntrada = () => {
                 top={0}
                 mt={"100px"}
                 marginRight={"20px"}
-                backgroundColor={"rgba(153, 155, 66, 1)"}
+                backgroundColor={"rgba(177, 141, 75, 1)"}
                 w={"450px"}
                 borderRadius={"5px"}
                 h={"800px"} >
 
-                    <Text textAlign={"center"} fontWeight={"bold"} fontSize={"25px"}>Fila de Lotes</Text>
+                <Text textAlign={"center"} fontWeight={"bold"} fontSize={"25px"}>Fila de Lotes</Text>
+
+                <Box>
+                    {fila.map((item, index) => {
+                        return (
+                            <Box
+                                key={index}
+                                backgroundColor={"rgba(114, 108, 30, 1)"}
+                                margin={"10px"}
+                                padding={"10px"}
+                                borderRadius={"6px"}
+                            >
+                                <Text>Número do Lote: {item.numero_lote}</Text>
+                                <Text>Nome do Produto: {item.produto_id}</Text>
+                                <Text>Data de Validade: {item.validade instanceof Date ? item.validade.toLocaleDateString() : String(item.validade)}</Text>
+                                <Text>Quantidade: {item.quantidade}</Text>
+                            </Box>
+                        );
+                    })
+                    }
+                </Box>
 
             </Box>
 
