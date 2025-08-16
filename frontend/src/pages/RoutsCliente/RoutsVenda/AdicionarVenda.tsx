@@ -218,10 +218,10 @@ const AdicionarVenda = () => {
                     </Box>
                     {/* Botões Adicionar e Limpar */}
                     <Flex mt="5px" gap="10px">
-                        <Button flex="1" colorScheme="blue" onClick={adicionarItemVenda}>
+                        <Button flex="1" colorScheme="blue" onClick={adicionarItemVenda} backgroundColor="rgba(7, 173, 250, 1)">
                             Adicionar Produto
                         </Button>
-                        <Button flex="1" colorScheme="red" onClick={limparFormulario}>
+                        <Button flex="1" colorScheme="red" onClick={limparFormulario} backgroundColor="rgba(165, 24, 6, 1)">
                             Limpar Formulário
                         </Button>
                     </Flex>
