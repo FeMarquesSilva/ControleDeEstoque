@@ -21,6 +21,7 @@ const RealizarEntrada = () => {
     const navigate = useNavigate()
     const [fila, setFila] = useState<EntradaEstoque[]>([]);
     const [loading, setLoading] = useState(false);
+    const [produto, setProduto ] = useState<Produto[]>([])
     const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
     const [selectedProd, setSelectedProd] = React.useState("");
     const [entradaEstoque, setEntradaEstoque] = useState<EntradaEstoque>({
@@ -33,6 +34,7 @@ const RealizarEntrada = () => {
     useEffect(() => {
         const searchProdutos = async () => {
             const response = await fetchProdutos();
+            setProduto(response?.data);
 
             if (response?.data.length > 0 && prodOptions.length === 0) {
                 const novosItens = response?.data.map((produto: Produto) => ({
@@ -155,13 +157,14 @@ const RealizarEntrada = () => {
                             return (
                                 <Box
                                     key={index}
-                                    backgroundColor={"rgba(173, 172, 141, 1)"}
+                                    backgroundColor={"rgba(51, 51, 51, 1)"}
                                     margin={"10px"}
                                     padding={"10px"}
                                     borderRadius={"6px"}
                                 >
                                     <Text>Número do Lote: {item.numero_lote}</Text>
-                                    <Text>Nome do Produto: {item.produto_id}</Text>
+                                    <Text>Código do Produto: {item.produto_id}</Text>
+                                    <Text>Nome do Produto: {produto.find((p) => p.id === item.produto_id)?.nome || "Desconhecido"}</Text>
                                     <Text>Data de Validade: {item.validade instanceof Date ? item.validade.toLocaleDateString() : String(item.validade)}</Text>
                                     <Text>Quantidade: {item.quantidade}</Text>
                                 </Box>
