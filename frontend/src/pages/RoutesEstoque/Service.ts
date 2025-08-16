@@ -18,3 +18,22 @@ export const handlerEntradaEstoque = async (entradaEstoque: EntradaEstoque) => {
     }
 
 }
+
+//Função para listar o estoque:
+export const handlerListarEstoque = async () => {
+    const token = localStorage.getItem('token')
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+        return
+    }
+}
