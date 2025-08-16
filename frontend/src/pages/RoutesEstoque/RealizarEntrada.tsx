@@ -50,6 +50,12 @@ const RealizarEntrada = () => {
     }, []);
 
     const addEntradaFile = (newItem: EntradaEstoque) => {
+
+        if (newItem.numero_lote === "" || newItem.produto_id === null || newItem.quantidade === 0){
+            menssage("Erro", "Preencha todos os campos, e quantidade precisa ser positiva maior que zero!", "error")
+            return
+        }
+
         //Valida se o número de lote já está na lista pois não pode ser duplicado:
         const exist = fila.find((item) => item.numero_lote === newItem.numero_lote);
         if (exist) {
@@ -57,24 +63,59 @@ const RealizarEntrada = () => {
             return;
         }
 
+        if (newItem.validade <= new Date()) {
+            menssage("Erro", "Data de validade não pode ser menor ou igual a hoje!", "error");
+            return;
+        }
+
         setFila((prev) => [...prev, newItem]);
+    };
+
+    const limparFormulario = () => {
+        setEntradaEstoque({
+            quantidade: 0,
+            validade: new Date(),
+            produto_id: null,
+            numero_lote: ""
+        });
+        setSelectedProd("");
     };
 
     const realizarEntradaEmFila = async () => {
         if (loading) return;
         setLoading(true);
 
-        while (fila.length > 0) {
-            const item = fila.shift();
-            if (item) {
+        // Cria uma cópia da fila atual
+        let filaLocal = [...fila];
+
+        while (filaLocal.length > 0) {
+            const item = filaLocal[0]; // pega o primeiro
+
+
+            try {
                 const response = await handlerEntradaEstoque(item);
-                if (response?.status === 200) {
-                    menssage("Sucesso", "Entrada realizada com sucesso!", "success");
+
+                if (response?.status === 201) {
+                    menssage("Sucesso", `Entrada do lote ${item.numero_lote} realizada com sucesso!`, "success");
+
+                    // Atualiza estado removendo o primeiro
+                    setFila(prev => prev.slice(1));
+
+                    // Também remove da cópia local
+                    filaLocal = filaLocal.slice(1);
+                } else {
+                    menssage("Erro", `Erro ao realizar entrada do lote ${item.numero_lote}!`, "error");
+                    break;
                 }
-            } else {
-                menssage("Erro", "Erro ao realizar entrada!", "error");
+            } catch (err) {
+                menssage("Erro", "Falha inesperada na entrada!", "error");
+                break;
             }
+            await new Promise(resolve => setTimeout(resolve, 2000));
         }
+        console.log("Limpando o formulário")
+        limparFormulario();
+        console.log(entradaEstoque)
         setLoading(false);
     };
 
@@ -104,8 +145,9 @@ const RealizarEntrada = () => {
                     </Text>
 
                     <Box>
-                        <Text>Numero do Lote</Text>
-                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs}
+                        <Text>Número do Lote</Text>
+                        <input type={"text"} placeholder={"Número do Lote"} style={stylesInputs}
+                            value={entradaEstoque.numero_lote}
                             onChange={(e) => setEntradaEstoque({ ...entradaEstoque, numero_lote: e.target.value })} />
                     </Box>
                     { /* Select dos fornecedores cadastrados no banco */}
@@ -127,12 +169,21 @@ const RealizarEntrada = () => {
                     </Box>
                     <Box>
                         <Text>Validade</Text>
-                        <input type={"Date"} placeholder={"Data de Validade"} style={stylesInputs}
-                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, validade: new Date(e.target.value) })} />
+                        <input type={"date"} placeholder={"Data de Validade"} style={stylesInputs}
+                            value={entradaEstoque.validade instanceof Date ? entradaEstoque.validade.toISOString().split('T')[0] : ""}
+                            onChange={(e) => {
+                                const [year, month, day] = e.target.value.split("-");
+                                setEntradaEstoque({
+                                    ...entradaEstoque,
+                                    validade: new Date(Number(year), Number(month) - 1, Number(day)) // mês começa do 0
+                                });
+                            }} />
                     </Box>
+
                     <Box>
                         <Text>Quantidade</Text>
                         <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs}
+                            value={entradaEstoque.quantidade}
                             onChange={(e) => setEntradaEstoque({ ...entradaEstoque, quantidade: Number(e.target.value) })} />
                     </Box>
 

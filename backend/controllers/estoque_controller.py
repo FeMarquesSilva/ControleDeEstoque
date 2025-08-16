@@ -12,8 +12,6 @@ def realizar_entrada_estoque(id_usuario):
     if not data:
         return jsonify({'erro': 'Dados não fornecidos'}), 400
     
-    
-    
     novo_lote = Lote(
         produto_id=data.get('produto_id'),
         numero_lote=data.get('numero_lote'),
