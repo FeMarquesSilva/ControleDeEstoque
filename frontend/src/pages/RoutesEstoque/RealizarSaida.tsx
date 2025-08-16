@@ -63,16 +63,14 @@ const RealizarSaida = () => {
     }
 
     const finalizarSaida = async () => {
-        //if (loading) return;
-        //setLoading(true)
+        if (loading) return;
+        setLoading(true)
 
         if (selectedMotiv === "1") {
-
-
-
-            console.log(descarte)
-            //const response = await handlerDescarteProduto(descarte)
+            const response = await handlerDescarteProduto(descarte)
+            
         }
+        setLoading(false)
     }
 
 
