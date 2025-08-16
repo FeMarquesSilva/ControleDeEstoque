@@ -157,3 +157,13 @@ def listar_vendas_por_data(data):
             'valor': item.valor
         } for item in venda.itens]
     } for venda in vendas]), 200
+
+# função para deletar venda
+def deletar_venda(venda_id):
+    venda = session.query(Venda).filter(Venda.id == venda_id).first()
+    if not venda:
+        return jsonify({'error': 'Venda não encontrada'}), 404
+
+    session.delete(venda)
+    session.commit()
+    return jsonify({'message': 'Venda deletada com sucesso'}), 200

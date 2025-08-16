@@ -54,7 +54,8 @@ from controllers.venda_controller import (
     listar_vendas,
     listar_vendas_por_cliente,
     listar_vendas_por_produto,
-    listar_vendas_por_data
+    listar_vendas_por_data,
+    deletar_venda
 )
 
 app = Flask(__name__)
@@ -225,6 +226,11 @@ def get_vendas_por_produto(produto_id):
 @app.route('/vendas/data/<string:data>', methods=['GET'])
 def get_vendas_por_data(data):
     return listar_vendas_por_data(data)
+
+# Rota para deletar venda
+@app.route('/vendas/<int:venda_id>', methods=['DELETE'])
+def delete_venda(venda_id):
+    return deletar_venda(venda_id)
 
 if __name__ == "__main__":
    app.run(debug=True)
