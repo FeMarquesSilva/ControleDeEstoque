@@ -8,7 +8,8 @@ const Clientes = () => {
     const sections = [
         { nome: "Adicionar Cliente", link: "/clientes/adicionar" },
         { nome: "Listar Clientes", link: "/clientes/listar" },
-        { nome: "Realizar Venda", link: "/clientes/venda" }
+        { nome: "Realizar Venda", link: "/clientes/venda" },
+        { nome: "Listar Vendas", link: "/clientes/venda/listar" }
     ];
 
     return (

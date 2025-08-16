@@ -20,6 +20,23 @@ export const handleCreateVenda = async (venda: Venda) => {
     }
 };
 
+// Função para buscar todas as vendas
+export const fetchVendas = async () => {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await axios.get(`${API_URL}/vendas`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+        return;
+    }
+};
+
 // Função para listar todas as vendas
 export const handleListVendas = async () => {
     const token = localStorage.getItem("token");

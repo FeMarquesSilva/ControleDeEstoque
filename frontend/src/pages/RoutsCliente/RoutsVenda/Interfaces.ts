@@ -2,6 +2,7 @@
 export interface Venda {
     cliente_id: number | null;
     numeronf: number;
+    itens?: ItemVenda[];
 }
 
 export interface ItemVenda {
