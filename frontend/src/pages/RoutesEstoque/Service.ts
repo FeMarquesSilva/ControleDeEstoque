@@ -61,7 +61,7 @@ export const handlerBuscarLotes = async () => {
 export const handlerDescarteProduto = async (lote: DescartEstoque) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/descarte/`, { lote },
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/descarte`, { lote },
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,6 +72,6 @@ export const handlerDescarteProduto = async (lote: DescartEstoque) => {
         return response;
     } catch (error) {
         console.error(error);
-        return
+        return 
     }
 }

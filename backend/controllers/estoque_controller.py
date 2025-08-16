@@ -3,7 +3,8 @@ from models import (
     Lote,
     Entradaestoque,
     Produto,
-    Categoria
+    Categoria,
+    Saidaestoque
 )
 from flask import request, jsonify
 from datetime import datetime
@@ -72,3 +73,53 @@ def buscar_estoque():
         })
 
     return jsonify(lista)
+
+def realizar_descarte_estoque(id_usuario):
+    data = request.json
+    if not data:
+        return jsonify({'mensagem': 'Dados não informados'}), 400
+    
+    itens_recebidos = {
+        'id_lote': data.get('lote').get('id_lote'),
+        'numero_lote': data.get('lote').get('numero_lote'),
+        'quantidade': data.get('lote').get('quantidade'),
+        'motivo':data.get('lote').get('motivo')
+    }
+    
+    id_lote = itens_recebidos.get('id_lote')
+    
+    print("Dados para filtro: ",id_lote, id_usuario)
+
+    #Primeiro busca o lote que vou fazer o descarte:
+    lote = (
+            session.query(Lote)
+            .filter(Lote.id == id_lote)
+            .filter(Lote.usuario_id == id_usuario)
+            .first()
+            )
+    
+    print(lote)
+    if not lote:
+        return jsonify({'mensagem': 'Lote não encontrado'}), 404
+    
+    #Valida se a quantidade atual do lote é maior ou igual ao qua será descartado:
+    if lote.quantidade < itens_recebidos.get('quantidade'):
+        return jsonify({'mensagem': 'Quantidade solicitada maior que a quantidade atual'}), 400
+    
+    #Salva as dados da saida na tabela de saidaEstoque antes de realizar a baixa no estoque:
+    saida_estoque = Saidaestoque(
+        lote_id = itens_recebidos.get('id_lote'),
+        quantidade = itens_recebidos.get('quantidade'),
+        motivo = itens_recebidos.get('motivo'),
+        datasaida = datetime.now(),
+        usuario_id = id_usuario
+    )
+    
+    session.add(saida_estoque)
+    session.commit()
+    
+    #Subtraio a quantidade do lote
+    lote.quantidade -= itens_recebidos.get('quantidade')
+    session.commit()
+    
+    return jsonify({'mensagem': 'Descarte realizado com sucesso'}), 201

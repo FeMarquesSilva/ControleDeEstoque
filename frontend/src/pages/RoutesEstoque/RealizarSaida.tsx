@@ -24,6 +24,7 @@ const RealizarSaida = () => {
     const [numLoteOptions, setNumLoteOptions] = useState<optionSelect[]>([]);
     const [lotes, setLotes] = useState<Lote[]>([]);
     const [descarte, setDescarte] = useState<DescartEstoque>({
+        id_lote: null,
         numero_lote: "",
         quantidade: null,
         motivo: "",
@@ -51,9 +52,16 @@ const RealizarSaida = () => {
     }, [])
 
     const preencherNumLote = (value: string) => {
-        setDescarte({ ...descarte, numero_lote: lotes.find((l) => l.id === Number(value))?.numero_lote || "" })
-        setSelectedLote(value)
-    }
+        const lote = lotes.find((l) => l.id === Number(value));
+
+        setDescarte({
+            ...descarte,
+            id_lote: lote?.id || null,
+            numero_lote: lote?.numero_lote || "",
+        });
+
+        setSelectedLote(value);
+    };
 
     const preencherMotivo = (value: string) => {
         setSelectedMotiv(value)
@@ -62,16 +70,48 @@ const RealizarSaida = () => {
         }
     }
 
+    const limparFormulário = () => {
+        setDescarte({
+            ...descarte, 
+            id_lote: null, 
+            numero_lote: "",
+            quantidade: null, 
+            motivo: ""
+        });
+        setSelectedLote("");
+        setSelectedMotiv("");
+    }
+
     const finalizarSaida = async () => {
         if (loading) return;
-        setLoading(true)
+        setLoading(true);
 
-        if (selectedMotiv === "1") {
-            const response = await handlerDescarteProduto(descarte)
-            
+        if (descarte.quantidade === 0) {
+            menssage("Erro", "Quantidade de produtos deve ser maior que 0", "error")
+            setLoading(false);
+            return;
         }
-        setLoading(false)
-    }
+
+        try {
+            if (selectedMotiv === "1") {
+
+                const response = await handlerDescarteProduto(descarte);
+                if (response?.status === 201) {
+                    menssage("Sucesso", "Descarte realizado com sucesso", "success");
+                } else if (response?.status === 404) {
+                    menssage("Erro", "Lote não encontrado para descarte", "error");
+                } else {
+                    menssage("Erro", "Não foi possível realizar o descarte", "error");
+                }
+            }
+        } catch (error) {
+            console.error("Erro ao realizar descarte:", error);
+            menssage("Erro", "Falha de comunicação com o servidor", "error");
+        } finally {
+            limparFormulário()
+            setLoading(false);
+        }
+    };
 
 
     return (
@@ -134,7 +174,7 @@ const RealizarSaida = () => {
                     {selectedMotiv === "1" ?
                         <Box>
                             <Text>Quantidade</Text>
-                            <input type={"text"} placeholder={"Qtd. do Produto do Lote"} style={stylesInputs}
+                            <input type={"text"} placeholder={"Qtd. do Produto do Lote"} style={stylesInputs} value={Number(descarte.quantidade)}
                                 onChange={(e) => setDescarte({ ...descarte, quantidade: Number(e.target.value) })}
                             />
                         </Box>

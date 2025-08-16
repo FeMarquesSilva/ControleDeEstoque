@@ -16,6 +16,7 @@ export interface ListaEstoque {
 }
 
 export interface DescartEstoque {
+    id_lote: number | null
     numero_lote: string;
     quantidade: number | null;
     motivo: string;
