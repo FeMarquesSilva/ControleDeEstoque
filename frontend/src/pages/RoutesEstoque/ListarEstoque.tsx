@@ -1,7 +1,6 @@
-import { Box, Button, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { deleteProduto, fetchProdutos } from "../RoutesProduto/Services";
 import { menssage } from "../../components/ui/toastMenssage";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
@@ -16,7 +15,12 @@ const ListarEstoque = () => {
     useEffect(() => {
         const searchEstoque = async () => {
             const response = await handlerListarEstoque();
-            setEstoque(response?.data);
+            //Valido se deu suceeso o response:
+            if (response?.status === 200) {
+                setEstoque(response.data);
+            } else {
+                menssage("Erro", "Erro ao buscar estoque", "error");
+            }
         }
 
         searchEstoque();
@@ -31,8 +35,6 @@ const ListarEstoque = () => {
             day: '2-digit',
         });
     }
-
-
 
     return (
         <Box>
@@ -53,8 +55,7 @@ const ListarEstoque = () => {
                         <Box flex="2">Qtd. Produto</Box>
                         <Box flex="2">Data Entrada</Box>
                         <Box flex="2">Data Validade</Box>
-                        <Box flex="1">Categoria</Box>
-                        <Box flex="2">Ação</Box>
+                        <Box flex="2">Categoria</Box>
                     </Flex>
 
                     {/* Linhas de produtos */}
@@ -74,23 +75,7 @@ const ListarEstoque = () => {
                             <Box flex="2">{estoque.qtd_produto}</Box>
                             <Box flex="2">{formatDate(estoque.data_entrada)}</Box>
                             <Box flex="2">{formatDate(estoque.data_validade)}</Box>
-                            <Box flex="1" w={"200px"}>{estoque.categoria}</Box>
-                            <Flex gap={2} flex="1">
-                                <Button
-                                    backgroundColor={"rgba(62, 43, 143, 1)"}
-                                    _hover={{ backgroundColor: "rgba(113, 100, 172, 1)" }}
-                                    color={"white"}
-                                    onClick={() => navigate(`/produtos/editar/${estoque.id}`)}>
-                                    Editar
-                                </Button>
-                                <Button
-                                    backgroundColor={"rgba(141, 23, 23, 1)"}
-                                    _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
-                                    color={"white"}
-                                    onClick={() => { }}>
-                                    Excluir
-                                </Button>
-                            </Flex>
+                            <Box flex="2">{estoque.categoria}</Box>
                         </Flex>
                     ))}
                 </Box>
