@@ -1,5 +1,5 @@
 from typing import List, Optional
-from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, Float, PrimaryKeyConstraint, Table, VARCHAR, ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, Numeric, PrimaryKeyConstraint, Table, VARCHAR, ForeignKey
 from sqlalchemy.dialects.oracle import FLOAT, NUMBER
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
@@ -138,7 +138,7 @@ class Venda(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     datavenda: Mapped[datetime.datetime] = mapped_column(DateTime)
     numeronf: Mapped[int] = mapped_column(Integer)
-    valortotal: Mapped[float] = mapped_column(Float)
+    valortotal: Mapped[float] = mapped_column(Numeric(10, 2))
     cliente_id: Mapped[int] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
 
