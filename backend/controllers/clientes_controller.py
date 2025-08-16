@@ -38,23 +38,6 @@ def listar_cliente_id(id):
         'endereco': cliente.endereco
     })
 
-# Rota para buscar cliente por nome
-def busca_cliente():
-    nome = request.args.get('nome')
-    if not nome:
-        return jsonify({'erro': 'Nome não fornecido'}), 400
-    cliente = session.query(Cliente).filter(Cliente.nome.ilike(f'%{nome}%')).all()
-    if not cliente:
-        return jsonify({'erro': 'Cliente não encontrado'}), 404
-    return jsonify([{
-        'id': c.id,
-        'nome': c.nome,
-        'cnpj': c.cnpj,
-        'email': c.email,
-        'telefone': c.telefone,
-        'endereco': c.endereco
-    } for c in cliente])
-
 # Rota para deletar cliente pelo ID
 def delete_cliente(id):
     cliente = session.query(Cliente).get(id)

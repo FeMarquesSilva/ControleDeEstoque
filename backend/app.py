@@ -14,7 +14,6 @@ from controllers import (
     create_fornecedor,
     listar_clientes,
     listar_cliente_id,
-    busca_cliente,
     delete_cliente,
     update_cliente,
     create_cliente,
