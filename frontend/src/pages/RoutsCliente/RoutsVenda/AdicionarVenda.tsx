@@ -38,7 +38,6 @@ const AdicionarVenda = () => {
     useEffect(() => {
         const searchProdutos = async () => {
             const response = await fetchProdutos();
-
             if (response?.data.length > 0 && prodOptions.length === 0) {
                 const novosItens = response?.data.map((produto: Produto) => ({
                     value: produto.id ?? "",
@@ -47,13 +46,10 @@ const AdicionarVenda = () => {
                 setProdOptions(novosItens);
             }
         };
-
         searchProdutos();
 
-        // Fetch clientes
         const searchClientes = async () => {
             const response = await fetchClientes();
-
             if (response?.data.length > 0 && clienteOptions.length === 0) {
                 const novosClientes = response?.data.map((cliente: Cliente) => ({
                     value: cliente.id ?? "",
@@ -62,11 +58,9 @@ const AdicionarVenda = () => {
                 setClienteOptions(novosClientes);
             }
         };
-
         searchClientes();
     }, []);
 
-    // Campos temporários para criar item
     const [produto, setProduto] = useState({
         produto_id: null as number | null,
         nome: "",
@@ -76,7 +70,6 @@ const AdicionarVenda = () => {
         desconto_percent: 0,
     });
 
-    // Adiciona produto na lista de itens
     const adicionarItem = () => {
         if (!produto.produto_id || produto.quantidade <= 0 || produto.preco_unitario <= 0) {
             menssage("Atenção", "Preencha os dados do produto corretamente.", "warning");
@@ -88,13 +81,11 @@ const AdicionarVenda = () => {
         const novoItem = { ...produto, subtotal };
         const novosItens = [...venda.itens, novoItem];
 
-        // Calcula totais
         const quantidade_total = novosItens.reduce((acc, item) => acc + item.quantidade, 0);
         const valor_total = novosItens.reduce((acc, item) => acc + item.subtotal, 0);
 
         setVenda({ ...venda, itens: novosItens, quantidade_total, valor_total });
 
-        // Limpa campos do produto
         setProduto({
             produto_id: null,
             nome: "",
@@ -103,6 +94,21 @@ const AdicionarVenda = () => {
             preco_unitario: 0,
             desconto_percent: 0,
         });
+        setSelectedProd("");
+    };
+
+    const limparFormulario = () => {
+        setProduto({
+            produto_id: null,
+            nome: "",
+            categoria: "",
+            quantidade: 0,
+            preco_unitario: 0,
+            desconto_percent: 0,
+        });
+        setSelectedProd("");
+        setSelectedCliente("");
+        setVenda((prev) => ({ ...prev, cliente_id: null }));
     };
 
     const submitVenda = async () => {
@@ -150,10 +156,8 @@ const AdicionarVenda = () => {
                         Dados da Venda:
                     </Text>
 
-                    { /* Select dos Clientes cadastrados no banco */}
                     <Box>
                         <Text>Cliente</Text>
-
                         <SelectFilter
                             options={clienteOptions}
                             value={selectedCliente}
@@ -161,17 +165,15 @@ const AdicionarVenda = () => {
                                 setSelectedCliente(value);
                                 setVenda((prev) => ({
                                     ...prev,
-                                    cliente_id: Number(value) || null
+                                    cliente_id: Number(value) || null,
                                 }));
                             }}
                             placeholder="Selecione o Cliente"
                         />
                     </Box>
 
-                    { /* Select dos Produtos cadastrados no banco */}
                     <Box>
                         <Text>Produto</Text>
-
                         <SelectFilter
                             options={prodOptions}
                             value={selectedProd}
@@ -179,7 +181,7 @@ const AdicionarVenda = () => {
                                 setSelectedProd(value);
                                 setProduto((prev) => ({
                                     ...prev,
-                                    produto_id: Number(value) || null
+                                    produto_id: Number(value) || null,
                                 }));
                             }}
                             placeholder="Selecione o Produto"
@@ -201,20 +203,35 @@ const AdicionarVenda = () => {
                         style={stylesInputs}
                     />
 
-                    <Button mt="5px" colorScheme="blue" onClick={adicionarItem}>
-                        Adicionar Produto
-                    </Button>
+                    <Flex mt="5px" gap="10px">
+                        <Button
+                            flex="1"
+                            colorScheme="blue"
+                            backgroundColor="rgba(53, 73, 248, 0.9)"
+                            onClick={adicionarItem}
+                        >
+                            Adicionar Produto
+                        </Button>
+                        <Button
+                            flex="1"
+                            backgroundColor="rgba(172, 6, 6, 0.86)"
+                            colorScheme="red"
+                            onClick={limparFormulario}
+                        >
+                            Limpar Formulário
+                        </Button>
+                    </Flex>
 
                     {venda.itens.length > 0 && (
                         <Box mt="10px" background="rgba(75, 129, 82, 1)" borderRadius="10px" p="10px">
                             <Text fontWeight="bold">Produtos na Venda:</Text>
                             {venda.itens.map((item, index) => (
                                 <Text key={index}>
-                                    {item.nome} - {item.quantidade} x R${item.preco_unitario} = R${item.subtotal}
+                                    {item.nome} - {item.quantidade} x R${item.preco_unitario.toFixed(2)} = R${item.subtotal.toFixed(2)}
                                 </Text>
                             ))}
                             <Text mt="10px" fontWeight="bold">
-                                Total: {venda.quantidade_total} itens | R${venda.valor_total}
+                                Total: {venda.quantidade_total} itens | R${venda.valor_total.toFixed(2)}
                             </Text>
                         </Box>
                     )}
