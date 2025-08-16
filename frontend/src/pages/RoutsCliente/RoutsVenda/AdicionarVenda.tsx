@@ -17,6 +17,7 @@ const stylesInputs = {
     padding: "5px",
     borderRadius: "8px",
     border: "1px solid #ccc",
+    backgroundColor: "#121212",
 };
 
 const AdicionarVenda = () => {
@@ -188,13 +189,16 @@ const AdicionarVenda = () => {
                         />
                     </Box>
 
-                    <Text>Quantidade</Text>
-                    <Input
-                        type="text"
-                        placeholder="Quantidade"
-                        onChange={(e) => setProduto({ ...produto, quantidade: Number(e.target.value) })}
-                        style={stylesInputs}
-                    />
+                    <Box>
+                        <Text>Quantidade</Text>
+                        <Input
+                            type={"text"}
+                            placeholder={"Quantidade"}
+                            onChange={(e) => setProduto({ ...produto, quantidade: Number(e.target.value) })}
+                            style={stylesInputs}
+                        />
+                    </Box>
+
                     <Text>Preço Unitário</Text>
                     <Input
                         type="number"
