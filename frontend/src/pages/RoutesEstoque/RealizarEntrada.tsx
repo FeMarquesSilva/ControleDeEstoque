@@ -46,6 +46,13 @@ const RealizarEntrada = () => {
     }, []);
 
     const addEntradaFile = (newItem: EntradaEstoque) => {
+        //Valida se o número de lote já está na lista pois não pode ser duplicado:
+        const exist = fila.find((item) => item.numero_lote === newItem.numero_lote);
+        if (exist) {
+            menssage("Erro", "Número de lote já existe!", "error");
+            return;
+        }
+
         setFila((prev) => [...prev, newItem]);
     };
 

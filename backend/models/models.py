@@ -1,5 +1,5 @@
 from typing import List, Optional
-from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, PrimaryKeyConstraint, Table, VARCHAR, ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, Float, PrimaryKeyConstraint, Table, VARCHAR, ForeignKey
 from sqlalchemy.dialects.oracle import FLOAT, NUMBER
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
