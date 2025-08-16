@@ -21,10 +21,10 @@ export const handleCreateVenda = async (venda: Venda) => {
 };
 
 // Função para buscar todas as vendas
-export const fetchVendas = async () => {
+export const fetchVendasClientes = async () => {
     const token = localStorage.getItem("token");
     try {
-        const response = await axios.get(`${API_URL}/vendas`, {
+        const response = await axios.get(`${API_URL}/vendas_cliente`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,

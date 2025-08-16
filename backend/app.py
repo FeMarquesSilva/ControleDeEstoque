@@ -33,7 +33,7 @@ from controllers import (
     update_produto,
     get_produtos_por_lote,
     criar_venda,
-    listar_vendas,
+    listar_vendas_com_clientes,
     listar_vendas_por_cliente,
     listar_vendas_por_produto,
     listar_vendas_por_data,
@@ -194,9 +194,9 @@ def post_venda():
     return criar_venda(usuario_id)
 
 # Rota para listar vendas
-@app.route('/vendas', methods=['GET'])
+@app.route('/vendas_cliente', methods=['GET'])
 def get_vendas():
-    return listar_vendas()
+    return listar_vendas_com_clientes()
 
 # Rota para listar vendas por cliente
 @app.route('/vendas/cliente/<int:cliente_id>', methods=['GET'])
