@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Select as ChakraSelect } from "@chakra-ui/react";
+import { Box, Flex, Text, Input } from "@chakra-ui/react";
 import Header from "../../../components/ui/Header";
 import BTReturn from "../../../components/ui/BTReturn";
 import { useEffect, useState, useMemo } from "react";
@@ -24,7 +24,6 @@ interface ItemVendaDetalhado extends ItemVenda {
 }
 
 interface VendaDetalhada extends Venda {
-  id: number;
   cliente_nome: string;
   itensDetalhados: ItemVendaDetalhado[];
   totalVenda: number;
@@ -35,9 +34,9 @@ const ListarVendas = () => {
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [produtos, setProdutos] = useState<Produto[]>([]);
 
-  const [filtroCliente, setFiltroCliente] = useState<number | "">("");
-  const [filtroNF, setFiltroNF] = useState<number | "">("");
-  const [filtroProduto, setFiltroProduto] = useState<number | "">("");
+  const [filtroCliente, setFiltroCliente] = useState("");
+  const [filtroNF, setFiltroNF] = useState("");
+  const [filtroProduto, setFiltroProduto] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +46,7 @@ const ListarVendas = () => {
           fetchClientes(),
           fetchProdutos(),
         ]);
-
+        console.log(vendasRes?.data, clientesRes?.data, produtosRes?.data);
         if (vendasRes?.status === 200) setVendas(vendasRes.data);
         if (clientesRes?.status === 200) setClientes(clientesRes.data);
         if (produtosRes?.status === 200) setProdutos(produtosRes.data);
@@ -60,6 +59,7 @@ const ListarVendas = () => {
     fetchData();
   }, []);
 
+  // Map detalhado para mostrar nomes e total
   const vendasDetalhadas: VendaDetalhada[] = useMemo(() => {
     return vendas.map((venda) => {
       const cliente_nome =
@@ -85,7 +85,6 @@ const ListarVendas = () => {
 
       return {
         ...venda,
-        id: venda.id ?? 0, // garante que id exista
         cliente_nome,
         itensDetalhados,
         totalVenda,
@@ -93,13 +92,22 @@ const ListarVendas = () => {
     });
   }, [vendas, clientes, produtos]);
 
+  // Filtragem dinâmica por input
   const vendasFiltradas = useMemo(() => {
     return vendasDetalhadas
-      .filter((v) => (filtroCliente ? v.cliente_id === filtroCliente : true))
-      .filter((v) => (filtroNF ? v.numeronf === filtroNF : true))
+      .filter((v) =>
+        filtroCliente
+          ? v.cliente_nome.toLowerCase().includes(filtroCliente.toLowerCase())
+          : true
+      )
+      .filter((v) =>
+        filtroNF ? v.numeronf.toString().includes(filtroNF) : true
+      )
       .filter((v) =>
         filtroProduto
-          ? v.itensDetalhados.some((i) => i.produto_id === filtroProduto)
+          ? v.itensDetalhados.some((i) =>
+              i.produto_nome.toLowerCase().includes(filtroProduto.toLowerCase())
+            )
           : true
       );
   }, [vendasDetalhadas, filtroCliente, filtroNF, filtroProduto]);
@@ -113,57 +121,31 @@ const ListarVendas = () => {
           Lista de Vendas
         </Text>
 
-        {/* Filtros */}
-        <Flex gap={4} mb={4}>
-          <ChakraSelect
+        {/* Filtros com autocomplete */}
+        <Flex gap={4} mb={4} flexWrap="wrap">
+          <Input
             placeholder="Filtrar por Cliente"
             value={filtroCliente}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setFiltroCliente(e.target.value ? Number(e.target.value) : "")
-            }
-          >
-            {clientes.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.nome}
-              </option>
-            ))}
-          </ChakraSelect>
-
-          <ChakraSelect
+            onChange={(e) => setFiltroCliente(e.target.value)}
+          />
+          <Input
             placeholder="Filtrar por NF"
             value={filtroNF}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setFiltroNF(e.target.value ? Number(e.target.value) : "")
-            }
-          >
-            {Array.from(new Set(vendas.map((v) => v.numeronf))).map((nf) => (
-              <option key={nf} value={nf}>
-                {nf}
-              </option>
-            ))}
-          </ChakraSelect>
-
-          <ChakraSelect
+            onChange={(e) => setFiltroNF(e.target.value)}
+          />
+          <Input
             placeholder="Filtrar por Produto"
             value={filtroProduto}
-            onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-              setFiltroProduto(e.target.value ? Number(e.target.value) : "")
-            }
-          >
-            {produtos.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.nome}
-              </option>
-            ))}
-          </ChakraSelect>
+            onChange={(e) => setFiltroProduto(e.target.value)}
+          />
         </Flex>
 
         {vendasFiltradas.length === 0 ? (
           <Text>Nenhuma venda encontrada.</Text>
         ) : (
-          vendasFiltradas.map((venda) => (
+          vendasFiltradas.map((venda, idxVenda) => (
             <Box
-              key={venda.id}
+              key={idxVenda}
               borderWidth="1px"
               borderRadius="lg"
               p={4}
@@ -180,8 +162,8 @@ const ListarVendas = () => {
               {venda.itensDetalhados.length > 0 && (
                 <Box mt={2} pl={2}>
                   <Text fontWeight="bold">Itens:</Text>
-                  {venda.itensDetalhados.map((item, idx) => (
-                    <Text key={idx}>
+                  {venda.itensDetalhados.map((item, idxItem) => (
+                    <Text key={idxItem}>
                       {item.produto_nome} - Qtde: {item.quantidade} - Unitário:{" "}
                       {item.valorunitario.toFixed(2)} - Total: {item.total.toFixed(2)}
                     </Text>

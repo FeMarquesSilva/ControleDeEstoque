@@ -54,66 +54,108 @@ def criar_venda(id_usuario):
         print(e)
         session.rollback()
         return jsonify({'error': str(e)}), 500
-
-# Listar todas as vendas
+    
+# Funções para listar vendas
 def listar_vendas():
-    vendas = session.query(Venda).all()
-    return jsonify([{
-        'venda_id': venda.id,
-        'cliente': {'id': venda.cliente.id, 'nome': venda.cliente.nome},
-        'valor_total': venda.valortotal,
-        'itens': [{
-            'produto_id': item.produto.id,
-            'nome': item.produto.nome,
-            'quantidade': item.quantidade,
-            'valor': item.valor
-        } for item in venda.itens]
-    } for venda in vendas]), 200
+    try:
+        # Faz o join entre Venda e Cliente
+        vendas = session.query(Venda, Cliente).join(
+            Cliente, Venda.cliente_id == Cliente.id
+        ).all()
+
+        resultado = []
+        for venda, cliente in vendas:
+            resultado.append({
+                'id': venda.id,
+                'numeronf': venda.numeronf,
+                'cliente': {
+                    'id': cliente.id,
+                    'nome': cliente.nome
+                },
+                'valor_total': venda.valor_total  # use o nome correto do campo
+            })
+
+        return jsonify(resultado), 200
+
+    except Exception as e:
+        print(f"Erro ao listar vendas: {e}")
+        return jsonify({'erro': 'Erro ao listar vendas'}), 500
 
 # Listar vendas por cliente
 def listar_vendas_por_cliente(cliente_id):
-    vendas = session.query(Venda).filter(Venda.cliente_id == cliente_id).all()
-    return jsonify([{
-        'venda_id': venda.id,
-        'cliente': {'id': venda.cliente.id, 'nome': venda.cliente.nome},
-        'valor_total': venda.valortotal,
-        'itens': [{
-            'produto_id': item.produto.id,
-            'nome': item.produto.nome,
-            'quantidade': item.quantidade,
-            'valor': item.valor
-        } for item in venda.itens]
-    } for venda in vendas]), 200
+    vendas = session.query(Venda, Cliente).join(
+        Cliente, Venda.cliente_id == Cliente.id
+    ).filter(Venda.cliente_id == cliente_id).all()
+
+    resultado = []
+    for venda, cliente in vendas:
+        itens = session.query(VendaProduto, Produto).join(
+            Produto, VendaProduto.produto_id == Produto.id
+        ).filter(VendaProduto.venda_id == venda.id).all()
+
+        resultado.append({
+            'venda_id': venda.id,
+            'cliente': {'id': cliente.id, 'nome': cliente.nome},
+            'valor_total': venda.valor_total,
+            'itens': [{
+                'produto_id': produto.id,
+                'nome': produto.nome,
+                'quantidade': vp.quantidade,
+                'valor': vp.valorunitario
+            } for vp, produto in itens]
+        })
+    return jsonify(resultado), 200
 
 # Listar vendas por produto
 def listar_vendas_por_produto(produto_id):
-    vendas = session.query(Venda).join(VendaProduto).filter(VendaProduto.produto_id == produto_id).all()
-    return jsonify([{
-        'venda_id': venda.id,
-        'cliente': {'id': venda.cliente.id, 'nome': venda.cliente.nome},
-        'valor_total': venda.valortotal,
-        'itens': [{
-            'produto_id': item.produto.id,
-            'nome': item.produto.nome,
-            'quantidade': item.quantidade,
-            'valor': item.valor
-        } for item in venda.itens]
-    } for venda in vendas]), 200
+    vendas = session.query(Venda, Cliente).join(
+        Cliente, Venda.cliente_id == Cliente.id
+    ).join(VendaProduto).filter(VendaProduto.produto_id == produto_id).all()
+
+    resultado = []
+    for venda, cliente in vendas:
+        itens = session.query(VendaProduto, Produto).join(
+            Produto, VendaProduto.produto_id == Produto.id
+        ).filter(VendaProduto.venda_id == venda.id).all()
+
+        resultado.append({
+            'venda_id': venda.id,
+            'cliente': {'id': cliente.id, 'nome': cliente.nome},
+            'valor_total': venda.valor_total,
+            'itens': [{
+                'produto_id': produto.id,
+                'nome': produto.nome,
+                'quantidade': vp.quantidade,
+                'valor': vp.valorunitario
+            } for vp, produto in itens]
+        })
+    return jsonify(resultado), 200
 
 # Listar vendas por data
 def listar_vendas_por_data(data):
-    vendas = session.query(Venda).filter(Venda.datavenda == data).all()
-    return jsonify([{
-        'venda_id': venda.id,
-        'cliente': {'id': venda.cliente.id, 'nome': venda.cliente.nome},
-        'valor_total': venda.valortotal,
-        'itens': [{
-            'produto_id': item.produto.id,
-            'nome': item.produto.nome,
-            'quantidade': item.quantidade,
-            'valor': item.valor
-        } for item in venda.itens]
-    } for venda in vendas]), 200
+    vendas = session.query(Venda, Cliente).join(
+        Cliente, Venda.cliente_id == Cliente.id
+    ).filter(Venda.datavenda == data).all()
+
+    resultado = []
+    for venda, cliente in vendas:
+        itens = session.query(VendaProduto, Produto).join(
+            Produto, VendaProduto.produto_id == Produto.id
+        ).filter(VendaProduto.venda_id == venda.id).all()
+
+        resultado.append({
+            'venda_id': venda.id,
+            'cliente': {'id': cliente.id, 'nome': cliente.nome},
+            'valor_total': venda.valor_total,
+            'itens': [{
+                'produto_id': produto.id,
+                'nome': produto.nome,
+                'quantidade': vp.quantidade,
+                'valor': vp.valorunitario
+            } for vp, produto in itens]
+        })
+    return jsonify(resultado), 200
+
 
 # Deletar venda
 def deletar_venda(venda_id):
