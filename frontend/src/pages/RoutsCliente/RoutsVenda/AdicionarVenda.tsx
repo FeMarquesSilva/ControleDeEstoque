@@ -235,6 +235,54 @@ const AdicionarVenda = () => {
                         </Button>
                     </Flex>
 
+                    {/* Tabela de produtos adicionados */}
+                    {itensVenda.length > 0 && (
+                        <Box mt="20px" p="10px" backgroundColor="#1a1a1a" borderRadius="10px">
+                            <Text fontSize="18px" fontWeight="bold" color="white" mb="10px">
+                                Produtos Adicionados:
+                            </Text>
+                            <Box as="table" width="100%" color="white" borderCollapse="collapse">
+                                <thead>
+                                    <tr>
+                                        <th style={{ textAlign: "left", padding: "5px" }}>Produto</th>
+                                        <th style={{ textAlign: "center", padding: "5px" }}>Quantidade</th>
+                                        <th style={{ textAlign: "right", padding: "5px" }}>Preço Unitário</th>
+                                        <th style={{ textAlign: "right", padding: "5px" }}>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {itensVenda.map((item, index) => {
+                                        const produto = item.produto_id != null
+                                            ? prodOptions.find(p => p.value === item.produto_id.toString())
+                                            : undefined;
+
+                                        const totalItem = item.quantidade * item.valorunitario;
+
+                                        return (
+                                            <tr key={index} style={{ borderTop: "1px solid #444" }}>
+                                                <td style={{ padding: "5px" }}>{produto?.label || "Produto Desconhecido"}</td>
+                                                <td style={{ textAlign: "center", padding: "5px" }}>{item.quantidade}</td>
+                                                <td style={{ textAlign: "right", padding: "5px" }}>{item.valorunitario.toFixed(2)}</td>
+                                                <td style={{ textAlign: "right", padding: "5px" }}>{totalItem.toFixed(2)}</td>
+                                            </tr>
+                                        );
+                                    })}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colSpan={3} style={{ textAlign: "right", padding: "5px", fontWeight: "bold" }}>
+                                            Total da Venda:
+                                        </td>
+                                        <td style={{ textAlign: "right", padding: "5px", fontWeight: "bold" }}>
+                                            {itensVenda.reduce((acc, item) => acc + item.quantidade * item.valorunitario, 0).toFixed(2)}
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </Box>
+                        </Box>
+                    )}
+
+                    {/* Botão Salvar Venda */}
                     <Button
                         mt="15px"
                         w="100%"
@@ -245,8 +293,9 @@ const AdicionarVenda = () => {
                         {loading ? <Spinner /> : "Salvar Venda"}
                     </Button>
                 </Flex>
+
             </Flex>
-        </Box>
+        </Flex>
     );
 };
 
