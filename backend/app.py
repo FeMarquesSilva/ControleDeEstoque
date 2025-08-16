@@ -58,6 +58,10 @@ from controllers.venda_controller import (
     deletar_venda
 )
 
+from controllers.estoque_controller import (
+    realizar_entrada_estoque
+)
+
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
@@ -231,6 +235,14 @@ def get_vendas_por_data(data):
 @app.route('/vendas/<int:venda_id>', methods=['DELETE'])
 def delete_venda(venda_id):
     return deletar_venda(venda_id)
+
+## ============== [ Rotas de Estoque ] ==============
+
+# Rota para realizar a entrada no estoque
+@app.route('/estoque/entrada', methods=['POST'])
+def post_entrada_estoque(): 
+    usuario_id = buscar_id_user()
+    return realizar_entrada_estoque(usuario_id)
 
 if __name__ == "__main__":
    app.run(debug=True)

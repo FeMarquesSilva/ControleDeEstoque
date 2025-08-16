@@ -14,3 +14,7 @@ from controllers.fornecedores_controller import (
     update_fornecedor,
     create_fornecedor
 )
+
+from controllers.estoque_controller import (
+    realizar_entrada_estoque
+)

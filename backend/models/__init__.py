@@ -1,1 +1,1 @@
-from models.models import Cliente, Fornecedor, Usuario, Categoria, Produto, Venda, VendaProduto, Lote
+from models.models import Cliente, Fornecedor, Usuario, Categoria, Produto, Venda, VendaProduto, Lote, Entradaestoque

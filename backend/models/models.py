@@ -195,7 +195,6 @@ class Entradaestoque(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     quantidade: Mapped[int] = mapped_column(Integer)
     dataentrada: Mapped[datetime.datetime] = mapped_column(DateTime)
-    validade: Mapped[datetime.datetime] = mapped_column(DateTime)
     usuario_id: Mapped[int] = mapped_column(Integer)
     lote_id: Mapped[int] = mapped_column(Integer)
 

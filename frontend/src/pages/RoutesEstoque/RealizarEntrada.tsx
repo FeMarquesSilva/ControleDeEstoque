@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import { optionSelect, Produto } from "../RoutesProduto/Interface";
 import { fetchProdutos } from "../RoutesProduto/Services";
 import { EntradaEstoque } from "./Interfaces";
+import { handlerEntradaEstoque } from "./Service";
+
 
 const stylesInputs = {
     width: "100%",
@@ -21,7 +23,7 @@ const RealizarEntrada = () => {
     const navigate = useNavigate()
     const [fila, setFila] = useState<EntradaEstoque[]>([]);
     const [loading, setLoading] = useState(false);
-    const [produto, setProduto ] = useState<Produto[]>([])
+    const [produto, setProduto] = useState<Produto[]>([])
     const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
     const [selectedProd, setSelectedProd] = React.useState("");
     const [entradaEstoque, setEntradaEstoque] = useState<EntradaEstoque>({
@@ -57,6 +59,25 @@ const RealizarEntrada = () => {
 
         setFila((prev) => [...prev, newItem]);
     };
+
+    const realizarEntradaEmFila = async () => {
+        if (loading) return;
+        setLoading(true);
+
+        while (fila.length > 0) {
+            const item = fila.shift();
+            if (item) {
+                const response = await handlerEntradaEstoque(item);
+                if (response?.status === 200) {
+                    menssage("Sucesso", "Entrada realizada com sucesso!", "success");
+                }
+            } else {
+                menssage("Erro", "Erro ao realizar entrada!", "error");
+            }
+        }
+        setLoading(false);
+    };
+
 
     return (
         <Box>
@@ -132,7 +153,7 @@ const RealizarEntrada = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}
+                        onClick={() => { realizarEntradaEmFila() }}>{loading ? <Spinner /> : "Salvar"}
                     </Button>
                 </Flex>
             </Box>
