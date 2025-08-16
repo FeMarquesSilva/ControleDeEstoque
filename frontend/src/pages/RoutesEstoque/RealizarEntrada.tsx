@@ -19,11 +19,11 @@ const stylesInputs = {
 
 const RealizarEntrada = () => {
     const navigate = useNavigate()
+    const [fila, setFila] = useState<EntradaEstoque[]>([]);
     const [loading, setLoading] = useState(false);
     const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
     const [selectedProd, setSelectedProd] = React.useState("");
     const [entradaEstoque, setEntradaEstoque] = useState<EntradaEstoque>({
-        id: null,
         quantidade: 0,
         validade: new Date(),
         produto_id: null,
@@ -42,15 +42,16 @@ const RealizarEntrada = () => {
                 setProdOptions(novosItens);
             }
         };
-
         searchProdutos();
-
-
     }, []);
+
+    const addEntradaFile = (newItem: EntradaEstoque) => {
+        setFila((prev) => [...prev, newItem]);
+    };
 
     return (
         <Box>
-            <Header tittle="Cadastrar Produto" />
+            <Header tittle="Realizar Entrada no Estoque" />
             <BTReturn />
 
             { /* Componente do formulário para cadastro do produto */}
@@ -59,7 +60,6 @@ const RealizarEntrada = () => {
                 justifyContent={"center"}
                 alignItems={"center"}
             >
-                <Button onClick={() => {console.log(entradaEstoque)}}></Button>
 
                 <Flex
                     mt={"80px"}
@@ -75,7 +75,8 @@ const RealizarEntrada = () => {
 
                     <Box>
                         <Text>Numero do Lote</Text>
-                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs} />
+                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs}
+                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, numero_lote: e.target.value })} />
                     </Box>
                     { /* Select dos fornecedores cadastrados no banco */}
                     <Box>
@@ -88,7 +89,7 @@ const RealizarEntrada = () => {
                                 setSelectedProd(value);
                                 setEntradaEstoque((prev) => ({
                                     ...prev,
-                                    fornecedor_id: Number(value) || null
+                                    produto_id: Number(value) || null
                                 }));
                             }}
                             placeholder="Selecione o Produto"
@@ -96,12 +97,24 @@ const RealizarEntrada = () => {
                     </Box>
                     <Box>
                         <Text>Validade</Text>
-                        <input type={"text"} placeholder={"Data de Validade"} style={stylesInputs} />
+                        <input type={"Date"} placeholder={"Data de Validade"} style={stylesInputs}
+                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, validade: new Date(e.target.value) })} />
                     </Box>
                     <Box>
                         <Text>Quantidade</Text>
-                        <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs} />
+                        <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs}
+                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, quantidade: Number(e.target.value) })} />
                     </Box>
+
+                    <Button
+                        mt={"15px"}
+                        w={"100%"}
+                        backgroundColor={"rgba(39, 77, 126, 1)"}
+                        color={"white"}
+                        transition={"all 0.3s"}
+                        _hover={{ backgroundColor: "rgba(80, 103, 138, 1)" }}
+                        onClick={() => { addEntradaFile(entradaEstoque) }}>Adicionar na fila
+                    </Button>
 
                     <Button
                         mt={"15px"}
@@ -110,9 +123,48 @@ const RealizarEntrada = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                        onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}
+                    </Button>
                 </Flex>
             </Box>
+
+
+            {fila.length !== 0 ?
+                <Box
+                    position={"absolute"}
+                    right={0}
+                    top={0}
+                    mt={"100px"}
+                    marginRight={"20px"}
+                    backgroundColor={"rgba(177, 141, 75, 1)"}
+                    w={"450px"}
+                    borderRadius={"5px"}
+                    maxH={"800px"} >
+
+                    <Text textAlign={"center"} fontWeight={"bold"} fontSize={"25px"}>Fila de Lotes</Text>
+
+                    <Box>
+                        {fila.map((item, index) => {
+                            return (
+                                <Box
+                                    key={index}
+                                    backgroundColor={"rgba(173, 172, 141, 1)"}
+                                    margin={"10px"}
+                                    padding={"10px"}
+                                    borderRadius={"6px"}
+                                >
+                                    <Text>Número do Lote: {item.numero_lote}</Text>
+                                    <Text>Nome do Produto: {item.produto_id}</Text>
+                                    <Text>Data de Validade: {item.validade instanceof Date ? item.validade.toLocaleDateString() : String(item.validade)}</Text>
+                                    <Text>Quantidade: {item.quantidade}</Text>
+                                </Box>
+                            );
+                        })
+                        }
+                    </Box>
+
+                </Box>
+                : ""}
 
         </Box>
     );
