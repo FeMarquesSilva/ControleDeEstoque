@@ -4,12 +4,11 @@ import BTReturn from "../../components/ui/BTReturn";
 import { useEffect, useState } from "react";
 import React from "react";
 import SelectFilter from "../../components/selectFilter";
-import { fetchFornecedores } from "../RoutesFornecedor/Services";
-import { Fornecedor } from "../RoutesFornecedor/Interfaces";
-import { Categoria } from "../RoutsCategoria/Interfaces";
-import { fetchCategorias } from "../RoutsCategoria/Services";
 import { menssage } from "../../components/ui/toastMenssage";
 import { useNavigate } from "react-router-dom";
+import { optionSelect, Produto } from "../RoutesProduto/Interface";
+import { fetchProdutos } from "../RoutesProduto/Services";
+import { EntradaEstoque } from "./Interfaces";
 
 const stylesInputs = {
     width: "100%",
@@ -21,8 +20,33 @@ const stylesInputs = {
 const RealizarEntrada = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
-    const [selectedForn, setSelectedForn] = React.useState("");
-    const [selectedCateg, setSelectedCateg] = React.useState("");
+    const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
+    const [selectedProd, setSelectedProd] = React.useState("");
+    const [entradaEstoque, setEntradaEstoque] = useState<EntradaEstoque>({
+        id: null,
+        quantidade: 0,
+        validade: new Date(),
+        produto_id: null,
+        numero_lote: ""
+    });
+
+    useEffect(() => {
+        const searchProdutos = async () => {
+            const response = await fetchProdutos();
+
+            if (response?.data.length > 0 && prodOptions.length === 0) {
+                const novosItens = response?.data.map((produto: Produto) => ({
+                    value: produto.id ?? "",
+                    label: produto.nome,
+                }));
+                setProdOptions(novosItens);
+            }
+        };
+
+        searchProdutos();
+
+
+    }, []);
 
     return (
         <Box>
@@ -35,6 +59,7 @@ const RealizarEntrada = () => {
                 justifyContent={"center"}
                 alignItems={"center"}
             >
+                <Button onClick={() => {console.log(entradaEstoque)}}></Button>
 
                 <Flex
                     mt={"80px"}
@@ -50,19 +75,32 @@ const RealizarEntrada = () => {
 
                     <Box>
                         <Text>Numero do Lote</Text>
-                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs}/>
+                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs} />
                     </Box>
+                    { /* Select dos fornecedores cadastrados no banco */}
                     <Box>
                         <Text>Produto</Text>
-                        <input type={"text"} placeholder={"Descrição do Produto"} style={stylesInputs}/>
+
+                        <SelectFilter
+                            options={prodOptions}
+                            value={selectedProd}
+                            onChange={(value) => {
+                                setSelectedProd(value);
+                                setEntradaEstoque((prev) => ({
+                                    ...prev,
+                                    fornecedor_id: Number(value) || null
+                                }));
+                            }}
+                            placeholder="Selecione o Produto"
+                        />
                     </Box>
                     <Box>
                         <Text>Validade</Text>
-                        <input type={"text"} placeholder={"SKU"} style={stylesInputs} />
+                        <input type={"text"} placeholder={"Data de Validade"} style={stylesInputs} />
                     </Box>
                     <Box>
                         <Text>Quantidade</Text>
-                        <input type={"text"} placeholder={"Unidade de Medida"} style={stylesInputs}/>
+                        <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs} />
                     </Box>
 
                     <Button
@@ -72,7 +110,7 @@ const RealizarEntrada = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => {  }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                        onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}</Button>
                 </Flex>
             </Box>
 

@@ -15,7 +15,7 @@ def create_produto(id_usuario):
         unidademedida=data.get('unidademedida'),
         status=data.get('status'),
         fornecedor_id=data.get('fornecedor_id'),
-        categoria_id=data.get('categoria_id'),  # ⚡ corrigido
+        categoria_id=data.get('categoria_id'),
         usuario_id=id_usuario
     )
     
@@ -26,7 +26,6 @@ def create_produto(id_usuario):
         'mensagem': 'Produto criado com sucesso'
     }), 201
 
-
 # 🔹 Função de listar produtos com join com fornecedores e categorias
 def get_produtos_com_fornecedores_categorias():
     produtos = (
@@ -35,7 +34,7 @@ def get_produtos_com_fornecedores_categorias():
         .outerjoin(Categoria, Produto.categoria_id == Categoria.id)
         .all()
     )
-    
+
     return jsonify([
         {
             'id': p.id,
