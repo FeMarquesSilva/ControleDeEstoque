@@ -129,41 +129,42 @@ const RealizarEntrada = () => {
             </Box>
 
 
-            { /* Fila dos lotes a darem entrada */}
-            <Box
-                position={"absolute"}
-                right={0}
-                top={0}
-                mt={"100px"}
-                marginRight={"20px"}
-                backgroundColor={"rgba(177, 141, 75, 1)"}
-                w={"450px"}
-                borderRadius={"5px"}
-                h={"800px"} >
+            {fila.length !== 0 ?
+                <Box
+                    position={"absolute"}
+                    right={0}
+                    top={0}
+                    mt={"100px"}
+                    marginRight={"20px"}
+                    backgroundColor={"rgba(177, 141, 75, 1)"}
+                    w={"450px"}
+                    borderRadius={"5px"}
+                    maxH={"800px"} >
 
-                <Text textAlign={"center"} fontWeight={"bold"} fontSize={"25px"}>Fila de Lotes</Text>
+                    <Text textAlign={"center"} fontWeight={"bold"} fontSize={"25px"}>Fila de Lotes</Text>
 
-                <Box>
-                    {fila.map((item, index) => {
-                        return (
-                            <Box
-                                key={index}
-                                backgroundColor={"rgba(114, 108, 30, 1)"}
-                                margin={"10px"}
-                                padding={"10px"}
-                                borderRadius={"6px"}
-                            >
-                                <Text>Número do Lote: {item.numero_lote}</Text>
-                                <Text>Nome do Produto: {item.produto_id}</Text>
-                                <Text>Data de Validade: {item.validade instanceof Date ? item.validade.toLocaleDateString() : String(item.validade)}</Text>
-                                <Text>Quantidade: {item.quantidade}</Text>
-                            </Box>
-                        );
-                    })
-                    }
+                    <Box>
+                        {fila.map((item, index) => {
+                            return (
+                                <Box
+                                    key={index}
+                                    backgroundColor={"rgba(173, 172, 141, 1)"}
+                                    margin={"10px"}
+                                    padding={"10px"}
+                                    borderRadius={"6px"}
+                                >
+                                    <Text>Número do Lote: {item.numero_lote}</Text>
+                                    <Text>Nome do Produto: {item.produto_id}</Text>
+                                    <Text>Data de Validade: {item.validade instanceof Date ? item.validade.toLocaleDateString() : String(item.validade)}</Text>
+                                    <Text>Quantidade: {item.quantidade}</Text>
+                                </Box>
+                            );
+                        })
+                        }
+                    </Box>
+
                 </Box>
-
-            </Box>
+                : ""}
 
         </Box>
     );
