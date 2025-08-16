@@ -9,8 +9,8 @@ export interface ListaEstoque {
     id: number;
     numero_lote: string;
     nome_produto: string;
-    quantidade: number;
-    dataentrada: Date;
-    validade: Date;
-    nome_categoria: string
+    qtd_produto: number;
+    data_entrada: Date;
+    data_validade: Date;
+    categoria: string
 }

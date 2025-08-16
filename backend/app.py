@@ -59,7 +59,8 @@ from controllers.venda_controller import (
 )
 
 from controllers.estoque_controller import (
-    realizar_entrada_estoque
+    realizar_entrada_estoque,
+    buscar_estoque
 )
 
 app = Flask(__name__)
@@ -243,6 +244,11 @@ def delete_venda(venda_id):
 def post_entrada_estoque(): 
     usuario_id = buscar_id_user()
     return realizar_entrada_estoque(usuario_id)
+
+# Rota para realizar a busca do estoque
+@app.route('/estoque', methods=['GET'])
+def get_estoque():
+    return buscar_estoque()
 
 if __name__ == "__main__":
    app.run(debug=True)

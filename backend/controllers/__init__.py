@@ -16,5 +16,6 @@ from controllers.fornecedores_controller import (
 )
 
 from controllers.estoque_controller import (
-    realizar_entrada_estoque
+    realizar_entrada_estoque,
+    buscar_estoque
 )

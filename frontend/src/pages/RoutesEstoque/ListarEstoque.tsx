@@ -51,10 +51,10 @@ const ListarEstoque = () => {
                             <Box flex="1">{estoque.id}</Box>
                             <Box flex="2">{estoque.numero_lote}</Box>
                             <Box flex="2">{estoque.nome_produto}</Box>
-                            <Box flex="2">{estoque.quantidade}</Box>
-                            <Box flex="1">{estoque.dataentrada.toLocaleDateString()}</Box>
-                            <Box flex="1">{estoque.validade.toLocaleDateString()}</Box>
-                            <Box flex="1">{estoque.nome_categoria}</Box>
+                            <Box flex="2">{estoque.qtd_produto}</Box>
+                            <Box flex="1">{estoque.data_entrada.toLocaleDateString()}</Box>
+                            <Box flex="1">{estoque.data_validade.toLocaleDateString()}</Box>
+                            <Box flex="1">{estoque.categoria}</Box>
                             <Flex gap={2} flex="1">
                                 <Button
                                     backgroundColor={"rgba(62, 43, 143, 1)"}
