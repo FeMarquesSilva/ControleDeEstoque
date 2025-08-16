@@ -57,6 +57,7 @@ def buscar_estoque():
         .join(Entradaestoque, Entradaestoque.lote_id == Lote.id)
         .join(Produto, Produto.id == Lote.produto_id)
         .join(Categoria, Categoria.id == Produto.categoria_id)
+        .filter(Entradaestoque.usuario_id == id_usuario)
         .all()
     )
     
