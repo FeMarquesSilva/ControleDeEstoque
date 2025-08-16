@@ -138,6 +138,7 @@ class Venda(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     datavenda: Mapped[datetime.datetime] = mapped_column(DateTime)
     numeronf: Mapped[int] = mapped_column(Integer)
+    valortotal: Mapped[float] = mapped_column(Float)
     cliente_id: Mapped[int] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
 
@@ -172,8 +173,7 @@ t_vendaproduto = Table(
     Column('produto_id', Integer, ForeignKey('produto.id'), primary_key=True),
     Column('venda_id', Integer, ForeignKey('venda.id'), primary_key=True),
     Column('quantidade', Integer, nullable=False),
-    Column('valorunitario', FLOAT(2), nullable=False),
-    Column('valortotal', FLOAT(2), nullable=False)
+    Column('valorunitario', FLOAT(2), nullable=False)
 )
 
 class VendaProduto(Base):
