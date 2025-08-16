@@ -2,7 +2,7 @@ import { Box, Button, Flex, Spinner, Text, Input } from "@chakra-ui/react";
 import Header from "../../../components/ui/Header";
 import BTReturn from "../../../components/ui/BTReturn";
 import React, { useEffect, useState } from "react";
-import { Venda } from "./Interfaces";
+import { ItemVenda, Venda } from "./Interfaces";
 import { handleCreateVenda } from "./Services";
 import { menssage } from "../../../components/ui/toastMenssage";
 import { useNavigate } from "react-router-dom";
@@ -20,21 +20,29 @@ const stylesInputs = {
     backgroundColor: "#121212",
 };
 
+// Novo tipo para enviar ao backend
+interface VendaPayload {
+    cliente_id: number | null;
+    numeronf: number;
+    itens: ItemVenda[];
+}
+
 const AdicionarVenda = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
     const [clienteOptions, setClienteOptions] = useState<optionSelect[]>([]);
-    const [selectedProd, setSelectedProd] = React.useState("");
-    const [selectedCliente, setSelectedCliente] = React.useState("");
+    const [selectedProd, setSelectedProd] = useState("");
+    const [selectedCliente, setSelectedCliente] = useState("");
 
     const [venda, setVenda] = useState<Venda>({
-        id: null,
         cliente_id: null,
-        valor_total: 0,
-        quantidade_total: 0,
-        itens: [],
+        numeronf: 0,
     });
+
+    const [itensVenda, setItensVenda] = useState<ItemVenda[]>([]);
+    const [quantidade, setQuantidade] = useState<number>(0);
+    const [valorUnitario, setValorUnitario] = useState<number>(0);
 
     useEffect(() => {
         const searchProdutos = async () => {
@@ -62,70 +70,62 @@ const AdicionarVenda = () => {
         searchClientes();
     }, []);
 
-    const [produto, setProduto] = useState({
-        produto_id: null as number | null,
-        nome: "",
-        categoria: "",
-        quantidade: 0,
-        preco_unitario: 0,
-        desconto_percent: 0,
-    });
-
-    const adicionarItem = () => {
-        if (!produto.produto_id || produto.quantidade <= 0 || produto.preco_unitario <= 0) {
-            menssage("Atenção", "Preencha os dados do produto corretamente.", "warning");
+    const adicionarItemVenda = () => {
+        if (!selectedProd || quantidade <= 0 || valorUnitario <= 0) {
+            menssage(
+                "Atenção",
+                "Selecione o produto e preencha quantidade e preço corretamente.",
+                "warning"
+            );
             return;
         }
 
-        const subtotal = produto.quantidade * produto.preco_unitario;
+        const novoItem: ItemVenda = {
+            produto_id: Number(selectedProd),
+            venda: null,
+            quantidade,
+            valorunitario: valorUnitario,
+        };
 
-        const novoItem = { ...produto, subtotal };
-        const novosItens = [...venda.itens, novoItem];
+        setItensVenda(prev => [...prev, novoItem]);
 
-        const quantidade_total = novosItens.reduce((acc, item) => acc + item.quantidade, 0);
-        const valor_total = novosItens.reduce((acc, item) => acc + item.subtotal, 0);
-
-        setVenda({ ...venda, itens: novosItens, quantidade_total, valor_total });
-
-        setProduto({
-            produto_id: null,
-            nome: "",
-            categoria: "",
-            quantidade: 0,
-            preco_unitario: 0,
-            desconto_percent: 0,
-        });
+        // Resetar campos do produto
         setSelectedProd("");
+        setQuantidade(0);
+        setValorUnitario(0);
     };
 
     const limparFormulario = () => {
-        setProduto({
-            produto_id: null,
-            nome: "",
-            categoria: "",
-            quantidade: 0,
-            preco_unitario: 0,
-            desconto_percent: 0,
-        });
         setSelectedProd("");
-        setSelectedCliente("");
-        setVenda((prev) => ({ ...prev, cliente_id: null }));
+        setQuantidade(0);
+        setValorUnitario(0);
+        setItensVenda([]);
     };
 
     const submitVenda = async () => {
         if (loading) return;
-        if (!venda.cliente_id || venda.itens.length === 0) {
-            menssage("Atenção", "Informe o cliente e adicione pelo menos um produto.", "warning");
+        if (!venda.cliente_id || itensVenda.length === 0) {
+            menssage(
+                "Atenção",
+                "Informe o cliente e adicione pelo menos um produto.",
+                "warning"
+            );
             return;
         }
 
         setLoading(true);
 
+        const vendaData: VendaPayload = {
+            cliente_id: venda.cliente_id,
+            numeronf: venda.numeronf,
+            itens: itensVenda,
+        };
+
         try {
-            const response = await handleCreateVenda(venda);
+            const response = await handleCreateVenda(vendaData);
             setLoading(false);
 
-            if (response?.status === 201) {
+            if (response && response.status === 201) {
                 menssage("Sucesso", "Venda cadastrada com sucesso!", "success");
                 navigate("/vendas/listar");
             } else {
@@ -178,41 +178,50 @@ const AdicionarVenda = () => {
                         <SelectFilter
                             options={prodOptions}
                             value={selectedProd}
-                            onChange={(value) => {
-                                setSelectedProd(value);
-                                setProduto((prev) => ({
-                                    ...prev,
-                                    produto_id: Number(value) || null,
-                                }));
-                            }}
+                            onChange={(value) => setSelectedProd(value)}
                             placeholder="Selecione o Produto"
+                        />
+                    </Box>
+
+                    <Box>
+                        <Text>Numero NF'e</Text>
+                        <Input
+                            type="text"
+                            placeholder="Numero NF'e"
+                            value={venda.numeronf}
+                            onChange={(e) => setVenda((prev) => ({ ...prev, numeronf: Number(e.target.value) }))}
+                            style={stylesInputs}
                         />
                     </Box>
 
                     <Box>
                         <Text>Quantidade</Text>
                         <Input
-                            type={"text"}
-                            placeholder={"Quantidade"}
-                            onChange={(e) => setProduto({ ...produto, quantidade: Number(e.target.value) })}
+                            type="number"
+                            placeholder="Quantidade"
+                            value={quantidade}
+                            onChange={(e) => setQuantidade(Number(e.target.value))}
                             style={stylesInputs}
                         />
                     </Box>
 
-                    <Text>Preço Unitário</Text>
-                    <Input
-                        type="number"
-                        placeholder="Preço Unitário"
-                        onChange={(e) => setProduto({ ...produto, preco_unitario: Number(e.target.value) })}
-                        style={stylesInputs}
-                    />
+                    <Box>
+                        <Text>Preço Unitário</Text>
+                        <Input
+                            type="number"
+                            placeholder="Preço Unitário"
+                            value={valorUnitario}
+                            onChange={(e) => setValorUnitario(Number(e.target.value))}
+                            style={stylesInputs}
+                        />
+                    </Box>
 
                     <Flex mt="5px" gap="10px">
                         <Button
                             flex="1"
                             colorScheme="blue"
                             backgroundColor="rgba(53, 73, 248, 0.9)"
-                            onClick={adicionarItem}
+                            onClick={adicionarItemVenda}
                         >
                             Adicionar Produto
                         </Button>
@@ -225,20 +234,6 @@ const AdicionarVenda = () => {
                             Limpar Formulário
                         </Button>
                     </Flex>
-
-                    {venda.itens.length > 0 && (
-                        <Box mt="10px" background="rgba(75, 129, 82, 1)" borderRadius="10px" p="10px">
-                            <Text fontWeight="bold">Produtos na Venda:</Text>
-                            {venda.itens.map((item, index) => (
-                                <Text key={index}>
-                                    {item.nome} - {item.quantidade} x R${item.preco_unitario.toFixed(2)} = R${item.subtotal.toFixed(2)}
-                                </Text>
-                            ))}
-                            <Text mt="10px" fontWeight="bold">
-                                Total: {venda.quantidade_total} itens | R${venda.valor_total.toFixed(2)}
-                            </Text>
-                        </Box>
-                    )}
 
                     <Button
                         mt="15px"

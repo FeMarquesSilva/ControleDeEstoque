@@ -205,7 +205,8 @@ def route_get_produtos_por_lote(lote_id):
 # Rota para criar venda
 @app.route('/vendas', methods=['POST'])
 def post_venda():
-    return criar_venda()
+    usuario_id = buscar_id_user()
+    return criar_venda(usuario_id)
 
 # Rota para listar vendas
 @app.route('/vendas', methods=['GET'])
