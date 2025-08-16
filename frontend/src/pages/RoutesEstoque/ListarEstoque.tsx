@@ -53,8 +53,8 @@ const ListarEstoque = () => {
                         <Box flex="2">Qtd. Produto</Box>
                         <Box flex="2">Data Entrada</Box>
                         <Box flex="2">Data Validade</Box>
-                        <Box flex="2">Nome Categoria</Box>
-                        <Box flex="1.1">Ação</Box>
+                        <Box flex="1">Categoria</Box>
+                        <Box flex="2">Ação</Box>
                     </Flex>
 
                     {/* Linhas de produtos */}
@@ -70,11 +70,11 @@ const ListarEstoque = () => {
                         >
                             <Box flex="1">{estoque.id}</Box>
                             <Box flex="2">{estoque.numero_lote}</Box>
-                            <Box flex="2">{estoque.nome_produto}</Box>
+                            <Box flex="2" w={"450px"}>{estoque.nome_produto}</Box>
                             <Box flex="2">{estoque.qtd_produto}</Box>
                             <Box flex="2">{formatDate(estoque.data_entrada)}</Box>
                             <Box flex="2">{formatDate(estoque.data_validade)}</Box>
-                            <Box flex="1">{estoque.categoria}</Box>
+                            <Box flex="1" w={"200px"}>{estoque.categoria}</Box>
                             <Flex gap={2} flex="1">
                                 <Button
                                     backgroundColor={"rgba(62, 43, 143, 1)"}
