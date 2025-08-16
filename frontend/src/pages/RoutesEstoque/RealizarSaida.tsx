@@ -8,7 +8,7 @@ import SelectFilter from "../../components/selectFilter";
 import { DescartEstoque, Lote, VendaSaida } from "./Interfaces";
 import { handlerBuscarLotes, handlerDescarteProduto } from "./Service";
 import { formatDate } from "../Functions";
-import { fetchVendas } from "../RoutsCliente/RoutsVenda/Services";
+import { handleGetAllVendas } from "../RoutsCliente/RoutsVenda/Services";
 
 const stylesInputs = {
     width: "100%",
@@ -22,10 +22,11 @@ const RealizarSaida = () => {
     const [loading, setLoading] = useState(false);
     const [selectedMotiv, setSelectedMotiv] = React.useState("");
     const [selectedLote, setSelectedLote] = React.useState("");
+    const [selectedNota, setSelectedNota] = React.useState("");
     const [numLoteOptions, setNumLoteOptions] = useState<optionSelect[]>([]);
     const [numNfOptions, setNumNfOptions] = useState<optionSelect[]>([]);
     const [lotes, setLotes] = useState<Lote[]>([]);
-    const [vendas, setVendas] =useState<VendaSaida[]>([]);
+    const [vendas, setVendas] = useState<VendaSaida[]>([]);
     const [descarte, setDescarte] = useState<DescartEstoque>({
         id_lote: null,
         numero_lote: "",
@@ -54,11 +55,20 @@ const RealizarSaida = () => {
         searchLotes()
 
         const searchVendas = async () => {
-            const response = await fetchVendas()
+            const response = await handleGetAllVendas()
             setVendas(response?.data)
+
+            if (response?.data.length > 0 && numNfOptions.length === 0) {
+                const novosItens = response?.data.map((venda: VendaSaida) => ({
+                    value: venda.id ?? "",
+                    label: venda.numeronf,
+                }));
+                setNumNfOptions(novosItens);
+            }
 
 
         }
+        searchVendas()
     }, [])
 
     const preencherNumLote = (value: string) => {
@@ -82,14 +92,15 @@ const RealizarSaida = () => {
 
     const limparFormulário = () => {
         setDescarte({
-            ...descarte, 
-            id_lote: null, 
+            ...descarte,
+            id_lote: null,
             numero_lote: "",
-            quantidade: null, 
+            quantidade: null,
             motivo: ""
         });
         setSelectedLote("");
         setSelectedMotiv("");
+        setSelectedNota("");
     }
 
     const finalizarSaida = async () => {
@@ -171,12 +182,16 @@ const RealizarSaida = () => {
                     </Box>
 
                     {selectedMotiv === "2" ?
-                        <Box>
-                            <Text>Número NF'e</Text>
-                            <input type={"email"} placeholder={"Informe o npumero da NF'e"} style={stylesInputs}
-                            //onChange={(e) => setFornecedor({ ...fornecedor, email: e.target.value })} 
-                            />
-                        </Box>
+                    <Box>
+                        <Text>Número da NF'e</Text>
+
+                        <SelectFilter
+                            options={numNfOptions}
+                            value={selectedNota}
+                            placeholder="Número da NF'e"
+                            onChange={(value) => setSelectedNota(value)}
+                        />
+                    </Box>
                         :
                         ""
                     }

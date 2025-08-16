@@ -55,6 +55,35 @@ def criar_venda(id_usuario):
         session.rollback()
         return jsonify({'error': str(e)}), 500
     
+    
+# Listar todas as vendas
+def listar_vendas(id_usuario):
+    try:
+        vendas = (
+                session.query(Venda)
+                .filter(Venda.usuario_id == id_usuario)
+                .all()
+            )
+    
+        vendas_list = [{
+            "id": v.id,
+            "datavenda": v.datavenda,
+            "numeronf": v.numeronf,
+            "valor_total": v.valor_total,
+            "cliente_id": v.cliente_id,
+            "status": v.status
+        } for v in vendas]
+        
+        return jsonify(vendas_list)
+    #exept
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.remove()
+        
+                         
+
 # Listar todas vendas com clientes
 def listar_vendas_com_clientes():
     try:
