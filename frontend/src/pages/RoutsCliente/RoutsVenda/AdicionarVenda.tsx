@@ -97,9 +97,11 @@ const AdicionarVenda = () => {
 
     const limparFormulario = () => {
         setSelectedProd("");
+        setSelectedCliente("");
+        setVenda({ cliente_id: null, numeronf: 0 });
         setQuantidade(0);
         setValorUnitario(0);
-        setItensVenda([]);
+        //setItensVenda([]);
     };
 
     const submitVenda = async () => {
@@ -215,33 +217,23 @@ const AdicionarVenda = () => {
                             style={stylesInputs}
                         />
                     </Box>
-
+                    {/* Botões Adicionar e Limpar */}
                     <Flex mt="5px" gap="10px">
-                        <Button
-                            flex="1"
-                            colorScheme="blue"
-                            backgroundColor="rgba(53, 73, 248, 0.9)"
-                            onClick={adicionarItemVenda}
-                        >
+                        <Button flex="1" colorScheme="blue" onClick={adicionarItemVenda}>
                             Adicionar Produto
                         </Button>
-                        <Button
-                            flex="1"
-                            backgroundColor="rgba(172, 6, 6, 0.86)"
-                            colorScheme="red"
-                            onClick={limparFormulario}
-                        >
+                        <Button flex="1" colorScheme="red" onClick={limparFormulario}>
                             Limpar Formulário
                         </Button>
                     </Flex>
 
                     {/* Tabela de produtos adicionados */}
                     {itensVenda.length > 0 && (
-                        <Box mt="20px" p="10px" backgroundColor="#1a1a1a" borderRadius="10px">
-                            <Text fontSize="18px" fontWeight="bold" color="white" mb="10px">
+                        <Box mt="20px" p="10px" bg="#1a1a1a" borderRadius="10px" color="white">
+                            <Text fontSize="18px" fontWeight="bold" mb="10px">
                                 Produtos Adicionados:
                             </Text>
-                            <Box as="table" width="100%" color="white" borderCollapse="collapse">
+                            <Box as="table" w="100%" borderCollapse="collapse">
                                 <thead>
                                     <tr>
                                         <th style={{ textAlign: "left", padding: "5px" }}>Produto</th>
@@ -251,15 +243,15 @@ const AdicionarVenda = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {itensVenda.map((item, index) => {
+                                    {itensVenda.map((item, i) => {
                                         const produto = item.produto_id != null
-                                            ? prodOptions.find(p => p.value === item.produto_id.toString())
+                                            ? prodOptions.find(p => Number(p.value) === item.produto_id)
                                             : undefined;
 
-                                        const totalItem = item.quantidade * item.valorunitario;
 
+                                        const totalItem = item.quantidade * item.valorunitario;
                                         return (
-                                            <tr key={index} style={{ borderTop: "1px solid #444" }}>
+                                            <tr key={i} style={{ borderTop: "1px solid #444" }}>
                                                 <td style={{ padding: "5px" }}>{produto?.label || "Produto Desconhecido"}</td>
                                                 <td style={{ textAlign: "center", padding: "5px" }}>{item.quantidade}</td>
                                                 <td style={{ textAlign: "right", padding: "5px" }}>{item.valorunitario.toFixed(2)}</td>
@@ -270,10 +262,10 @@ const AdicionarVenda = () => {
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colSpan={3} style={{ textAlign: "right", padding: "5px", fontWeight: "bold" }}>
+                                        <td colSpan={3} style={{ textAlign: "right", fontWeight: "bold", padding: "5px" }}>
                                             Total da Venda:
                                         </td>
-                                        <td style={{ textAlign: "right", padding: "5px", fontWeight: "bold" }}>
+                                        <td style={{ textAlign: "right", fontWeight: "bold", padding: "5px" }}>
                                             {itensVenda.reduce((acc, item) => acc + item.quantidade * item.valorunitario, 0).toFixed(2)}
                                         </td>
                                     </tr>
@@ -295,7 +287,7 @@ const AdicionarVenda = () => {
                 </Flex>
 
             </Flex>
-        </Flex>
+        </Box>
     );
 };
 
