@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Color, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { menssage } from "../../components/ui/toastMenssage";
 import Header from "../../components/ui/Header";
@@ -60,7 +60,13 @@ const ListarEstoque = () => {
                             <Box flex="1">{estoque.id}</Box>
                             <Box flex="2">{estoque.numero_lote}</Box>
                             <Box flex="2" w={"450px"}>{estoque.nome_produto}</Box>
-                            <Box flex="2">{estoque.qtd_produto}</Box>
+                            <Box
+                                flex="2"
+                                color={estoque.qtd_produto === 0 ? "red.500" : ""}
+                                fontWeight={estoque.qtd_produto === 0 ? "bold" : ""}
+                            >
+                                {estoque.qtd_produto}
+                            </Box>
                             <Box flex="2">{formatDate(estoque.data_entrada)}</Box>
                             <Box flex="2">{formatDate(estoque.data_validade)}</Box>
                             <Box flex="2">{estoque.categoria}</Box>
