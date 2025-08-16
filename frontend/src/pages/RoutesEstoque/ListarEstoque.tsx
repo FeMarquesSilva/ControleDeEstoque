@@ -1,6 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { menssage } from "../../components/ui/toastMenssage";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
@@ -10,7 +9,6 @@ import { handlerListarEstoque } from "./Service";
 const ListarEstoque = () => {
 
     const [estoque, setEstoque] = useState<ListaEstoque[]>([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const searchEstoque = async () => {
@@ -22,9 +20,7 @@ const ListarEstoque = () => {
                 menssage("Erro", "Erro ao buscar estoque", "error");
             }
         }
-
         searchEstoque();
-
     }, [])
 
     const formatDate = (data: string | number | Date) => {

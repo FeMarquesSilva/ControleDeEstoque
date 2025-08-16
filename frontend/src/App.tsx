@@ -27,6 +27,7 @@ import RealizarEntrada from "./pages/RoutesEstoque/RealizarEntrada";
 import NotFound from "./pages/NotFound";
 import AdicionarVenda from "./pages/RoutsCliente/RoutsVenda/AdicionarVenda";
 import ListarEstoque from "./pages/RoutesEstoque/ListarEstoque";
+import RealizarSaida from "./pages/RoutesEstoque/RealizarSaida";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -68,6 +69,7 @@ const router = createBrowserRouter([
   { path: "/categorias/listar", element: (<PrivateRoute element={<ListarCategorias />} />) },
   { path: "/produtos/listar", element: (<PrivateRoute element={<ListarProduto />} />) },
   { path: "/estoque/entrada", element: (<PrivateRoute element={<RealizarEntrada /> } />) },
+  { path: "/estoque/saida", element: (<PrivateRoute element={<RealizarSaida /> } />) },
   { path: "/clientes/venda", element: (<PrivateRoute element={<AdicionarVenda /> } />) },
   { path: "/estoque/listar", element: (<PrivateRoute element={<ListarEstoque />} />) },
   { path: "*", element: <NotFound /> },
