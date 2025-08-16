@@ -87,8 +87,6 @@ def realizar_descarte_estoque(id_usuario):
     }
     
     id_lote = itens_recebidos.get('id_lote')
-    
-    print("Dados para filtro: ",id_lote, id_usuario)
 
     #Primeiro busca o lote que vou fazer o descarte:
     lote = (
@@ -98,7 +96,6 @@ def realizar_descarte_estoque(id_usuario):
             .first()
             )
     
-    print(lote)
     if not lote:
         return jsonify({'mensagem': 'Lote não encontrado'}), 404
     

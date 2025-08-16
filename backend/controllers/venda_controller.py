@@ -26,6 +26,7 @@ def criar_venda(id_usuario):
             numeronf=numeronf,
             valor_total=valor_total,
             datavenda=datavenda,
+            status='Pendente',
             usuario_id=id_usuario
         )
         session.add(nova_venda)

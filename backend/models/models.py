@@ -140,6 +140,7 @@ class Venda(Base):
     numeronf: Mapped[int] = mapped_column(Integer)
     valor_total: Mapped[float] = mapped_column(Numeric(10, 2))
     cliente_id: Mapped[int] = mapped_column(Integer)
+    status: Mapped[str] = mapped_column(VARCHAR(20))
     usuario_id: Mapped[int] = mapped_column(Integer)
 
     # 🔹 Composição: Venda → VendaProduto (itens só existem com Venda)
