@@ -29,3 +29,12 @@ export interface Lote {
     validade: Date,
     quantidade: number;
 }
+
+export interface VendaSaida {
+    id: number;
+    datavenda: Date;
+    numeronf: string;
+    cliente_id: number | null;
+    valor_total: number;
+    status: string;
+}

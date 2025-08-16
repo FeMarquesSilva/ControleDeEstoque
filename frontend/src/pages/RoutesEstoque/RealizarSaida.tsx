@@ -5,9 +5,10 @@ import React, { useEffect, useState } from "react";
 import { menssage } from "../../components/ui/toastMenssage";
 import { optionSelect } from "../RoutesProduto/Interface";
 import SelectFilter from "../../components/selectFilter";
-import { DescartEstoque, Lote } from "./Interfaces";
+import { DescartEstoque, Lote, VendaSaida } from "./Interfaces";
 import { handlerBuscarLotes, handlerDescarteProduto } from "./Service";
 import { formatDate } from "../Functions";
+import { fetchVendas } from "../RoutsCliente/RoutsVenda/Services";
 
 const stylesInputs = {
     width: "100%",
@@ -22,7 +23,9 @@ const RealizarSaida = () => {
     const [selectedMotiv, setSelectedMotiv] = React.useState("");
     const [selectedLote, setSelectedLote] = React.useState("");
     const [numLoteOptions, setNumLoteOptions] = useState<optionSelect[]>([]);
+    const [numNfOptions, setNumNfOptions] = useState<optionSelect[]>([]);
     const [lotes, setLotes] = useState<Lote[]>([]);
+    const [vendas, setVendas] =useState<VendaSaida[]>([]);
     const [descarte, setDescarte] = useState<DescartEstoque>({
         id_lote: null,
         numero_lote: "",
@@ -49,6 +52,13 @@ const RealizarSaida = () => {
 
         }
         searchLotes()
+
+        const searchVendas = async () => {
+            const response = await fetchVendas()
+            setVendas(response?.data)
+
+
+        }
     }, [])
 
     const preencherNumLote = (value: string) => {
