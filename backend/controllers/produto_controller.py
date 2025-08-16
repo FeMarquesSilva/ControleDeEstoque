@@ -50,7 +50,6 @@ def get_produtos_com_fornecedores_categorias():
         for p, f, c in produtos
     ]), 200
 
-
 # 🔹 Função de listar produto por ID
 def get_produto_por_id(id):
     produto = (
@@ -75,7 +74,6 @@ def get_produto_por_id(id):
         'usuario_id': produto.usuario_id
     }), 200
 
-
 # 🔹 Função de listar produtos por fornecedor
 def get_produtos_por_fornecedor(fornecedor_id):
     produtos = session.query(Produto).outerjoin(Fornecedor).filter(Produto.fornecedor_id == fornecedor_id).all()
@@ -91,7 +89,6 @@ def get_produtos_por_fornecedor(fornecedor_id):
         'usuario_id': p.usuario_id
     } for p in produtos]), 200
 
-
 # 🔹 Função de listar produtos por categoria
 def get_produtos_por_categoria(categoria_id):
     produtos = session.query(Produto).outerjoin(Categoria).filter(Produto.categoria_id == categoria_id).all()
@@ -106,7 +103,6 @@ def get_produtos_por_categoria(categoria_id):
         'categoria': p.categoria.nome if p.categoria else None,
         'usuario_id': p.usuario_id
     } for p in produtos]), 200
-
 
 # 🔹 Função de listar produtos por status
 def get_produtos_por_status(status: str):
@@ -125,7 +121,6 @@ def get_produtos_por_status(status: str):
         'usuario_id': p.usuario_id
     } for p in produtos]), 200
 
-
 # 🔹 Função de deletar produtos
 def delete_produto(id):
     produto = session.query(Produto).filter(Produto.id == id).first()
@@ -136,7 +131,6 @@ def delete_produto(id):
     session.commit()
 
     return jsonify({'mensagem': 'Produto deletado com sucesso'}), 200
-
 
 # 🔹 Função de atualizar produtos
 def update_produto(id, data):
@@ -150,7 +144,6 @@ def update_produto(id, data):
     session.commit()
 
     return jsonify({'mensagem': 'Produto atualizado com sucesso'}), 200
-
 
 # 🔹 Função para listar produtos por lote
 def get_produtos_por_lote(lote_id):
