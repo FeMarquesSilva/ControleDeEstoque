@@ -14,3 +14,17 @@ export interface ListaEstoque {
     data_validade: Date;
     categoria: string
 }
+
+export interface DescartEstoque {
+    numero_lote: string;
+    quantidade: number | null;
+    motivo: string;
+}
+
+export interface Lote {
+    id: number;
+    produto_id: number;
+    numero_lote: string;
+    validade: Date,
+    quantidade: number;
+}

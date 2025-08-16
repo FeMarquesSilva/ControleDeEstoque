@@ -63,6 +63,10 @@ from controllers.estoque_controller import (
     buscar_estoque
 )
 
+from controllers import (
+    consulta_lotes
+)
+
 app = Flask(__name__)
 # Permitir somente o localhost:3000 e o 5000
 CORS(app, resources={r"/*": {"origins": ["http://localhost:3000", "http://127.0.0.1:5000"]}})
@@ -249,6 +253,14 @@ def post_entrada_estoque():
 @app.route('/estoque', methods=['GET'])
 def get_estoque():
     return buscar_estoque()
+
+## ============== [ Rotas de Lote ] ==============
+
+# Rota para listar os lotes
+@app.route('/estoque/listar-lotes', methods=['GET'])
+def get_lotes():
+    usuario_id = buscar_id_user()
+    return consulta_lotes(usuario_id)
 
 if __name__ == "__main__":
    app.run(debug=True)

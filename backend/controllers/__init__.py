@@ -19,3 +19,7 @@ from controllers.estoque_controller import (
     realizar_entrada_estoque,
     buscar_estoque
 )
+
+from controllers.lote_controller import (
+    consulta_lotes
+)
