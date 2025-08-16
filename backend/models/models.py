@@ -138,7 +138,7 @@ class Venda(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     datavenda: Mapped[datetime.datetime] = mapped_column(DateTime)
     numeronf: Mapped[int] = mapped_column(Integer)
-    valortotal: Mapped[float] = mapped_column(Numeric(10, 2))
+    valor_total: Mapped[float] = mapped_column(Numeric(10, 2))
     cliente_id: Mapped[int] = mapped_column(Integer)
     usuario_id: Mapped[int] = mapped_column(Integer)
 
