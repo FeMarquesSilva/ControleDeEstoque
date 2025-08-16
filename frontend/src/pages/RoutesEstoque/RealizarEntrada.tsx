@@ -50,7 +50,7 @@ const RealizarEntrada = () => {
 
     return (
         <Box>
-            <Header tittle="Cadastrar Produto" />
+            <Header tittle="Realizar Entrada no Estoque" />
             <BTReturn />
 
             { /* Componente do formulário para cadastro do produto */}
@@ -59,7 +59,6 @@ const RealizarEntrada = () => {
                 justifyContent={"center"}
                 alignItems={"center"}
             >
-                <Button onClick={() => {console.log(entradaEstoque)}}></Button>
 
                 <Flex
                     mt={"80px"}
@@ -75,7 +74,8 @@ const RealizarEntrada = () => {
 
                     <Box>
                         <Text>Numero do Lote</Text>
-                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs} />
+                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs}
+                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, numero_lote: e.target.value })} />
                     </Box>
                     { /* Select dos fornecedores cadastrados no banco */}
                     <Box>
@@ -88,7 +88,7 @@ const RealizarEntrada = () => {
                                 setSelectedProd(value);
                                 setEntradaEstoque((prev) => ({
                                     ...prev,
-                                    fornecedor_id: Number(value) || null
+                                    produto_id: Number(value) || null
                                 }));
                             }}
                             placeholder="Selecione o Produto"
@@ -96,11 +96,13 @@ const RealizarEntrada = () => {
                     </Box>
                     <Box>
                         <Text>Validade</Text>
-                        <input type={"text"} placeholder={"Data de Validade"} style={stylesInputs} />
+                        <input type={"Date"} placeholder={"Data de Validade"} style={stylesInputs}
+                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, validade: new Date(e.target.value) })} />
                     </Box>
                     <Box>
                         <Text>Quantidade</Text>
-                        <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs} />
+                        <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs}
+                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, quantidade: Number(e.target.value) })} />
                     </Box>
 
                     <Button
@@ -112,6 +114,23 @@ const RealizarEntrada = () => {
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
                         onClick={() => { }}>{loading ? <Spinner /> : "Salvar"}</Button>
                 </Flex>
+            </Box>
+
+
+            { /* Fila dos lotes a darem entrada */}
+            <Box
+                position={"absolute"}
+                right={0}
+                top={0}
+                mt={"100px"}
+                marginRight={"20px"}
+                backgroundColor={"rgba(153, 155, 66, 1)"}
+                w={"450px"}
+                borderRadius={"5px"}
+                h={"800px"} >
+
+                    <Text textAlign={"center"} fontWeight={"bold"} fontSize={"25px"}>Fila de Lotes</Text>
+
             </Box>
 
         </Box>
