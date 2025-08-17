@@ -131,10 +131,12 @@ const RealizarSaida = () => {
             menssage("Erro", "Lote deve ser informado!", "error")
             setLoading(false);
             return;
-        } else if (selectedMotiv === "1" && descarte.quantidade === 0 || descarte.quantidade === null) {
+        } else if (selectedMotiv === "1" ) {
+            if (descarte.quantidade === 0 || descarte.quantidade === null) {
             menssage("Erro", "Quantidade de produtos deve ser maior que 0!", "error")
             setLoading(false);
             return;
+            }
         } else if (selectedMotiv === "2" && !selectedNota) {
             menssage("Erro", "Número da NF'e é obrigatório!", "error")
             setLoading(false);
@@ -165,7 +167,7 @@ const RealizarSaida = () => {
                 const statusVenda = vendas[Number(saidaVenda.venda_id) - 1].status
 
                 //Se o status da venda for 'Atendida' eu cancelo a operação:
-                if (statusVenda === "Atendida") {
+                if (statusVenda === "ATENDIDA") {
                     menssage("Erro", "Não é possível realizar a saida de produtos de uma venda atendida", "error");
                     setLoading(false);
                     return;

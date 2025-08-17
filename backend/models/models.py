@@ -1,5 +1,5 @@
 from typing import List, Optional
-from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, Boolean, Numeric, PrimaryKeyConstraint, Table, VARCHAR, ForeignKey
+from sqlalchemy import Column, DateTime, ForeignKeyConstraint, Index, Integer, String, Boolean, Numeric, PrimaryKeyConstraint, Table, VARCHAR, ForeignKey
 from sqlalchemy.dialects.oracle import FLOAT, NUMBER
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
@@ -174,7 +174,8 @@ t_vendaproduto = Table(
     Column('produto_id', Integer, ForeignKey('produto.id'), primary_key=True),
     Column('venda_id', Integer, ForeignKey('venda.id'), primary_key=True),
     Column('quantidade', Integer, nullable=False),
-    Column('valorunitario', FLOAT(2), nullable=False)
+    Column('valorunitario', FLOAT(2), nullable=False),
+    Column('status', String(10), nullable=False, default='PENDENTE')
 )
 
 class VendaProduto(Base):

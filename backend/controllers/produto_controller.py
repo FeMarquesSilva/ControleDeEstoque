@@ -27,11 +27,12 @@ def create_produto(id_usuario):
     }), 201
 
 # 🔹 Função de listar produtos com join com fornecedores e categorias
-def get_produtos_com_fornecedores_categorias():
+def get_produtos_com_fornecedores_categorias(id_usuario):
     produtos = (
         session.query(Produto, Fornecedor, Categoria)
         .outerjoin(Fornecedor, Produto.fornecedor_id == Fornecedor.id)
         .outerjoin(Categoria, Produto.categoria_id == Categoria.id)
+        .filter(Produto.usuario_id == id_usuario)
         .all()
     )
 

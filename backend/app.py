@@ -152,7 +152,8 @@ def post_produto():
 # Rota para listar produtos
 @app.route('/produtos', methods=['GET'])
 def get_produtos():
-    return get_produtos_com_fornecedores_categorias()
+    usuario_id = buscar_id_user()
+    return get_produtos_com_fornecedores_categorias(usuario_id)
 
 # Rota para listar produtos por fornecedor
 @app.route('/produtos/fornecedor/<int:fornecedor_id>', methods=['GET'])

@@ -149,12 +149,17 @@ def realizar_saida_estoque_venda(id_usuario):
     if not lote:
         return jsonify({'mensagem': 'Lote não encontrado'}), 404
 
-    # Busco os dados da venda:
+    # Busco os dados da venda (vendaProduto) filtrando o produto do lote (Já conta como validação de produto):
     venda_produto = (
         session.query(VendaProduto)
         .filter(VendaProduto.venda_id == itens_recebidos.get('venda_id'))
+        .filter(VendaProduto.produto_id == lote.produto_id)
+        .filter(VendaProduto.status == 'PENDENTE')
         .first()
     )
+    
+    if not venda_produto:
+        return jsonify({'mensagem': 'Venda não localizada ou produto incopativel ou venda já atendida'}), 404    
     
     # Armazena a quantidade necessária na venda:
     quantidade_necessaria = venda_produto.quantidade
@@ -179,7 +184,22 @@ def realizar_saida_estoque_venda(id_usuario):
     lote.quantidade -= quantidade_necessaria
     session.commit()
     
-    # Busco os dados da venda:
+    # Atualizo o status da vendaProduto como 'ATENDIDA':
+    venda_produto.status = 'ATENDIDA'
+    session.commit()
+    
+    # Valido se todos os itens da venda foram atendidos e atualizo o status da venda como 'ATENDIDA';
+    # Busco noivamente vendaProduto com os mesmo filtros, caso hava resultado, a venda ainda está pendente;
+    venda_pendente = (
+        session.query(VendaProduto)
+        .filter(VendaProduto.venda_id == itens_recebidos.get('venda_id'))
+        .filter(VendaProduto.status == 'PENDENTE')
+        .count()
+    )
+    
+    if venda_pendente > 0:
+        return jsonify({'mensagem': 'Venda realizada com sucesso'}), 201
+
     venda = (
         session.query(Venda)
         .filter(Venda.id == itens_recebidos.get('venda_id'))
@@ -187,7 +207,7 @@ def realizar_saida_estoque_venda(id_usuario):
     )
     
     # Altero o status da venda de 'Pendente' para 'Atendida':
-    venda.status = 'Atendida'
+    venda.status = 'ATENDIDA'
     session.commit()
     
-    return jsonify({'mensagem': 'Venda realizada com sucesso'}), 201
+    return jsonify({'mensagem': 'Venda realizada com sucesso e finalizada'}), 201
