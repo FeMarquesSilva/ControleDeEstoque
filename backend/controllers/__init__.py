@@ -58,4 +58,5 @@ from controllers.venda_controller import (
     listar_vendas_por_cliente,
     listar_vendas_por_produto,
     deletar_venda,
+    listar_vendas_total_cliente
 )

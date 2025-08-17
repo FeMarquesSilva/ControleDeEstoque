@@ -2,6 +2,7 @@ from flask import request, jsonify
 from database import session
 from models import Venda, VendaProduto, Produto, Cliente
 from datetime import datetime
+from sqlalchemy import func
 
 # Listar todas as vendas
 def listar_vendas(id_usuario):
@@ -112,6 +113,29 @@ def listar_vendas_por_produto(produto_id):
             } for vp, produto in itens]
         })
     return jsonify(resultado), 200
+
+def listar_vendas_total_cliente(id_usuario):
+    resultados = (
+        session.query(
+            Cliente.nome.label("cliente"),
+            func.sum(Venda.valor_total).label("total_venda")
+        )
+        .join(Cliente, Cliente.id == Venda.cliente_id)
+        .filter(Venda.usuario_id == id_usuario)
+        .group_by(Cliente.nome) 
+        .order_by(Cliente.nome)
+        .all()
+    )
+    
+    lista = [
+        {
+            "cliente": r.cliente,
+            "total_venda": float(r.total_venda)
+        }
+        for r in resultados
+    ]
+
+    return jsonify(lista)
 
 # Função para criar venda (sem mexer no estoque)
 def criar_venda(id_usuario):

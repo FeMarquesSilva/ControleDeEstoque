@@ -64,7 +64,6 @@ def buscar_estoque_resumido(id_usuario):
     lista = [dict(r._mapping) for r in resultados]
     return jsonify(lista)
 
-
 def realizar_entrada_estoque(id_usuario):
     data = request.json
     

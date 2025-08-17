@@ -21,3 +21,8 @@ export interface VendaCliente {
     }];
     itens?: ItemVenda[];
 }
+
+export interface VendaPorCliente {
+    cliente: string;
+    total_venda: number;
+}

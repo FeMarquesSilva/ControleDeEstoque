@@ -9,7 +9,8 @@ const Clientes = () => {
         { nome: "Adicionar Cliente", link: "/clientes/adicionar" },
         { nome: "Listar Clientes", link: "/clientes/listar" },
         { nome: "Realizar Venda", link: "/clientes/venda" },
-        { nome: "Listar Vendas", link: "/clientes/venda/listar" }
+        { nome: "Listar Vendas", link: "/clientes/venda/listar" },
+        { nome: "Listar Vendas Cliente", link: "/clientes/vendas/listar/resumo"}
     ];
 
     return (

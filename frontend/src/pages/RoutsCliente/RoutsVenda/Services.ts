@@ -71,6 +71,24 @@ export const handleListVendas = async () => {
     }
 };
 
+// Função para listar todas as vendas por clientes
+export const handleListVendasCliente = async () => {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await axios.get(`${API_URL}/vendas/menssal_cliente`, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        console.log(response)
+        return response;
+    } catch (error) {
+        console.error(error);
+        return;
+    }
+};
+
 // Função para deletar uma venda
 export const handleDeleteVenda = async (vendaId: number) => {
     const token = localStorage.getItem("token");

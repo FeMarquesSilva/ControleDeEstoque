@@ -37,7 +37,8 @@ from controllers import (
     buscar_estoque,
     realizar_descarte_estoque,
     realizar_saida_estoque_venda,
-    buscar_estoque_resumido
+    buscar_estoque_resumido,
+    listar_vendas_total_cliente
 )
 
 app = Flask(__name__)
@@ -186,6 +187,11 @@ def get_vendas():
 def route_get_vendas():
     usuario_id = buscar_id_user()
     return listar_vendas(usuario_id)
+
+@app.route('/vendas/menssal_cliente', methods=['GET'])
+def route_get_vendas_mensal_clientes():
+    usuario_id = buscar_id_user()
+    return listar_vendas_total_cliente(usuario_id)
 
 # Rota para listar vendas por cliente
 @app.route('/vendas/cliente/<int:cliente_id>', methods=['GET'])

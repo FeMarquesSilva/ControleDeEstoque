@@ -4,7 +4,7 @@ import { menssage } from "../../components/ui/toastMenssage";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { EstoqueResumido } from "./Interfaces";
-import { handlerBuscarLotesResumo, handlerListarEstoque } from "./Service";
+import { handlerBuscarLotesResumo } from "./Service";
 import { formatDate } from "../Functions";
 
 const ListarEstoqueResumo = () => {
