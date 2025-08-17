@@ -2,7 +2,7 @@ import { Box, Flex, Text, Input } from "@chakra-ui/react";
 import Header from "../../../components/ui/Header";
 import BTReturn from "../../../components/ui/BTReturn";
 import { useEffect, useState, useMemo } from "react";
-import { Venda, ItemVenda } from "./Interfaces";
+import { Venda, ItemVenda, VendaCliente } from "./Interfaces";
 import { fetchVendasClientes } from "./Services";
 import { fetchClientes } from "../Services";
 import { fetchProdutos } from "../../RoutesProduto/Services";
@@ -30,7 +30,7 @@ interface VendaDetalhada extends Venda {
 }
 
 const ListarVendas = () => {
-  const [vendas, setVendas] = useState<Venda[]>([]);
+  const [vendas, setVendas] = useState<VendaCliente[]>([]);
   const [clientes, setClientes] = useState<Cliente[]>([]);
   const [produtos, setProdutos] = useState<Produto[]>([]);
 
@@ -63,7 +63,7 @@ const ListarVendas = () => {
   const vendasDetalhadas: VendaDetalhada[] = useMemo(() => {
     return vendas.map((venda) => {
       const cliente_nome =
-        clientes.find((c) => c.id === venda.cliente_id)?.nome || "Desconhecido";
+        clientes.find((c) => c.id === venda.cliente[0].id )?.nome || "Desconhecido";
 
       const itensDetalhados: ItemVendaDetalhado[] = (venda.itens || []).map(
         (item) => {

@@ -11,3 +11,13 @@ export interface ItemVenda {
     quantidade: number;
     valorunitario: number;
 }
+
+export interface VendaCliente {
+    cliente_id: number | null;
+    numeronf: number;
+    cliente: [{
+        id: number;
+        nome: string;
+    }];
+    itens?: ItemVenda[];
+}
