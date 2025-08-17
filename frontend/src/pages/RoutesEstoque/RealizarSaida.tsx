@@ -194,7 +194,7 @@ const RealizarSaida = () => {
                     borderRadius={"15px"}
                     gap={"5px"}>
 
-                    <Text onClick={() => console.log(saidaVenda)} fontSize={"20px"} fontWeight={"bold"} color={"white"}>
+                    <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
                         Preencha os dados abaixo:
                     </Text>
 

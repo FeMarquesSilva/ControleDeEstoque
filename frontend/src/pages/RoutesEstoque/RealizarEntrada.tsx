@@ -113,9 +113,7 @@ const RealizarEntrada = () => {
             }
             await new Promise(resolve => setTimeout(resolve, 2000));
         }
-        console.log("Limpando o formulário")
         limparFormulario();
-        console.log(entradaEstoque)
         setLoading(false);
     };
 
