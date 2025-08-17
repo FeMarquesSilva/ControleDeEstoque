@@ -6,3 +6,8 @@ export const formatDate = (data: string | number | Date) => {
         day: '2-digit',
     });
 }
+
+//Função para formatar valores em reais R$0.000,00
+export const formatCurrency = (value: number) => {
+  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+};
