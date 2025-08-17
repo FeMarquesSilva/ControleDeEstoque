@@ -1,31 +1,26 @@
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
-import { useEffect, useState } from "react";
+//Import de bibliotecas;
 import React from "react";
-import SelectFilter from "../../components/selectFilter";
-import { menssage } from "../../components/ui/toastMenssage";
-import { useNavigate } from "react-router-dom";
-import { optionSelect, Produto } from "../RoutesProduto/Interface";
-import { fetchProdutos } from "../RoutesProduto/Services";
+import { useEffect, useState } from "react";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+
+//Import de Componentes;
+import { stylesInputs } from "../Styles";
 import { EntradaEstoque } from "./Interfaces";
+import Header from "../../components/ui/Header";
 import { handlerEntradaEstoque } from "./Service";
-
-
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
+import BTReturn from "../../components/ui/BTReturn";
+import SelectFilter from "../../components/selectFilter";
+import { fetchProdutos } from "../RoutesProduto/Services";
+import { menssage } from "../../components/ui/toastMenssage";
+import { optionSelect, Produto } from "../RoutesProduto/Interface";
 
 const RealizarEntrada = () => {
-    const navigate = useNavigate()
-    const [fila, setFila] = useState<EntradaEstoque[]>([]);
+    //Definição dos componentes (Com Hook de Reac) necessários;
     const [loading, setLoading] = useState(false);
     const [produto, setProduto] = useState<Produto[]>([])
-    const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
+    const [fila, setFila] = useState<EntradaEstoque[]>([]);
     const [selectedProd, setSelectedProd] = React.useState("");
+    const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
     const [entradaEstoque, setEntradaEstoque] = useState<EntradaEstoque>({
         quantidade: 0,
         validade: new Date(),
@@ -33,11 +28,13 @@ const RealizarEntrada = () => {
         numero_lote: ""
     });
 
+    //Utilizado useEffect para lidar com o carregamento inicial buscando os produtos;
     useEffect(() => {
         const searchProdutos = async () => {
             const response = await fetchProdutos();
             setProduto(response?.data);
 
+            //Valida se possuí dados recebidos do banco e se já foi preenchido o select dos produtos;
             if (response?.data.length > 0 && prodOptions.length === 0) {
                 const novosItens = response?.data.map((produto: Produto) => ({
                     value: produto.id ?? "",
@@ -51,12 +48,11 @@ const RealizarEntrada = () => {
 
     const addEntradaFile = (newItem: EntradaEstoque) => {
 
-        if (newItem.numero_lote === "" || newItem.produto_id === null || newItem.quantidade === 0){
+        if (newItem.numero_lote === "" || newItem.produto_id === null || newItem.quantidade === 0) {
             menssage("Erro", "Preencha todos os campos, e quantidade precisa ser positiva maior que zero!", "error")
             return
         }
 
-        //Valida se o número de lote já está na lista pois não pode ser duplicado:
         const exist = fila.find((item) => item.numero_lote === newItem.numero_lote);
         if (exist) {
             menssage("Erro", "Número de lote já existe!", "error");
@@ -67,7 +63,6 @@ const RealizarEntrada = () => {
             menssage("Erro", "Data de validade não pode ser menor ou igual a hoje!", "error");
             return;
         }
-
         setFila((prev) => [...prev, newItem]);
     };
 
@@ -85,12 +80,11 @@ const RealizarEntrada = () => {
         if (loading) return;
         setLoading(true);
 
-        // Cria uma cópia da fila atual
+        // Cria uma cópia da fila atual;
         let filaLocal = [...fila];
 
         while (filaLocal.length > 0) {
-            const item = filaLocal[0]; // pega o primeiro
-
+            const item = filaLocal[0]; // pega o primeiro;
 
             try {
                 const response = await handlerEntradaEstoque(item);
@@ -98,10 +92,10 @@ const RealizarEntrada = () => {
                 if (response?.status === 201) {
                     menssage("Sucesso", `Entrada do lote ${item.numero_lote} realizada com sucesso!`, "success");
 
-                    // Atualiza estado removendo o primeiro
+                    // Atualiza estado removendo o primeiro;
                     setFila(prev => prev.slice(1));
 
-                    // Também remove da cópia local
+                    // Também remove da cópia local;
                     filaLocal = filaLocal.slice(1);
                 } else {
                     menssage("Erro", `Erro ao realizar entrada do lote ${item.numero_lote}!`, "error");
@@ -117,13 +111,24 @@ const RealizarEntrada = () => {
         setLoading(false);
     };
 
+    //Valida se a quantidade informada é númerica antes de salvar no componente;
+    const validarQuantidade = (value: number) => {
+        if (value) {
+            setEntradaEstoque({ ...entradaEstoque, quantidade: value })
+            return
+        } else if (!value && value < 10) { //Caso o usuário esteja apagando e seja o ultimo digito;
+            setEntradaEstoque({ ...entradaEstoque, quantidade: 0 })
+        } else {
+            menssage("Error", "Quantidade precisa ser númerica!", "error")
+            return
+        }
+    }
 
     return (
         <Box>
             <Header tittle="Realizar Entrada no Estoque" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}
@@ -148,10 +153,10 @@ const RealizarEntrada = () => {
                             value={entradaEstoque.numero_lote}
                             onChange={(e) => setEntradaEstoque({ ...entradaEstoque, numero_lote: e.target.value })} />
                     </Box>
-                    { /* Select dos fornecedores cadastrados no banco */}
+
+                    { /* Select dos Produto cadastrados no banco */}
                     <Box>
                         <Text>Produto</Text>
-
                         <SelectFilter
                             options={prodOptions}
                             value={selectedProd}
@@ -165,6 +170,7 @@ const RealizarEntrada = () => {
                             placeholder="Selecione o Produto"
                         />
                     </Box>
+
                     <Box>
                         <Text>Validade</Text>
                         <input type={"date"} placeholder={"Data de Validade"} style={stylesInputs}
@@ -182,32 +188,41 @@ const RealizarEntrada = () => {
                         <Text>Quantidade</Text>
                         <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs}
                             value={entradaEstoque.quantidade}
-                            onChange={(e) => setEntradaEstoque({ ...entradaEstoque, quantidade: Number(e.target.value) })} />
+                            onChange={(e) => validarQuantidade(Number(e.target.value))} />
                     </Box>
 
-                    <Button
-                        mt={"15px"}
-                        w={"100%"}
-                        backgroundColor={"rgba(39, 77, 126, 1)"}
-                        color={"white"}
-                        transition={"all 0.3s"}
-                        _hover={{ backgroundColor: "rgba(80, 103, 138, 1)" }}
-                        onClick={() => { addEntradaFile(entradaEstoque) }}>Adicionar na fila
-                    </Button>
+                    <Flex flexDir={"column"} gap={"8px"}>
+                        <Button
+                            w={"100%"}
+                            backgroundColor={"rgba(39, 77, 126, 1)"}
+                            color={"white"}
+                            transition={"all 0.3s"}
+                            _hover={{ backgroundColor: "rgba(80, 103, 138, 1)" }}
+                            onClick={() => { addEntradaFile(entradaEstoque) }}>Adicionar na fila
+                        </Button>
 
-                    <Button
-                        mt={"15px"}
-                        w={"100%"}
-                        backgroundColor={"rgba(46, 126, 39, 1)"}
-                        color={"white"}
-                        transition={"all 0.3s"}
-                        _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => { realizarEntradaEmFila() }}>{loading ? <Spinner /> : "Salvar"}
-                    </Button>
+                        <Button
+                            w={"100%"}
+                            backgroundColor={"rgba(46, 126, 39, 1)"}
+                            color={"white"}
+                            transition={"all 0.3s"}
+                            _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
+                            onClick={() => { realizarEntradaEmFila() }}>{loading ? <Spinner /> : "Salvar"}
+                        </Button>
+
+                        <Button
+                            w={"100%"}
+                            backgroundColor={"rgba(146, 34, 34, 1)"}
+                            color={"white"}
+                            transition={"all 0.3s"}
+                            _hover={{ backgroundColor: "rgba(138, 80, 80, 1)" }}
+                            onClick={() => { limparFormulario() }}>Limpar Formulário
+                        </Button>
+                    </Flex>
                 </Flex>
             </Box>
 
-
+            {/* Apenas possuindo itens na fila o componente abaixo é exibido */}
             {fila.length !== 0 ?
                 <Box
                     position={"absolute"}
@@ -242,10 +257,8 @@ const RealizarEntrada = () => {
                         })
                         }
                     </Box>
-
                 </Box>
                 : ""}
-
         </Box>
     );
 }
