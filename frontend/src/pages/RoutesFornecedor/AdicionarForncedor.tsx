@@ -6,6 +6,7 @@ import { Fornecedor } from "./Interfaces";
 import { handleSubmitFornecedor } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
 import { useNavigate } from "react-router-dom";
+import { withMask } from "use-mask-input";
 
 const stylesInputs = {
     width: "100%",
