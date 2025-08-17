@@ -11,14 +11,7 @@ import SelectFilter from "../../../components/selectFilter";
 import { fetchProdutos } from "../../RoutesProduto/Services";
 import { Cliente } from "../Interfaces";
 import { fetchClientes } from "../Services";
-
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-    backgroundColor: "#121212",
-};
+import { stylesInputs } from "../../Styles";
 
 // Novo tipo para enviar ao backend
 interface VendaPayload {

@@ -1,20 +1,17 @@
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
+//Imports de bibliotecas;
 import { useState } from "react";
-import { Cliente } from "./Interfaces";
-import { handleSubmitCliente } from "./Services";
-import { menssage } from "../../components/ui/toastMenssage";
-import { useNavigate } from "react-router-dom";
 import { withMask } from "use-mask-input";
-import { validarEmail } from "../Functions";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
+//Imports de componentes;
+import { Cliente } from "./Interfaces";
+import { stylesInputs } from "../Styles";
+import { validarEmail } from "../Functions";
+import Header from "../../components/ui/Header";
+import { handleSubmitCliente } from "./Services";
+import BTReturn from "../../components/ui/BTReturn";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const AdicionarCliente = () => {
 
@@ -82,7 +79,6 @@ const AdicionarCliente = () => {
             <Header tittle="Cadastrar Cliente" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}

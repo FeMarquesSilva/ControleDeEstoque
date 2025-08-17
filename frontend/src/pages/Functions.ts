@@ -1,5 +1,6 @@
 import { menssage } from "../components/ui/toastMenssage";
 
+//Função para formatar data dd/mm/aaaa;
 export const formatDate = (data: string | number | Date) => {
     const date = new Date(data);
     return date.toLocaleDateString('pt-BR', {
@@ -9,12 +10,12 @@ export const formatDate = (data: string | number | Date) => {
     });
 }
 
-//Função para formatar valores em reais R$0.000,00
+//Função para formatar valores em reais R$0.000,00;
 export const formatCurrency = (value: number) => {
     return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 };
 
-//Função para validar e-mail
+//Função para validar e-mail;
 export const validarEmail = (email: string) => {
     if (!email) {
         menssage("E-mail inválido!", "E-mail está vazio.", "error")
@@ -35,7 +36,7 @@ export const validarEmail = (email: string) => {
         return false;
     }
 
-    // Valida se o domínio contém pelo menos um ponto
+    // Valida se o domínio contém pelo menos um ponto;
     if (!domain.includes(".")) {
         menssage("Erro", "E-mail inválido.", "error")
         return false;
