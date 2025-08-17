@@ -44,11 +44,11 @@ def buscar_estoque(id_usuario):
     return jsonify(lista)
 
 def buscar_estoque_resumido(id_usuario):
-    print("Chegou aqui")
     resultados = (
         session.query(
             Produto.nome.label("nome_produto"),
             Categoria.nome.label("categoria"),
+            Produto.unidademedida.label("unidademedida"),
             Lote.validade.label("data_validade"),
             func.sum(Lote.quantidade).label("total_produto")
         )
@@ -56,13 +56,12 @@ def buscar_estoque_resumido(id_usuario):
         .join(Categoria, Categoria.id == Produto.categoria_id)
         .join(Entradaestoque, Entradaestoque.lote_id == Lote.id)
         .filter(Entradaestoque.usuario_id == id_usuario)
-        .group_by(Produto.nome, Categoria.nome, Lote.validade)
+        .group_by(Produto.nome, Categoria.nome, Produto.unidademedida, Lote.validade)
         .order_by(Produto.nome, Lote.validade)
         .all()
     )
 
-    # Converte direto para lista de dicionários usando ._asdict()
-    lista = [r._asdict() for r in resultados]
+    lista = [dict(r._mapping) for r in resultados]
     return jsonify(lista)
 
 

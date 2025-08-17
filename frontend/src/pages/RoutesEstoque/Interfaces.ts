@@ -16,7 +16,11 @@ export interface ListaEstoque {
 }
 
 export interface EstoqueResumido {
-    
+    categoria: string;
+    data_validade: Date;
+    nome_produto: string;
+    total_produto: number;
+    unidademedida: string
 }
 
 export interface DescartEstoque {
