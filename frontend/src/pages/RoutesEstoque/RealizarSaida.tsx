@@ -37,7 +37,6 @@ const RealizarSaida = () => {
         venda_id: null,
         lote_id: null,
         motivo: "",
-        numero_lote: "",
     })
     const [motivOptions, setMotivOptions] = useState<optionSelect[]>([
         { value: 1, label: "Descarte de Produto" },
@@ -83,11 +82,9 @@ const RealizarSaida = () => {
             id_lote: lote?.id || null,
             numero_lote: lote?.numero_lote || "",
         });
-
         setSaidaVenda({
             ...saidaVenda,
             lote_id: lote?.id || null,
-            numero_lote: lote?.numero_lote || "",
         })
 
         setSelectedLote(value);
@@ -108,6 +105,7 @@ const RealizarSaida = () => {
             ...saidaVenda,
             venda_id: venda?.id || null,
         })
+        setSelectedNota(value)
     }
 
     const limparFormulário = () => {
@@ -121,7 +119,6 @@ const RealizarSaida = () => {
         setSaidaVenda({
             ...saidaVenda,
             lote_id: null,
-            numero_lote: "",
             motivo: ""
         });
         setSelectedLote("");
@@ -141,8 +138,8 @@ const RealizarSaida = () => {
 
         if (selectedMotiv === "1") {
             try {
-
                 const response = await handlerDescarteProduto(descarte);
+                console.log(response)
                 if (response?.status === 201) {
                     menssage("Sucesso", "Descarte realizado com sucesso", "success");
                 } else if (response?.status === 404) {
@@ -158,12 +155,21 @@ const RealizarSaida = () => {
                 setLoading(false);
             }
         } else if (selectedMotiv === "2") {
-
             try {
                 const response = await handlerSaidaPorVenda(saidaVenda);
-
+                if (response?.status === 201) {
+                    menssage("Sucesso", "Saida por venda realizada com sucesso", "success");
+                } else if (response?.status === 404) {
+                    menssage("Erro", "Lote não encontrado para saida por venda", "error");
+                } else {
+                    menssage("Erro", "Não foi possível realizar a saida por venda", "error");
+                }
             } catch (error) {
-
+                console.error("Erro ao realizar saida por venda:", error);
+                menssage("Erro", "Falha de comunicação com o servidor", "error");
+            } finally {
+                limparFormulário()
+                setLoading(false);
             }
 
 

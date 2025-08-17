@@ -42,6 +42,5 @@ export interface VendaSaida {
 export interface SaidaPorVenda {
     venda_id: number | null;
     lote_id: number | null;
-    numero_lote: string;
     motivo: string;
 }

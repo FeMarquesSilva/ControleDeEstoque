@@ -80,7 +80,7 @@ export const handlerDescarteProduto = async (lote: DescartEstoque) => {
 export const handlerSaidaPorVenda = async (saida: SaidaPorVenda) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/saida-por-venda`, { saida },
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/saida_venda`, { saida },
             {
                 headers: {
                     'Content-Type': 'application/json',

@@ -41,7 +41,8 @@ from controllers import (
     deletar_venda,
     realizar_entrada_estoque,
     buscar_estoque,
-    realizar_descarte_estoque
+    realizar_descarte_estoque,
+    realizar_saida_estoque_venda
 )
 
 app = Flask(__name__)
@@ -236,13 +237,20 @@ def post_entrada_estoque():
 # Rota para realizar a busca do estoque
 @app.route('/estoque', methods=['GET'])
 def get_estoque():
-    return buscar_estoque()
+    usuario_id = buscar_id_user()
+    return buscar_estoque(usuario_id)
 
 # Rota para realizar descarte de estoque
 @app.route('/estoque/descarte', methods=['POST'])
 def post_descarte_estoque():
     usuario_id = buscar_id_user()
     return realizar_descarte_estoque(usuario_id)
+
+# Rota para realizar saida de estoque por venda
+@app.route('/estoque/saida_venda', methods=['POST'])
+def post_saida_estoque_venda():
+    usuario_id = buscar_id_user()
+    return realizar_saida_estoque_venda(usuario_id)
 
 ## ============== [ Rotas de Lote ] ==============
 

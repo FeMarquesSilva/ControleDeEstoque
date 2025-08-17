@@ -34,7 +34,7 @@ const ListarEstoque = () => {
                 justifyContent={"center"}
                 alignItems={"center"}
             >
-                <Box mt={"50px"} border={"1px solid #ccc"} borderRadius="2px" textAlign={"center"}>
+                <Box mt={"50px"} mb={"50px"} border={"1px solid #ccc"} borderRadius="2px" textAlign={"center"}>
                     {/* Cabeçalho */}
                     <Flex backgroundColor={"rgba(146, 105, 29, 1)"} fontWeight="bold" p={3} borderBottom="1px solid #ccc" justifyContent="space-between" gap={"50px"}>
                         <Box flex="1">ID</Box>

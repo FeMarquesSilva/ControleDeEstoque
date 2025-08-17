@@ -4,7 +4,8 @@ from models import (
     Entradaestoque,
     Produto,
     Categoria,
-    Saidaestoque
+    Saidaestoque,
+    VendaProduto
 )
 from flask import request, jsonify
 from datetime import datetime
@@ -43,7 +44,7 @@ def realizar_entrada_estoque(id_usuario):
         'mensagem': 'Entrada realizada com sucesso'
     }), 201
     
-def buscar_estoque():
+def buscar_estoque(id_usuario):
     resultados = (
         session.query(
             Lote.id,
@@ -121,3 +122,60 @@ def realizar_descarte_estoque(id_usuario):
     session.commit()
     
     return jsonify({'mensagem': 'Descarte realizado com sucesso'}), 201
+
+def realizar_saida_estoque_venda(id_usuario):
+    data = request.json
+    
+    if not data:
+        return jsonify({'mensagem': 'Dados não informados'}), 400
+    
+    itens_recebidos = {
+        'lote_id': data.get('saida').get('lote_id'),
+        'venda_id': data.get('saida').get('venda_id'),
+        'motivo':data.get('saida').get('motivo')
+    }
+    
+    id_lole = itens_recebidos.get('lote_id')
+    
+    # Primeiro busca o lote que será subtraido a quantidade:
+    lote = (
+        session.query(Lote)
+        .filter(Lote.id == id_lole)
+        .filter(Lote.usuario_id == id_usuario)
+        .first()
+    )
+    
+    if not lote:
+        return jsonify({'mensagem': 'Lote não encontrado'}), 404
+
+    # Busco os dados da venda:
+    venda_produto = (
+        session.query(VendaProduto)
+        .filter(VendaProduto.venda_id == itens_recebidos.get('venda_id'))
+        .first()
+    )
+    
+    # Armazena a quantidade necessária na venda:
+    quantidade_necessaria = venda_produto.quantidade
+
+    #Valida se a quantidade atual do lote é maior ou igual a quantidade necessária na venda:
+    if lote.quantidade < quantidade_necessaria:
+        return jsonify({'mensagem': 'Quantidade insuficiente no lote'}), 400
+    
+    #Salva a saida do estoque antes de descontar do lote:
+    saida_estoque = Saidaestoque(
+        lote_id = itens_recebidos.get('lote_id'),
+        quantidade = quantidade_necessaria,
+        motivo = itens_recebidos.get('motivo'),
+        datasaida = datetime.now(),
+        usuario_id = id_usuario
+    )
+    
+    session.add(saida_estoque)
+    session.commit()
+    
+    # Subtrai a quantidade do lote:
+    lote.quantidade -= quantidade_necessaria
+    session.commit()
+    
+    return jsonify({'mensagem': 'Venda realizada com sucesso'}), 201
