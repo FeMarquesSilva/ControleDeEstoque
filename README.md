@@ -4,7 +4,7 @@
 ### Comentarios Importantes
 - O projeto foi desenvolvido em Python, utilizando react com typeScript e Chakra ui
 - Para rodar o projeto, é necessário possuir python em sua maquina, versão =< 3.12
-- Para rodar o projeto, é necessário possuir node.js em sua maquina, versão >= 16.0.0
+- Para rodar o projeto, é necessário possuir node.js em sua maquina, versão >= 19.1.1
 - Crie um arquivo .env dentro do backend e do frontend.
 
 - No arquivo .env do backend, adicione e configure as seguintes variáveis:
@@ -44,13 +44,15 @@
 - oracledb 3.3.0             # Driver oficial Python para Oracle Database;
 - Pyrebase4 4.8.0            # Cliente Python para o Firebase;
 - firebase 4.0.1             # SDK não-oficial para acessar Firebase;
+- setuptools 80.9.0          # Empacotar, distribuir e instalar projetos de forma padronizada.
 
 **Frontend**
 - @chakra-ui/react 3.23.0     # Biblioteca de componentes React com foco em acessibilidade, design system e estilo pronto
-- react 18.0.0                # Biblioteca principal para criação de interfaces declarativas
+- react 19.1.1                # Biblioteca principal para criação de interfaces declarativas
 - react-dom 18.0.0            # Responsável por renderizar componentes React no DOM do navegador
 - react-router-dom 6.4.3      # Sistema de rotas para navegação entre páginas no React
 - axios 1.11.0                # Cliente HTTP para realizar requisições a APIs
 - dotenv 17.2.1               # Carrega variáveis de ambiente a partir de um arquivo .env no frontend
 - lucide-react 0.536.0        # Conjunto de ícones em SVG otimizados para uso com React
 - @emotion/react 11.10.4      # Biblioteca para estilizar componentes React
+- use-mask-input: "3.5.0"     # Biblioteca para mascará dos inputs
