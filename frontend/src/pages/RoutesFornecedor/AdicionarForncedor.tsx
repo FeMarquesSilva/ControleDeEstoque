@@ -7,6 +7,7 @@ import { handleSubmitFornecedor } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
 import { useNavigate } from "react-router-dom";
 import { withMask } from "use-mask-input";
+import { validarEmail } from "../Functions";
 
 const stylesInputs = {
     width: "100%",
@@ -28,9 +29,41 @@ const AdicionarFornecedor = () => {
         email: "",
     })
 
+    const validarCampos = () => {
+        if (fornecedor.nome === "") {
+            menssage("Erro", "Preencha todos os campos!", "error")
+            return false
+        }
+        if (fornecedor.cnpj === "") {
+            menssage("Erro", "Preencha todos os campos!", "error")
+            return false
+        }
+        if (fornecedor.cnpj.replace(/\D/g, "").length < 14) {
+            menssage("Error", "CNPJ precisa ser completo", "error");
+            return false;
+        }
+        if (fornecedor.contato === "") {
+            menssage("Erro", "Preencha todos os campos!", "error")
+            return false
+        }
+        if (fornecedor.endereco === "") {
+            menssage("Erro", "Preencha todos os campos!", "error")
+            return false
+        }
+        if (validarEmail(fornecedor.email) === false) {
+            return false
+        }
+        return true
+    }
+
     const submitForn = async () => {
         if (loading) return;
         setLoading(true);
+
+        if (!validarCampos()) {
+            setLoading(false)
+            return
+        }
 
         await handleSubmitFornecedor(fornecedor).then((response) => {
             setLoading(false);
@@ -83,7 +116,7 @@ const AdicionarFornecedor = () => {
                             ref={withMask("99.999.999/9999-99")}
                             placeholder={"00.000.000/0000-00"}
                             style={stylesInputs}
-                            onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value })} />
+                            onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value.replace(/\D/g, ""), })} />
                     </Box>
                     <Box>
                         <Text>Contato</Text>
@@ -91,7 +124,7 @@ const AdicionarFornecedor = () => {
                             placeholder={"Contato do Fornecedor"}
                             style={stylesInputs}
                             ref={withMask("(99) 9 9999-9999")}
-                            onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value })} />
+                            onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value.replace(/\D/g, "") })} />
                     </Box>
                     <Box>
                         <Text>Endereço</Text>
