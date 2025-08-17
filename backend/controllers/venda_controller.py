@@ -3,59 +3,6 @@ from database import session
 from models import Venda, VendaProduto, Produto, Cliente
 from datetime import datetime
 
-# Função para criar venda (sem mexer no estoque)
-def criar_venda(id_usuario):
-    dados = request.get_json()
-    cliente_id = dados.get('cliente_id')
-    numeronf = dados.get('numeronf')
-    itens = dados.get('itens', [])
-
-    # valida cliente
-    cliente = session.query(Cliente).filter(Cliente.id == cliente_id).first()
-    if not cliente:
-        return jsonify({'error': 'Cliente não encontrado'}), 404
-
-    try:
-        # Calcula valores totais da venda
-        valor_total = sum([item['quantidade'] * item['valorunitario'] for item in itens])
-        datavenda = datetime.now()
-
-        # Cria venda
-        nova_venda = Venda(
-            cliente_id=cliente.id,
-            numeronf=numeronf,
-            valor_total=valor_total,
-            datavenda=datavenda,
-            status='Pendente',
-            usuario_id=id_usuario
-        )
-        session.add(nova_venda)
-        session.commit()
-
-        # Cria itens da venda
-        for item in itens:
-            venda_produto = VendaProduto(
-                venda_id=nova_venda.id,
-                produto_id=item['produto_id'],
-                quantidade=item['quantidade'],
-                valorunitario=item['valorunitario'],
-            )
-            session.add(venda_produto)
-        session.commit()
-
-        return jsonify({
-            'venda_id': nova_venda.id,
-            'cliente': {'id': cliente.id, 'nome': cliente.nome},
-            'valor_total': valor_total,
-            'itens': itens
-        }), 201
-
-    except Exception as e:
-        print(e)
-        session.rollback()
-        return jsonify({'error': str(e)}), 500
-    
-    
 # Listar todas as vendas
 def listar_vendas(id_usuario):
     try:
@@ -81,9 +28,7 @@ def listar_vendas(id_usuario):
         return jsonify({'error': str(e)}), 500
     finally:
         session.remove()
-        
-                         
-
+                                
 # Listar todas vendas com clientes
 def listar_vendas_com_clientes():
     try:
@@ -168,31 +113,57 @@ def listar_vendas_por_produto(produto_id):
         })
     return jsonify(resultado), 200
 
-# Listar vendas por data
-def listar_vendas_por_data(data):
-    vendas = session.query(Venda, Cliente).join(
-        Cliente, Venda.cliente_id == Cliente.id
-    ).filter(Venda.datavenda == data).all()
+# Função para criar venda (sem mexer no estoque)
+def criar_venda(id_usuario):
+    dados = request.get_json()
+    cliente_id = dados.get('cliente_id')
+    numeronf = dados.get('numeronf')
+    itens = dados.get('itens', [])
 
-    resultado = []
-    for venda, cliente in vendas:
-        itens = session.query(VendaProduto, Produto).join(
-            Produto, VendaProduto.produto_id == Produto.id
-        ).filter(VendaProduto.venda_id == venda.id).all()
+    # valida cliente
+    cliente = session.query(Cliente).filter(Cliente.id == cliente_id).first()
+    if not cliente:
+        return jsonify({'error': 'Cliente não encontrado'}), 404
 
-        resultado.append({
-            'venda_id': venda.id,
+    try:
+        # Calcula valores totais da venda
+        valor_total = sum([item['quantidade'] * item['valorunitario'] for item in itens])
+        datavenda = datetime.now()
+
+        # Cria venda
+        nova_venda = Venda(
+            cliente_id=cliente.id,
+            numeronf=numeronf,
+            valor_total=valor_total,
+            datavenda=datavenda,
+            status='Pendente',
+            usuario_id=id_usuario
+        )
+        session.add(nova_venda)
+        session.commit()
+
+        # Cria itens da venda
+        for item in itens:
+            venda_produto = VendaProduto(
+                venda_id=nova_venda.id,
+                produto_id=item['produto_id'],
+                quantidade=item['quantidade'],
+                valorunitario=item['valorunitario'],
+            )
+            session.add(venda_produto)
+        session.commit()
+
+        return jsonify({
+            'venda_id': nova_venda.id,
             'cliente': {'id': cliente.id, 'nome': cliente.nome},
-            'valor_total': venda.valor_total,
-            'itens': [{
-                'produto_id': produto.id,
-                'nome': produto.nome,
-                'quantidade': vp.quantidade,
-                'valor': vp.valorunitario
-            } for vp, produto in itens]
-        })
-    return jsonify(resultado), 200
+            'valor_total': valor_total,
+            'itens': itens
+        }), 201
 
+    except Exception as e:
+        print(e)
+        session.rollback()
+        return jsonify({'error': str(e)}), 500
 
 # Deletar venda
 def deletar_venda(venda_id):

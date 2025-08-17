@@ -2,7 +2,6 @@ from flask import request, jsonify
 from flask import Flask
 from flask_cors import CORS
 from database import session
-
 from controllers import (
     consulta_lotes,
     cadastrar_usuario,
@@ -26,18 +25,13 @@ from controllers import (
     create_produto,
     get_produtos_com_fornecedores_categorias,
     get_produto_por_id,
-    get_produtos_por_fornecedor,
-    get_produtos_por_categoria,
-    get_produtos_por_status,
     delete_produto,
     update_produto,
-    get_produtos_por_lote,
     criar_venda,
     listar_vendas,
     listar_vendas_com_clientes,
     listar_vendas_por_cliente,
     listar_vendas_por_produto,
-    listar_vendas_por_data,
     deletar_venda,
     realizar_entrada_estoque,
     buscar_estoque,
@@ -119,24 +113,29 @@ def post_login():
 
 ## ============== [ Rotas de Categoria ] ==============
 
+# Rota para criar categoria
 @app.route('/categorias', methods=['POST'])
 def route_criar_categoria():
     usuario_id = buscar_id_user()
     return create_categoria(usuario_id)
 
+# Rota para listar categorias
 @app.route('/categorias', methods=['GET'])
 def route_listar_categorias():
     usuario_id = buscar_id_user()
     return listar_categorias(usuario_id)
 
+# Rota para obter categoria por ID
 @app.route('/categorias/<int:id>', methods=['GET'])
 def route_obter_categoria(id):
     return obter_categoria(id)
 
+# Rota para atualizar categoria por ID
 @app.route('/categorias/<int:id>', methods=['PUT'])
 def route_atualizar_categoria(id):
     return atualizar_categoria(id)
 
+# Rota para deletar categoria por ID
 @app.route('/categorias/<int:id>', methods=['DELETE'])
 def route_deletar_categoria(id):
     return deletar_categoria(id)
@@ -155,21 +154,6 @@ def get_produtos():
     usuario_id = buscar_id_user()
     return get_produtos_com_fornecedores_categorias(usuario_id)
 
-# Rota para listar produtos por fornecedor
-@app.route('/produtos/fornecedor/<int:fornecedor_id>', methods=['GET'])
-def route_get_produtos_por_fornecedor(fornecedor_id):
-    return get_produtos_por_fornecedor(fornecedor_id)
-
-# Rota para listar produtos por categoria
-@app.route('/produtos/categoria/<int:categoria_id>', methods=['GET'])
-def route_get_produtos_por_categoria(categoria_id):
-    return get_produtos_por_categoria(categoria_id)
-
-# Rota para listar produtos por status
-@app.route('/produtos/status/<string:status>', methods=['GET'])
-def route_get_produtos_por_status(status):
-    return get_produtos_por_status(status)
-
 # Rota para deletar produtos
 @app.route('/produtos/<int:id>', methods=['DELETE'])
 def route_del_produto(id):
@@ -182,11 +166,6 @@ def route_update_produto(id):
     if not data:
         return jsonify({'erro': 'Dados não fornecidos'}), 400
     return update_produto(id, data)
-
-# Rota para listar produtos por lote
-@app.route('/produtos/lote/<int:lote_id>', methods=['GET'])
-def route_get_produtos_por_lote(lote_id):
-    return get_produtos_por_lote(lote_id)
 
 ## ============== [ Rotas de Vendas ] ==============
 
@@ -216,11 +195,6 @@ def get_vendas_por_cliente(cliente_id):
 @app.route('/vendas/produto/<int:produto_id>', methods=['GET'])
 def get_vendas_por_produto(produto_id):
     return listar_vendas_por_produto(produto_id)
-
-# Rota para listar vendas por data
-@app.route('/vendas/data/<string:data>', methods=['GET'])
-def get_vendas_por_data(data):
-    return listar_vendas_por_data(data)
 
 # Rota para deletar venda
 @app.route('/vendas/<int:venda_id>', methods=['DELETE'])

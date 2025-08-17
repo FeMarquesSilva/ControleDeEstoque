@@ -37,12 +37,8 @@ from controllers.produto_controller import (
     create_produto,
     get_produtos_com_fornecedores_categorias,
     get_produto_por_id,
-    get_produtos_por_fornecedor,
-    get_produtos_por_categoria,
-    get_produtos_por_status,
     delete_produto,
     update_produto,
-    get_produtos_por_lote
 )
 
 from controllers.search_id_user_controller import (
@@ -60,6 +56,5 @@ from controllers.venda_controller import (
     listar_vendas_com_clientes,
     listar_vendas_por_cliente,
     listar_vendas_por_produto,
-    listar_vendas_por_data,
     deletar_venda,
 )

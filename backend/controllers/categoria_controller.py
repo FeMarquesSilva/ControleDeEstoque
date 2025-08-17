@@ -2,18 +2,6 @@ from database import session
 from models import Categoria
 from flask import request, jsonify
 
-# Função para criar categoria
-def create_categoria(id_usuario):
-    data = request.get_json()
-    nova_categoria = Categoria(
-        nome=data['nome'],
-        descricao=data['descricao'],
-        usuario_id=id_usuario
-    )
-    session.add(nova_categoria)
-    session.commit()
-    return jsonify({'message': 'Categoria criada com sucesso'}), 201
-
 # Função para listar categorias
 def listar_categorias(id_usuario):
     try:
@@ -37,6 +25,18 @@ def obter_categoria(id):
     if not categoria:
         return jsonify({"error": "Categoria não encontrada"}), 404
     return jsonify(categoria.to_dict()), 200
+
+# Função para criar categoria
+def create_categoria(id_usuario):
+    data = request.get_json()
+    nova_categoria = Categoria(
+        nome=data['nome'],
+        descricao=data['descricao'],
+        usuario_id=id_usuario
+    )
+    session.add(nova_categoria)
+    session.commit()
+    return jsonify({'message': 'Categoria criada com sucesso'}), 201
 
 # Função para atualizar uma categoria
 def atualizar_categoria(id):
