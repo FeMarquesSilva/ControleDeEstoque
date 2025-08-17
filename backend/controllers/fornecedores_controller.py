@@ -1,6 +1,7 @@
 from database import session
-from models import Fornecedor
+from models import Fornecedor, Produto, Lote
 from flask import request, jsonify
+from sqlalchemy import func
 
 # Função para listar fornecedores
 def listar_fornecedores(id_usuario):
@@ -24,6 +25,25 @@ def listar_fornecedores(id_usuario):
         return jsonify(fornecedores_list)
     finally:
         session.remove()
+
+
+def listar_fornecedores_produtos(id_usuario):
+    resultados = (
+        session.query(
+            Produto.nome.label("nome_produto"),
+            Fornecedor.nome.label("nome_fornecedor"),
+            func.sum(Lote.quantidade).label("quantidade_total")
+        )
+        .join(Fornecedor, Fornecedor.id == Produto.fornecedor_id)
+        .join(Lote, Lote.produto_id == Produto.id)
+        .filter(Produto.usuario_id == id_usuario)  # <-- filtro por usuário
+        .group_by(Fornecedor.nome, Produto.nome)
+        .order_by(Produto.nome)
+        .all()
+    )
+
+    lista = [dict(r._mapping) for r in resultados]
+    return jsonify(lista)
 
 # Função para listar fornecedor por ID
 def listar_fornecedor_id(id):

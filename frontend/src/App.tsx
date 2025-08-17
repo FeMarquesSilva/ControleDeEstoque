@@ -31,6 +31,7 @@ import RealizarSaida from "./pages/RoutesEstoque/RealizarSaida";
 import ListarVendas from "./pages/RoutsCliente/RoutsVenda/ListarVendas";
 import ListarEstoqueResumo from "./pages/RoutesEstoque/ListarEstoqueResumo";
 import ListarVendasCliente from "./pages/RoutsCliente/RoutsVenda/ListarVendasCliente";
+import ListarProdutosFornecedor from "./pages/RoutesFornecedor/ListarProdutosFornecedor";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -78,6 +79,7 @@ const router = createBrowserRouter([
   { path: "/clientes/venda/listar", element: (<PrivateRoute element={<ListarVendas />} />) },
   { path: "/estoque/listar/resumo", element: (<PrivateRoute element={<ListarEstoqueResumo />} />) },
   { path: "/clientes/vendas/listar/resumo", element: (<PrivateRoute element={<ListarVendasCliente />} />) },
+  { path: "/fornecedores/produtos", element: (<PrivateRoute element={<ListarProdutosFornecedor />} />) },
   { path: "*", element: <NotFound /> },
 ]);
 

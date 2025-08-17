@@ -6,3 +6,9 @@ export interface Fornecedor {
     endereco: string;
     email: string;
 }
+
+export interface FornecedorProduto {
+    nome_fornecedor: string;
+    nome_produto: string;
+    quantidade_total: number;
+}
