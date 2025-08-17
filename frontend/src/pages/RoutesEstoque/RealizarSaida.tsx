@@ -156,6 +156,17 @@ const RealizarSaida = () => {
             }
         } else if (selectedMotiv === "2") {
             try {
+
+                //Busco o status da venda pela saidaVenda venda_id:
+                const statusVenda = vendas[Number(saidaVenda.venda_id) - 1].status
+
+                //Se o status da venda for 'Atendida' eu cancelo a operação:
+                if (statusVenda === "Atendida") {
+                    menssage("Erro", "Não é possível realizar a saida de produtos de uma venda atendida", "error");
+                        setLoading(false);
+                    return;
+                }
+
                 const response = await handlerSaidaPorVenda(saidaVenda);
                 if (response?.status === 201) {
                     menssage("Sucesso", "Saida por venda realizada com sucesso", "success");

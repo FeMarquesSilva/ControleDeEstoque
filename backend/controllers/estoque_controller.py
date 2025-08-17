@@ -5,7 +5,8 @@ from models import (
     Produto,
     Categoria,
     Saidaestoque,
-    VendaProduto
+    VendaProduto,
+    Venda
 )
 from flask import request, jsonify
 from datetime import datetime
@@ -176,6 +177,17 @@ def realizar_saida_estoque_venda(id_usuario):
     
     # Subtrai a quantidade do lote:
     lote.quantidade -= quantidade_necessaria
+    session.commit()
+    
+    # Busco os dados da venda:
+    venda = (
+        session.query(Venda)
+        .filter(Venda.id == itens_recebidos.get('venda_id'))
+        .first()
+    )
+    
+    # Altero o status da venda de 'Pendente' para 'Atendida':
+    venda.status = 'Atendida'
     session.commit()
     
     return jsonify({'mensagem': 'Venda realizada com sucesso'}), 201
