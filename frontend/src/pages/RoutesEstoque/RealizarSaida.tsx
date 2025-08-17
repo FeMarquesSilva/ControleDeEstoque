@@ -1,21 +1,18 @@
+//Imports de bibliotecas;
+import React, { useEffect, useState } from "react";
 import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+
+//Imports de componentes;
+import { stylesInputs } from "../Styles";
+import { formatDate } from "../Functions";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import React, { useEffect, useState } from "react";
-import { menssage } from "../../components/ui/toastMenssage";
-import { optionSelect } from "../RoutesProduto/Interface";
 import SelectFilter from "../../components/selectFilter";
+import { optionSelect } from "../RoutesProduto/Interface";
+import { menssage } from "../../components/ui/toastMenssage";
+import { handleGetAllVendas } from "../RoutsCliente/RoutsVenda/Services";
 import { DescartEstoque, Lote, SaidaPorVenda, VendaSaida } from "./Interfaces";
 import { handlerBuscarLotes, handlerDescarteProduto, handlerSaidaPorVenda } from "./Service";
-import { formatDate } from "../Functions";
-import { handleGetAllVendas } from "../RoutsCliente/RoutsVenda/Services";
-
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
 
 const RealizarSaida = () => {
 
@@ -130,8 +127,16 @@ const RealizarSaida = () => {
         if (loading) return;
         setLoading(true);
 
-        if (descarte.quantidade === 0) {
-            menssage("Erro", "Quantidade de produtos deve ser maior que 0", "error")
+        if (descarte.numero_lote === "") {
+            menssage("Erro", "Lote deve ser informado!", "error")
+            setLoading(false);
+            return;
+        } else if (selectedMotiv === "1" && descarte.quantidade === 0 || descarte.quantidade === null) {
+            menssage("Erro", "Quantidade de produtos deve ser maior que 0!", "error")
+            setLoading(false);
+            return;
+        } else if (selectedMotiv === "2" && !selectedNota) {
+            menssage("Erro", "Número da NF'e é obrigatório!", "error")
             setLoading(false);
             return;
         }
@@ -139,7 +144,6 @@ const RealizarSaida = () => {
         if (selectedMotiv === "1") {
             try {
                 const response = await handlerDescarteProduto(descarte);
-                console.log(response)
                 if (response?.status === 201) {
                     menssage("Sucesso", "Descarte realizado com sucesso", "success");
                 } else if (response?.status === 404) {
@@ -163,7 +167,7 @@ const RealizarSaida = () => {
                 //Se o status da venda for 'Atendida' eu cancelo a operação:
                 if (statusVenda === "Atendida") {
                     menssage("Erro", "Não é possível realizar a saida de produtos de uma venda atendida", "error");
-                        setLoading(false);
+                    setLoading(false);
                     return;
                 }
 
