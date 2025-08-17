@@ -15,6 +15,10 @@ export interface ListaEstoque {
     categoria: string
 }
 
+export interface EstoqueResumido {
+    
+}
+
 export interface DescartEstoque {
     id_lote: number | null
     numero_lote: string;

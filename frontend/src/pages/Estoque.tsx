@@ -11,6 +11,7 @@ const Estoque = () => {
         { nome: "Realizar Entrada", link: "/estoque/entrada" },
         { nome: "Realizar Saida", link: "/estoque/saida" },
         { nome: "Listar Estoque", link: "/estoque/listar" },
+        { nome: "Listar Estoque Resumido", link: "/estoque/listar/resumo" }
     ];
 
     return (
@@ -19,7 +20,7 @@ const Estoque = () => {
             <BTReturn />
 
             <Flex
-                flexDir={"column"}        
+                flexDir={"column"}
                 w={"100%"} h={"100vh"}
                 display={"flex"}
                 alignItems={"center"}

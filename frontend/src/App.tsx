@@ -29,6 +29,7 @@ import AdicionarVenda from "./pages/RoutsCliente/RoutsVenda/AdicionarVenda";
 import ListarEstoque from "./pages/RoutesEstoque/ListarEstoque";
 import RealizarSaida from "./pages/RoutesEstoque/RealizarSaida";
 import ListarVendas from "./pages/RoutsCliente/RoutsVenda/ListarVendas";
+import ListarEstoqueResumo from "./pages/RoutesEstoque/ListarEstoqueResumo";
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -74,6 +75,7 @@ const router = createBrowserRouter([
   { path: "/clientes/venda", element: (<PrivateRoute element={<AdicionarVenda /> } />) },
   { path: "/estoque/listar", element: (<PrivateRoute element={<ListarEstoque />} />) },
   { path: "/clientes/venda/listar", element: (<PrivateRoute element={<ListarVendas />} />) },
+  { path: "/estoque/listar/resumo", element: (<PrivateRoute element={<ListarEstoqueResumo />} />) },
   { path: "*", element: <NotFound /> },
 ]);
 
