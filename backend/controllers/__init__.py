@@ -18,7 +18,8 @@ from controllers.estoque_controller import (
     realizar_entrada_estoque,
     buscar_estoque,
     realizar_descarte_estoque,
-    realizar_saida_estoque_venda
+    realizar_saida_estoque_venda,
+    buscar_estoque_resumido
 )
 
 from controllers.fornecedores_controller import (

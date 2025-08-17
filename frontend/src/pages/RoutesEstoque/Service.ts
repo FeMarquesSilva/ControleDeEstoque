@@ -38,6 +38,26 @@ export const handlerListarEstoque = async () => {
     }
 }
 
+//Função para listar estoque resumido:
+export const handlerBuscarLotesResumo = async () => {
+    const token = localStorage.getItem('token')
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/resumido`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        console.log(response.data)
+        return response;
+    } catch (error) {
+        console.error(error);
+        return
+    }
+}
+
 //Função para buscar tofos lotes:
 export const handlerBuscarLotes = async () => {
     const token = localStorage.getItem('token')

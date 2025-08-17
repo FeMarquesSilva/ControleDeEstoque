@@ -36,7 +36,8 @@ from controllers import (
     realizar_entrada_estoque,
     buscar_estoque,
     realizar_descarte_estoque,
-    realizar_saida_estoque_venda
+    realizar_saida_estoque_venda,
+    buscar_estoque_resumido
 )
 
 app = Flask(__name__)
@@ -214,6 +215,12 @@ def post_entrada_estoque():
 def get_estoque():
     usuario_id = buscar_id_user()
     return buscar_estoque(usuario_id)
+
+# Rota para listar o estoque resumido
+@app.route('/estoque/resumido', methods=['GET'])
+def get_estoque_resumido():
+    usuario_id = buscar_id_user()
+    return buscar_estoque_resumido(usuario_id)
 
 # Rota para realizar descarte de estoque
 @app.route('/estoque/descarte', methods=['POST'])

@@ -10,6 +10,60 @@ from models import (
 )
 from flask import request, jsonify
 from datetime import datetime
+from sqlalchemy import func
+
+def buscar_estoque(id_usuario):
+    resultados = (
+        session.query(
+            Lote.id,
+            Lote.numero_lote,
+            Produto.nome.label("nome_produto"),
+            Lote.quantidade.label("qtd_produto"),
+            Entradaestoque.dataentrada.label("data_entrada"),
+            Lote.validade.label("data_validade"),
+            Categoria.nome.label("categoria")
+        )
+        .join(Entradaestoque, Entradaestoque.lote_id == Lote.id)
+        .join(Produto, Produto.id == Lote.produto_id)
+        .join(Categoria, Categoria.id == Produto.categoria_id)
+        .filter(Entradaestoque.usuario_id == id_usuario)
+        .all()
+    )
+    
+    lista = []
+    for r in resultados:
+        lista.append({
+            "id": r.id,
+            "numero_lote": r.numero_lote,
+            "nome_produto": r.nome_produto,
+            "qtd_produto": r.qtd_produto,
+            "data_entrada": r.data_entrada.isoformat() if r.data_entrada else None,
+            "data_validade": r.data_validade.isoformat() if r.data_validade else None,
+            "categoria": r.categoria
+        })
+    return jsonify(lista)
+
+def buscar_estoque_resumido(id_usuario):
+    resultados = (
+        session.query(
+            Produto.nome.label("nome_produto"),
+            Categoria.nome.label("categoria"),
+            Produto.unidademedida.label("unidademedida"),
+            Lote.validade.label("data_validade"),
+            func.sum(Lote.quantidade).label("total_produto")
+        )
+        .join(Lote, Lote.produto_id == Produto.id)
+        .join(Categoria, Categoria.id == Produto.categoria_id)
+        .join(Entradaestoque, Entradaestoque.lote_id == Lote.id)
+        .filter(Entradaestoque.usuario_id == id_usuario)
+        .group_by(Produto.nome, Categoria.nome, Produto.unidademedida, Lote.validade)
+        .order_by(Produto.nome, Lote.validade)
+        .all()
+    )
+
+    lista = [dict(r._mapping) for r in resultados]
+    return jsonify(lista)
+
 
 def realizar_entrada_estoque(id_usuario):
     data = request.json
@@ -45,38 +99,6 @@ def realizar_entrada_estoque(id_usuario):
         'mensagem': 'Entrada realizada com sucesso'
     }), 201
     
-def buscar_estoque(id_usuario):
-    resultados = (
-        session.query(
-            Lote.id,
-            Lote.numero_lote,
-            Produto.nome.label("nome_produto"),
-            Lote.quantidade.label("qtd_produto"),
-            Entradaestoque.dataentrada.label("data_entrada"),
-            Lote.validade.label("data_validade"),
-            Categoria.nome.label("categoria")
-        )
-        .join(Entradaestoque, Entradaestoque.lote_id == Lote.id)
-        .join(Produto, Produto.id == Lote.produto_id)
-        .join(Categoria, Categoria.id == Produto.categoria_id)
-        .filter(Entradaestoque.usuario_id == id_usuario)
-        .all()
-    )
-    
-    lista = []
-    for r in resultados:
-        lista.append({
-            "id": r.id,
-            "numero_lote": r.numero_lote,
-            "nome_produto": r.nome_produto,
-            "qtd_produto": r.qtd_produto,
-            "data_entrada": r.data_entrada.isoformat() if r.data_entrada else None,
-            "data_validade": r.data_validade.isoformat() if r.data_validade else None,
-            "categoria": r.categoria
-        })
-
-    return jsonify(lista)
-
 def realizar_descarte_estoque(id_usuario):
     data = request.json
     if not data:
