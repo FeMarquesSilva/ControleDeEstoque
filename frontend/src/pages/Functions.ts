@@ -9,5 +9,23 @@ export const formatDate = (data: string | number | Date) => {
 
 //Função para formatar valores em reais R$0.000,00
 export const formatCurrency = (value: number) => {
-  return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 };
+
+//Função para validar e-mail
+export const validarEmail = (email: string) => {
+    if (!email) return false;
+
+    // Validação se possuí um "@".
+    const parts = email.split("@");
+    if (parts.length !== 2) return false;
+
+    // Validação se há pelo menos um caractere antes e depois do "@"
+    const [localPart, domain] = parts;
+    if (localPart.length === 0 || domain.length === 0) return false;
+
+    // Valida se o domínio contém pelo menos um ponto
+    if (!domain.includes(".")) return false;
+
+    return true
+}

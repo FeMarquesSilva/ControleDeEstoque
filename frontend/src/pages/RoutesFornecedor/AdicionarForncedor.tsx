@@ -27,7 +27,7 @@ const AdicionarFornecedor = () => {
         endereco: "",
         email: "",
     })
-        
+
     const submitForn = async () => {
         if (loading) return;
         setLoading(true);
@@ -79,12 +79,18 @@ const AdicionarFornecedor = () => {
                     </Box>
                     <Box>
                         <Text>CNPJ</Text>
-                        <input type={"text"} placeholder={"CNPJ do Fornecedor"} style={stylesInputs}
+                        <input type={"text"}
+                            ref={withMask("99.999.999/9999-99")}
+                            placeholder={"00.000.000/0000-00"}
+                            style={stylesInputs}
                             onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Contato</Text>
-                        <input type={"text"} placeholder={"Contato do Fornecedor"} style={stylesInputs}
+                        <input type={"text"}
+                            placeholder={"Contato do Fornecedor"}
+                            style={stylesInputs}
+                            ref={withMask("(99) 9 9999-9999")}
                             onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value })} />
                     </Box>
                     <Box>
@@ -105,7 +111,7 @@ const AdicionarFornecedor = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => {submitForn()}}>{ loading ? <Spinner/> : "Salvar"}</Button>
+                        onClick={() => { submitForn() }}>{loading ? <Spinner /> : "Salvar"}</Button>
                 </Flex>
             </Box>
         </Box>
