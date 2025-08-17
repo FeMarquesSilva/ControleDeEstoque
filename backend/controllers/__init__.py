@@ -28,7 +28,8 @@ from controllers.fornecedores_controller import (
     delete_fornecedor,
     update_fornecedor,
     create_fornecedor,
-    listar_fornecedores_produtos
+    listar_fornecedores_produtos,
+    listar_fornecedores_produtos_vendas
 )
 
 from controllers.lote_controller import (

@@ -61,6 +61,28 @@ export const fetchFornecedoresProdutos = async () => {
     }
 }
 
+// Função para buscar a lista de fornecedores com total de produtos vendidos
+export const fetchFornecedoresProdutosVendas = async () => {
+    const token = localStorage.getItem("token");
+    try {
+        const response = await axios.get(
+            `${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/fornecedores/produtos/vendas`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+            }
+        )
+        console.log(response.data)
+        return response
+    } catch (error) {
+        console.error(error)
+        return
+    }
+}
+
+
 // Função para deletar um fornecedor da API
 export const deleteFornecedor = async (id: number | null) => {
     try {

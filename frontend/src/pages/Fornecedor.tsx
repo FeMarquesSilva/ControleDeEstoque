@@ -8,7 +8,8 @@ const Fornecedor = () => {
     const sections = [
         { nome: "Adicionar Fornecedor", link: "/fornecedores/adicionar" },
         { nome: "Listar Fornecedores", link: "/fornecedores/listar" },
-        { nome: "Fornecedores x Produtos", link: "/fornecedores/produtos"}
+        { nome: "Fornecedores x Produtos", link: "/fornecedores/produtos"},
+        { nome: "Fornecedor x Vendas", link: "/fornecedores/produtos/vendas"}
     ];
     return (
         <Box>

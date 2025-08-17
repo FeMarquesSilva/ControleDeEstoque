@@ -12,3 +12,9 @@ export interface FornecedorProduto {
     nome_produto: string;
     quantidade_total: number;
 }
+
+export interface FornecedorProdutoVenda {
+    fornecedor: string;
+    produto: string;
+    total_vendido: number;
+}

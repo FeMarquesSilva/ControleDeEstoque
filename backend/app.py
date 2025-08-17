@@ -39,7 +39,8 @@ from controllers import (
     realizar_saida_estoque_venda,
     buscar_estoque_resumido,
     listar_vendas_total_cliente,
-    listar_fornecedores_produtos
+    listar_fornecedores_produtos,
+    listar_fornecedores_produtos_vendas
 )
 
 app = Flask(__name__)
@@ -88,6 +89,12 @@ def route_lista_fornecedores():
 def route_lista_fornecedores_produtos():
     usuario_id = buscar_id_user()
     return listar_fornecedores_produtos(usuario_id)
+
+# Rota para listar todos os produtos por fornecedores:
+@app.route('/fornecedores/produtos/vendas', methods=['GET'])
+def route_lista_fornecedores_produtos_vendas():
+    usuario_id = buscar_id_user()
+    return listar_fornecedores_produtos_vendas(usuario_id)
 
 # Rota para buscar fornecedor por ID
 @app.route('/fornecedores/<int:id>', methods=['GET'])
