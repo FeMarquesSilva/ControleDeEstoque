@@ -38,3 +38,10 @@ export interface VendaSaida {
     valor_total: number;
     status: string;
 }
+
+export interface SaidaPorVenda {
+    venda_id: number | null;
+    lote_id: number | null;
+    numero_lote: string;
+    motivo: string;
+}

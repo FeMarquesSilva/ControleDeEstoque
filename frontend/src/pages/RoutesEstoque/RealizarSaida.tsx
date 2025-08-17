@@ -5,8 +5,8 @@ import React, { useEffect, useState } from "react";
 import { menssage } from "../../components/ui/toastMenssage";
 import { optionSelect } from "../RoutesProduto/Interface";
 import SelectFilter from "../../components/selectFilter";
-import { DescartEstoque, Lote, VendaSaida } from "./Interfaces";
-import { handlerBuscarLotes, handlerDescarteProduto } from "./Service";
+import { DescartEstoque, Lote, SaidaPorVenda, VendaSaida } from "./Interfaces";
+import { handlerBuscarLotes, handlerDescarteProduto, handlerSaidaPorVenda } from "./Service";
 import { formatDate } from "../Functions";
 import { handleGetAllVendas } from "../RoutsCliente/RoutsVenda/Services";
 
@@ -33,6 +33,12 @@ const RealizarSaida = () => {
         quantidade: null,
         motivo: "",
     });
+    const [saidaVenda, setSaidaVenda] = useState<SaidaPorVenda>({
+        venda_id: null,
+        lote_id: null,
+        motivo: "",
+        numero_lote: "",
+    })
     const [motivOptions, setMotivOptions] = useState<optionSelect[]>([
         { value: 1, label: "Descarte de Produto" },
         { value: 2, label: "Venda" },
@@ -65,8 +71,6 @@ const RealizarSaida = () => {
                 }));
                 setNumNfOptions(novosItens);
             }
-
-
         }
         searchVendas()
     }, [])
@@ -80,6 +84,12 @@ const RealizarSaida = () => {
             numero_lote: lote?.numero_lote || "",
         });
 
+        setSaidaVenda({
+            ...saidaVenda,
+            lote_id: lote?.id || null,
+            numero_lote: lote?.numero_lote || "",
+        })
+
         setSelectedLote(value);
     };
 
@@ -87,7 +97,17 @@ const RealizarSaida = () => {
         setSelectedMotiv(value)
         if (value === "1") {
             setDescarte({ ...descarte, motivo: "Descarte de Produto" })
+        } else {
+            setSaidaVenda({ ...saidaVenda, motivo: "Venda" })
         }
+    }
+
+    const preencherVendaID = (value: string) => {
+        const venda = vendas.find((v) => v.id === Number(value));
+        setSaidaVenda({
+            ...saidaVenda,
+            venda_id: venda?.id || null,
+        })
     }
 
     const limparFormulário = () => {
@@ -96,6 +116,12 @@ const RealizarSaida = () => {
             id_lote: null,
             numero_lote: "",
             quantidade: null,
+            motivo: ""
+        });
+        setSaidaVenda({
+            ...saidaVenda,
+            lote_id: null,
+            numero_lote: "",
             motivo: ""
         });
         setSelectedLote("");
@@ -113,8 +139,8 @@ const RealizarSaida = () => {
             return;
         }
 
-        try {
-            if (selectedMotiv === "1") {
+        if (selectedMotiv === "1") {
+            try {
 
                 const response = await handlerDescarteProduto(descarte);
                 if (response?.status === 201) {
@@ -124,12 +150,25 @@ const RealizarSaida = () => {
                 } else {
                     menssage("Erro", "Não foi possível realizar o descarte", "error");
                 }
+            } catch (error) {
+                console.error("Erro ao realizar descarte:", error);
+                menssage("Erro", "Falha de comunicação com o servidor", "error");
+            } finally {
+                limparFormulário()
+                setLoading(false);
             }
-        } catch (error) {
-            console.error("Erro ao realizar descarte:", error);
-            menssage("Erro", "Falha de comunicação com o servidor", "error");
-        } finally {
-            limparFormulário()
+        } else if (selectedMotiv === "2") {
+
+            try {
+                const response = await handlerSaidaPorVenda(saidaVenda);
+
+            } catch (error) {
+
+            }
+
+
+        } else {
+            menssage("Erro", "Motivo de descarte não selecionado", "error");
             setLoading(false);
         }
     };
@@ -155,7 +194,7 @@ const RealizarSaida = () => {
                     borderRadius={"15px"}
                     gap={"5px"}>
 
-                    <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
+                    <Text onClick={() => console.log(saidaVenda)} fontSize={"20px"} fontWeight={"bold"} color={"white"}>
                         Preencha os dados abaixo:
                     </Text>
 
@@ -182,16 +221,16 @@ const RealizarSaida = () => {
                     </Box>
 
                     {selectedMotiv === "2" ?
-                    <Box>
-                        <Text>Número da NF'e</Text>
+                        <Box>
+                            <Text>Número da NF'e</Text>
 
-                        <SelectFilter
-                            options={numNfOptions}
-                            value={selectedNota}
-                            placeholder="Número da NF'e"
-                            onChange={(value) => setSelectedNota(value)}
-                        />
-                    </Box>
+                            <SelectFilter
+                                options={numNfOptions}
+                                value={selectedNota}
+                                placeholder="Número da NF'e"
+                                onChange={(value) => preencherVendaID(value)}
+                            />
+                        </Box>
                         :
                         ""
                     }
@@ -247,6 +286,40 @@ const RealizarSaida = () => {
                                 })()
                             }
                         </Text>
+                    </Box>
+                    :
+                    ""
+                }
+
+                {selectedNota ?
+
+                    <Box
+                        position={"absolute"}
+                        right={0}
+                        top={0}
+                        mt={"100px"}
+                        marginRight={"300px"}
+                        backgroundColor={"rgba(68, 131, 131, 1)"}
+                        minW={"250px"}
+                        padding={"5px"}
+                        borderRadius={"8px"}
+                    >
+                        <Text fontWeight={"bold"}>Dados da Venda</Text>
+                        <Text>Número da NF'e: {vendas.find((l) => l.id === Number(selectedNota))?.numeronf || "Não encontrado"}</Text>
+                        <Text>
+                            Data da Venda: {
+                                (() => {
+                                    const vendaRealizada = vendas.find((l) => l.id === Number(selectedNota))?.datavenda;
+                                    if (!vendaRealizada) return "Não encontrado";
+
+                                    const date = new Date(vendaRealizada);
+                                    date.setDate(date.getDate() + 1); // Adiciona 1 dia; 
+
+                                    return formatDate(date);
+                                })()
+                            }
+                        </Text>
+                        <Text>Valor Total: {vendas.find((l) => l.id === Number(selectedNota))?.valor_total || "Não encontrado"}</Text>
                     </Box>
                     :
                     ""

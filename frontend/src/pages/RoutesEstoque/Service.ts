@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DescartEstoque, EntradaEstoque } from "./Interfaces";
+import { DescartEstoque, EntradaEstoque, SaidaPorVenda } from "./Interfaces";
 
 //Função para cadastrar nova entradaEstoque
 export const handlerEntradaEstoque = async (entradaEstoque: EntradaEstoque) => {
@@ -72,6 +72,25 @@ export const handlerDescarteProduto = async (lote: DescartEstoque) => {
         return response;
     } catch (error) {
         console.error(error);
-        return 
+        return
+    }
+}
+
+//Função para realizar saida por venda:
+export const handlerSaidaPorVenda = async (saida: SaidaPorVenda) => {
+    const token = localStorage.getItem('token')
+    try {
+        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/saida-por-venda`, { saida },
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                }
+            }
+        );
+        return response;
+    } catch (error) {
+        console.error(error);
+        return
     }
 }
