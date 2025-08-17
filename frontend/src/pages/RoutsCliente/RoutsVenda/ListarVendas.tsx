@@ -2,38 +2,17 @@ import { Box, Flex, Text, Input } from "@chakra-ui/react";
 import Header from "../../../components/ui/Header";
 import BTReturn from "../../../components/ui/BTReturn";
 import { useEffect, useState, useMemo } from "react";
-import { Venda, ItemVenda, VendaCliente } from "./Interfaces";
+import { Venda, ItemVenda, VendaCliente, ClienteV, ProdutoV, VendaDetalhada, ItemVendaDetalhado } from "./Interfaces";
 import { fetchVendasClientes } from "./Services";
 import { fetchClientes } from "../Services";
 import { fetchProdutos } from "../../RoutesProduto/Services";
 import { menssage } from "../../../components/ui/toastMenssage";
-
-interface Cliente {
-  id: number;
-  nome: string;
-}
-
-interface Produto {
-  id: number;
-  nome: string;
-}
-
-interface ItemVendaDetalhado extends ItemVenda {
-  produto_nome: string;
-  total: number;
-}
-
-interface VendaDetalhada extends Venda {
-  cliente_nome: string;
-  itensDetalhados: ItemVendaDetalhado[];
-  totalVenda: number;
-}
+import { formatCurrency } from "../../Functions";
 
 const ListarVendas = () => {
   const [vendas, setVendas] = useState<VendaCliente[]>([]);
-  const [clientes, setClientes] = useState<Cliente[]>([]);
-  const [produtos, setProdutos] = useState<Produto[]>([]);
-
+  const [clientes, setClientes] = useState<ClienteV[]>([]);
+  const [produtos, setProdutos] = useState<ProdutoV[]>([]);
   const [filtroCliente, setFiltroCliente] = useState("");
   const [filtroNF, setFiltroNF] = useState("");
   const [filtroProduto, setFiltroProduto] = useState("");
@@ -52,7 +31,7 @@ const ListarVendas = () => {
         if (produtosRes?.status === 200) setProdutos(produtosRes.data);
       } catch (error) {
         console.error(error);
-        menssage("Erro", "Erro ao carregar dados. Tente novamente.", "error");
+        menssage("Erro", "Err o ao carregar dados. Tente novamente.", "error");
       }
     };
 
@@ -165,11 +144,11 @@ const ListarVendas = () => {
                   {venda.itensDetalhados.map((item, idxItem) => (
                     <Text key={idxItem}>
                       {item.produto_nome} - Qtde: {item.quantidade} - Unitário:{" "}
-                      {item.valorunitario.toFixed(2)} - Total: {item.total.toFixed(2)}
+                      {formatCurrency(Number(item.valorunitario.toFixed(2)))} - Total: { formatCurrency(Number(item.total.toFixed(2)))}
                     </Text>
                   ))}
                   <Text fontWeight="bold" mt={1}>
-                    Total da Venda: {venda.totalVenda.toFixed(2)}
+                    Total da Venda: { formatCurrency(Number(venda.totalVenda.toFixed(2)))}
                   </Text>
                 </Box>
               )}
