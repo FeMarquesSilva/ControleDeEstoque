@@ -6,6 +6,8 @@ import { Cliente } from "./Interfaces";
 import { handleSubmitCliente } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
 import { useNavigate } from "react-router-dom";
+import { withMask } from "use-mask-input";
+import { validarEmail } from "../Functions";
 
 const stylesInputs = {
     width: "100%",
@@ -27,11 +29,37 @@ const AdicionarCliente = () => {
         email: "",
     })
 
+    const validarCampos = () => {
+        if (cliente.nome === "") {
+            menssage("Error", "Preencha todos os campos!", "error")
+            return false
+        } else if (cliente.cnpj === "") {
+            menssage("Error", "Preencha todos os campos!", "error")
+            return false
+        } else if (cliente.cnpj.replace(/\D/g, "").length < 14) {
+            menssage("Error", "CNPJ precisa ser completo", "error");
+            return false
+        } else if (cliente.endereco === "") {
+            menssage("Error", "Preencha todos os campos!", "error")
+            return false
+        } else if (cliente.telefone === "") {
+            menssage("Error", "Preencha todos os campos!", "error")
+            return false
+        } else if (!validarEmail(cliente.email)) {
+            return false
+        } else {
+            return true
+        }
+    }
+
     const submitCliente = async () => {
         if (loading) return;
         setLoading(true);
 
-        //Criar validação dos campo.
+        if (!validarCampos()) {
+            setLoading(false)
+            return
+        }
 
         await handleSubmitCliente(cliente).then((response) => {
             setLoading(false);
@@ -80,13 +108,19 @@ const AdicionarCliente = () => {
                     </Box>
                     <Box>
                         <Text>CNPJ</Text>
-                        <input type={"text"} placeholder={"CNPJ do Cliente"} style={stylesInputs}
-                            onChange={(e) => setCliente({ ...cliente, cnpj: e.target.value })} />
+                        <input type={"text"}
+                            ref={withMask("99.999.999/9999-99")}
+                            placeholder={"00.000.000/0000-00"}
+                            style={stylesInputs}
+                            onChange={(e) => setCliente({ ...cliente, cnpj: e.target.value.replace(/\D/g, "") })} />
                     </Box>
                     <Box>
                         <Text>Telefone</Text>
-                        <input type={"text"} placeholder={"Telefone do Cliente"} style={stylesInputs}
-                            onChange={(e) => setCliente({ ...cliente, telefone: e.target.value })} />
+                        <input type={"text"}
+                            placeholder={"Telefone do Cliente"}
+                            style={stylesInputs}
+                            ref={withMask("(99) 9 9999-9999")}
+                            onChange={(e) => setCliente({ ...cliente, telefone: e.target.value.replace(/\D/g, "") })} />
                     </Box>
                     <Box>
                         <Text>Endereço</Text>
@@ -106,7 +140,7 @@ const AdicionarCliente = () => {
                         color={"white"}
                         transition={"all 0.3s"}
                         _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                        onClick={() => {submitCliente()}}>{ loading ? <Spinner/> : "Salvar"}</Button>
+                        onClick={() => { submitCliente() }}>{loading ? <Spinner /> : "Salvar"}</Button>
                 </Flex>
             </Box>
         </Box>

@@ -33,27 +33,23 @@ const AdicionarFornecedor = () => {
         if (fornecedor.nome === "") {
             menssage("Erro", "Preencha todos os campos!", "error")
             return false
-        }
-        if (fornecedor.cnpj === "") {
+        } else if (fornecedor.cnpj === "") {
             menssage("Erro", "Preencha todos os campos!", "error")
             return false
-        }
-        if (fornecedor.cnpj.replace(/\D/g, "").length < 14) {
+        } else if (fornecedor.cnpj.replace(/\D/g, "").length < 14) {
             menssage("Error", "CNPJ precisa ser completo", "error");
             return false;
-        }
-        if (fornecedor.contato === "") {
+        } else if (fornecedor.contato === "") {
             menssage("Erro", "Preencha todos os campos!", "error")
             return false
-        }
-        if (fornecedor.endereco === "") {
+        } else if (fornecedor.endereco === "") {
             menssage("Erro", "Preencha todos os campos!", "error")
             return false
-        }
-        if (validarEmail(fornecedor.email) === false) {
+        } else if (validarEmail(fornecedor.email) === false) {
             return false
+        } else {
+            return true
         }
-        return true
     }
 
     const submitForn = async () => {
@@ -119,9 +115,9 @@ const AdicionarFornecedor = () => {
                             onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value.replace(/\D/g, ""), })} />
                     </Box>
                     <Box>
-                        <Text>Contato</Text>
+                        <Text>Telefone</Text>
                         <input type={"text"}
-                            placeholder={"Contato do Fornecedor"}
+                            placeholder={"Telefone do Fornecedor"}
                             style={stylesInputs}
                             ref={withMask("(99) 9 9999-9999")}
                             onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value.replace(/\D/g, "") })} />

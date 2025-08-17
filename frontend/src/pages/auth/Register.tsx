@@ -39,7 +39,6 @@ const Register = () => {
         if (!validateData()) return;
 
         if (!validarEmail(usuario.email)) {
-            menssage("Erro", "E-mail inválido!", "error");
             setLoading(false);
             return;
         }
