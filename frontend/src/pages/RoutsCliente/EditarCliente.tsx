@@ -70,7 +70,6 @@ const EditarCliente = () => {
             <Header tittle="Edição de Cliente" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}

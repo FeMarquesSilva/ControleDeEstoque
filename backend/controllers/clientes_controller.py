@@ -64,6 +64,8 @@ def update_cliente(id):
         return jsonify({'erro': 'Cliente não encontrado'}), 404
     cliente.nome = data.get('nome', cliente.nome)
     cliente.cnpj = data.get('cnpj', cliente.cnpj)
+    cliente.endereco = data.get('endereco', cliente.cnpj)
+    cliente.telefone = data.get('telefone', cliente.cnpj)
     cliente.email = data.get('email', cliente.email)
     session.commit()
     session.close()
