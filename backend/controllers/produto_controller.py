@@ -1,6 +1,7 @@
 from database import session
 from models import Produto, Fornecedor, Categoria
 from flask import request, jsonify
+from controllers import consultar_total_produto_em_lotes
 
 # Função de listar produtos com join com fornecedores e categorias
 def get_produtos_com_fornecedores_categorias(id_usuario):
@@ -88,6 +89,12 @@ def update_produto(id, data):
 
 # Função de deletar produtos
 def delete_produto(id):
+    estoque  = consultar_total_produto_em_lotes(id)
+    total = estoque.get("quantidade", 0)
+    
+    if total > 0:
+        return jsonify({'erro': 'Produto não pode ser deletado'}), 400
+
     produto = session.query(Produto).filter(Produto.id == id).first()
     if not produto:
         return jsonify({'erro': 'Produto não encontrado'}), 404
