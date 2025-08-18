@@ -171,6 +171,11 @@ def get_produtos():
     return get_produtos_com_fornecedores_categorias(usuario_id)
 
 # Rota para deletar produtos
+@app.route('/produtos/<int:id>', methods=['GET'])
+def route_getByid_produto(id):
+    return get_produto_por_id(id)
+
+# Rota para deletar produtos
 @app.route('/produtos/<int:id>', methods=['DELETE'])
 def route_del_produto(id):
     return delete_produto(id)

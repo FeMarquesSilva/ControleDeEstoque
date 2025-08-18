@@ -31,8 +31,6 @@ def get_produtos_com_fornecedores_categorias(id_usuario):
 def get_produto_por_id(id):
     produto = (
         session.query(Produto)
-        .outerjoin(Fornecedor)
-        .outerjoin(Categoria)
         .filter(Produto.id == id)
         .first()
     )
@@ -46,8 +44,8 @@ def get_produto_por_id(id):
         'sku': produto.sku,
         'unidademedida': produto.unidademedida,
         'status': produto.status,
-        'fornecedor': produto.fornecedor.nome if produto.fornecedor else None,
-        'categoria': produto.categoria.nome if produto.categoria else None,
+        'fornecedor_id': produto.fornecedor_id,
+        'categoria_id': produto.categoria_id,
         'usuario_id': produto.usuario_id
     }), 200
 

@@ -35,6 +35,23 @@ export const fetchProdutos = async () => {
     }
 }
 
+// Função para buscar produto por id
+export const fetchProdutoById = async (id: number | null) => {
+    const token = localStorage.getItem('token')
+    try {
+        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/produtos/${id}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        console.error(error);
+        return
+    }
+}
+
 // Função para deletar produto
 export const deleteProduto = async (id: number) => {
     const token = localStorage.getItem('token')
@@ -48,6 +65,21 @@ export const deleteProduto = async (id: number) => {
         return response;
     } catch (error) {
         console.error(error);
+        return
+    }
+}
+
+// Função para atualizar produto
+export const updateProduto = async (produto: Produto) => {
+    try {
+        const response = await axios.put(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/produtos/${produto.id}`, produto, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        return response
+    } catch (error) {
+        console.error(error)
         return
     }
 }
