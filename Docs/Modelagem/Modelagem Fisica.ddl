@@ -1,5 +1,5 @@
 -- Gerado por Oracle SQL Developer Data Modeler 24.3.1.351.0831
---   em:        2025-08-17 18:14:31 GMT-03:00
+--   em:        2025-08-18 19:08:06 GMT-03:00
 --   site:      Oracle Database 21c
 --   tipo:      Oracle Database 21c
 
@@ -63,13 +63,6 @@ CREATE TABLE Fornecedor
 
 ALTER TABLE Fornecedor 
     ADD CONSTRAINT Fornecedor_PK PRIMARY KEY ( id ) ;
-
-CREATE TABLE FornecedorProduto 
-    ( 
-     Fornecedor_id INTEGER  NOT NULL , 
-     Produto_ID    INTEGER  NOT NULL 
-    ) 
-;
 
 CREATE TABLE Lote 
     ( 
@@ -206,28 +199,6 @@ ALTER TABLE Fornecedor
     ) 
 ;
 
-ALTER TABLE FornecedorProduto 
-    ADD CONSTRAINT FornecedorProduto_Fornecedor_FK FOREIGN KEY 
-    ( 
-     Fornecedor_id
-    ) 
-    REFERENCES Fornecedor 
-    ( 
-     id
-    ) 
-;
-
-ALTER TABLE FornecedorProduto 
-    ADD CONSTRAINT FornecedorProduto_Produto_FK FOREIGN KEY 
-    ( 
-     Produto_ID
-    ) 
-    REFERENCES Produto 
-    ( 
-     ID
-    ) 
-;
-
 ALTER TABLE Lote 
     ADD CONSTRAINT Lote_Produto_FK FOREIGN KEY 
     ( 
@@ -247,6 +218,17 @@ ALTER TABLE Produto
     REFERENCES Categoria 
     ( 
      ID
+    ) 
+;
+
+ALTER TABLE Produto 
+    ADD CONSTRAINT Produto_Fornecedor_FK FOREIGN KEY 
+    ( 
+     Fornecedor_ID
+    ) 
+    REFERENCES Fornecedor 
+    ( 
+     id
     ) 
 ;
 
@@ -479,9 +461,9 @@ END;
 
 -- Relatório do Resumo do Oracle SQL Developer Data Modeler: 
 -- 
--- CREATE TABLE                            11
+-- CREATE TABLE                            10
 -- CREATE INDEX                             0
--- ALTER TABLE                             28
+-- ALTER TABLE                             27
 -- CREATE VIEW                              0
 -- ALTER VIEW                               0
 -- CREATE PACKAGE                           0

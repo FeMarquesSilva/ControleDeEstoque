@@ -146,14 +146,6 @@ class Venda(Base):
     # 🔹 Composição: Venda → VendaProduto (itens só existem com Venda)
     itens = relationship("VendaProduto", back_populates="venda", cascade="all, delete-orphan")
 
-t_fornecedorproduto = Table(
-    'fornecedorproduto', Base.metadata,
-    Column('fornecedor_id', Integer, nullable=False),
-    Column('produto_id', Integer, nullable=False),
-    ForeignKeyConstraint(['fornecedor_id'], ['fornecedor.id'], name='fornecedorproduto_fornecedor_fk'),
-    ForeignKeyConstraint(['produto_id'], ['produto.id'], name='fornecedorproduto_produto_fk')
-)
-
 class Lote(Base):
     __tablename__ = 'lote'
     __table_args__ = (

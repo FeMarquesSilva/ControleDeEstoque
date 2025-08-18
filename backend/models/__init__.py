@@ -9,6 +9,5 @@ from models.models import (
     Lote, 
     Entradaestoque,
     Saidaestoque,
-    t_fornecedorproduto,
     t_vendaproduto,
 )
