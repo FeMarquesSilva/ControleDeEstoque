@@ -24,7 +24,11 @@ def obter_categoria(id):
     categoria = session.query(Categoria).get(id)
     if not categoria:
         return jsonify({"error": "Categoria não encontrada"}), 404
-    return jsonify(categoria.to_dict()), 200
+    return jsonify({
+        'id': categoria.id,
+        'nome': categoria.nome,
+        'descricao': categoria.descricao
+        }), 200
 
 # Função para criar categoria
 def create_categoria(id_usuario):

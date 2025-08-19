@@ -1,0 +1,117 @@
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import Header from "../../components/ui/Header";
+import BTReturn from "../../components/ui/BTReturn";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { menssage } from "../../components/ui/toastMenssage";
+import { Categoria } from "./Interfaces";
+import { fetchCategoriaById, updateCategoria } from "./Services";
+
+const stylesInputs = {
+    width: "100%",
+    padding: "5px",
+    borderRadius: "8px",
+    border: "1px solid #ccc",
+};
+
+const EditarCategoria = () => {
+
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+    const [categoria, setCategoria] = useState<Categoria>({
+        id: null,
+        nome: "",
+        descricao: "",
+    })
+
+    const { id } = useParams<{ id: string }>();
+    const searchForncedorById = async (id: number | null) => {
+        await fetchCategoriaById(id).then((response) => {
+            if (response?.status === 200) {
+                setCategoria(response.data);
+            } else {
+                menssage("Erro", "Erro ao buscar fornecedor. Tente novamente.", "error");
+            }
+        }).catch((error) => {
+            console.error(error);
+            menssage("Erro", "Erro ao buscar fornecedor. Tente novamente.", "error");
+        });
+    }
+
+    useEffect(() => {
+        if (id) {
+            searchForncedorById(Number(id));
+        }
+    }, [id]);
+
+    const submitUptForn = async () => {
+        if (loading) return;
+        setLoading(true);
+
+        //Criar validação dos campo.
+
+        await updateCategoria(categoria).then((response) => {
+            setLoading(false);
+            if (response?.status === 200) {
+                menssage("Sucesso", "Fornecedor atualizado com sucesso!", "success");
+                navigate(-1);
+            } else {
+                menssage("Erro", "Erro ao atualizar fornecedor. Tente novamente.", "error");
+            }
+        });
+
+    }
+
+    return (
+        <Box>
+            <Header tittle="Edição de Fornecedor" />
+            <BTReturn />
+
+            { /* Componente do formulário para cadastro do produto */}
+            <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+            >
+
+                {categoria.id === null ? <Text mt={"100px"} fontSize={"20px"} fontWeight={"bold"}>Carregando...</Text> :
+
+                    <Flex
+                        mt={"80px"}
+                        backgroundColor={"rgba(177, 141, 75, 1)"}
+                        flexDir={"column"}
+                        p={"15px"}
+                        borderRadius={"15px"}
+                        gap={"5px"}>
+
+                        <Text fontSize={"20px"} fontWeight={"bold"} color={"white"}>
+                            Atualize os dados abaixo:
+                        </Text>
+
+                        <Box>
+                            <Text>Nome</Text>
+                            <input type={"text"} placeholder={"Nome da Categoria"} value={categoria.nome} style={stylesInputs}
+                                onChange={(e) => setCategoria({ ...categoria, nome: e.target.value })} />
+                        </Box>
+                        <Box>
+                            <Text>Descrição</Text>
+                            <input type={"text"} placeholder={"CNPJ do Fornecedor"} value={categoria.descricao} style={stylesInputs}
+                                onChange={(e) => setCategoria({ ...categoria, descricao: e.target.value })} />
+                        </Box>
+
+                        <Button
+                            mt={"15px"}
+                            w={"100%"}
+                            backgroundColor={"rgba(46, 126, 39, 1)"}
+                            color={"white"}
+                            transition={"all 0.3s"}
+                            _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
+                            onClick={() => { submitUptForn() }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                    </Flex>
+                }
+            </Box>
+        </Box>
+    );
+};
+
+export default EditarCategoria;
