@@ -27,6 +27,7 @@ const AdicionarFornecedor = () => {
         contato: "",
         endereco: "",
         email: "",
+        status: true
     })
 
     const validarCampos = () => {

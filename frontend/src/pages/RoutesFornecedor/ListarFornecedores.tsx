@@ -30,7 +30,7 @@ const ListarFornecedores = () => {
         if (window.confirm("Tem certeza que deseja excluir este fornecedor?")) {
             await deleteFornecedor(id).then((response) => {
                 if (response?.status === 200) {
-                    menssage("Sucesso", "Fornecedor excluído com sucesso!", "success"); 
+                    menssage("Sucesso", "Fornecedor excluído com sucesso!", "success");
                     setFornecedores(fornecedores.filter(fornecedor => fornecedor.id !== id));
                 } else {
                     menssage("Erro", "Erro ao excluir fornecedor. Tente novamente.", "error");
@@ -58,12 +58,12 @@ const ListarFornecedores = () => {
                 <Box mt={"50px"} border={"1px solid #ccc"} borderRadius="2px" textAlign={"center"}>
                     {/* Cabeçalho */}
                     <Flex backgroundColor={"rgba(146, 105, 29, 1)"} fontWeight="bold" p={3} borderBottom="1px solid #ccc" justifyContent="space-between" gap={"50px"}>
-                        <Box flex="1">ID</Box>
+                        <Box flex="1" onClick={() => console.log(fornecedores)}>ID</Box>
                         <Box flex="2">Nome</Box>
                         <Box flex="2">CNPJ</Box>
-                        <Box flex="2">Email</Box>
+                        <Box flex="3">Email</Box>
                         <Box flex="2">Contato</Box>
-                        <Box flex="3">Endereço</Box>
+                        <Box flex="2">Endereço</Box>
                         <Box flex="1.6">Ação</Box>
                     </Flex>
 
@@ -79,23 +79,27 @@ const ListarFornecedores = () => {
                             _hover={{ backgroundColor: 'rgba(250, 218, 158, 0.8)', cursor: 'pointer' }}
                         >
                             <Box flex="1">{fornecedor.id}</Box>
-                            <Box w={"650px"} flex="2">{fornecedor.nome}</Box>
+                            <Box w={"350px"} flex="2">{fornecedor.nome}</Box>
                             <Box flex="2">{fornecedor.cnpj}</Box>
-                            <Box flex="2">{fornecedor.email}</Box>
+                            <Box w={"450px"} flex="3">{fornecedor.email}</Box>
                             <Box flex="2">{fornecedor.contato}</Box>
-                            <Box flex="3">{fornecedor.endereco}</Box>
-                            <Flex gap={2} flex="1">
-                                <Button
-                                    backgroundColor={"rgba(62, 43, 143, 1)"}
-                                    _hover={{ backgroundColor: "rgba(113, 100, 172, 1)" }}
-                                    color={"white"}
-                                    onClick={() => {navigate(`/fornecedores/editar/${fornecedor.id}`)}}>Editar</Button>
-                                <Button
-                                    backgroundColor={"rgba(141, 23, 23, 1)"}
-                                    _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
-                                    color={"white"}
-                                    onClick={() => { handleDell(fornecedor.id) }}>Excluir</Button>
-                            </Flex>
+                            <Box flex="2">{fornecedor.endereco}</Box>
+                            {fornecedor.status ?
+                                <Flex gap={2} flex="1">
+                                    <Button
+                                        backgroundColor={"rgba(62, 43, 143, 1)"}
+                                        _hover={{ backgroundColor: "rgba(113, 100, 172, 1)" }}
+                                        color={"white"}
+                                        onClick={() => { navigate(`/fornecedores/editar/${fornecedor.id}`) }}>Editar</Button>
+                                    <Button
+                                        backgroundColor={"rgba(141, 23, 23, 1)"}
+                                        _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
+                                        color={"white"}
+                                        onClick={() => { handleDell(fornecedor.id) }}>Excluir</Button>
+                                </Flex>
+                                :
+                                <Box flex="2">Inativo</Box>
+                            }
                         </Flex>
                     ))}
                 </Box>
