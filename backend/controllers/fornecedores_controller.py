@@ -9,7 +9,6 @@ def listar_fornecedores(id_usuario):
         fornecedores = (
             session.query(Fornecedor)
             .filter(Fornecedor.usuario_id == id_usuario)
-            .filter(Fornecedor.status == True)
             .all()
         )
         
@@ -19,7 +18,8 @@ def listar_fornecedores(id_usuario):
             "cnpj": f.cnpj,
             "email": f.email,
             "contato": f.contato,
-            "endereco": f.endereco
+            "endereco": f.endereco,
+            "status": f.status
         } for f in fornecedores]
         
         return jsonify(fornecedores_list)

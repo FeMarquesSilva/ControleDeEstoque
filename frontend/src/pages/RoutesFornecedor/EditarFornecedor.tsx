@@ -25,6 +25,7 @@ const EditarFornecedor = () => {
         contato: "",
         endereco: "",
         email: "",
+        status: true
     })
 
     const { id } = useParams<{ id: string }>();

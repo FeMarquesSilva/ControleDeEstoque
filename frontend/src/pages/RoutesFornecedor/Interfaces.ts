@@ -5,6 +5,7 @@ export interface Fornecedor {
     contato: string;
     endereco: string;
     email: string;
+    status: Boolean;
 }
 
 export interface FornecedorProduto {
