@@ -62,7 +62,7 @@ export const handlerBuscarLotesResumo = async () => {
 export const handlerBuscarLotes = async () => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/listar-lotes`,
+        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/lotes/listar-lotes`,
             {
                 headers: {
                     'Content-Type': 'application/json',
