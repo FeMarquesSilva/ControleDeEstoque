@@ -1,16 +1,18 @@
+//Import de Bibliotecas;
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Flex, Text} from "@chakra-ui/react";
+
+//Import de Componentes;
+import { Cliente } from "./Interfaces";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { useEffect, useState } from "react";
-import { Cliente } from "./Interfaces";
 import { deleteCliente, fetchClientes } from "./Services";
-import { useNavigate } from "react-router-dom";
 import { menssage } from "../../components/ui/toastMenssage";
 
 const ListarClientes = () => {
-
-    const [clientes, setClientes] = useState<Cliente[]>([]);
     const navigate = useNavigate();
+    const [clientes, setClientes] = useState<Cliente[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -48,7 +50,6 @@ const ListarClientes = () => {
             <Header tittle="Lista de Clientes" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}

@@ -1,12 +1,14 @@
 import { Categoria } from "./Interfaces"
 import axios from "axios"
 
+const API_URL = process.env.REACT_APP_NEXT_PUBLIC_API_URL;
+
 export const handleSubmitCategoria = async (categoria: Categoria) => {
 
     const token = localStorage.getItem("token");
 
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/categorias`, categoria, {
+        const response = await axios.post(`${API_URL}/categorias`, categoria, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -24,7 +26,7 @@ export const handleSubmitCategoria = async (categoria: Categoria) => {
 export const fetchCategorias = async () => {
     const token = localStorage.getItem("token");
     try {
-        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/categorias`, {
+        const response = await axios.get(`${API_URL}/categorias`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`,
@@ -40,7 +42,7 @@ export const fetchCategorias = async () => {
 // Função para deletar uma categoria da API
 export const deleteCategoria = async (id: number | null) => {
     try {
-        const response = await axios.delete(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/categorias/${id}`, {
+        const response = await axios.delete(`${API_URL}/categorias/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -55,7 +57,7 @@ export const deleteCategoria = async (id: number | null) => {
 // Função para buscar uma categoria específica da API
 export const fetchCategoriaById = async (id: number | null) => {
     try {
-        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/categorias/${id}`, {
+        const response = await axios.get(`${API_URL}/categorias/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -70,7 +72,7 @@ export const fetchCategoriaById = async (id: number | null) => {
 // Função para atualizar uma categoria na API
 export const updateCategoria = async (categoria: Categoria) => {
     try {
-        const response = await axios.put(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/categorias/${categoria.id}`, categoria, {
+        const response = await axios.put(`${API_URL}/categorias/${categoria.id}`, categoria, {
             headers: {
                 'Content-Type': 'application/json',
             },

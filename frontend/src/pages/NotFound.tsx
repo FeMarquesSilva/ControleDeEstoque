@@ -1,5 +1,5 @@
-import { Box, Heading, Text, Button, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Box, Heading, Text, Button, VStack } from "@chakra-ui/react";
 
 const NotFound = () => {
   const navigate = useNavigate();

@@ -1,7 +1,7 @@
 import React from "react";
-import { Box, Flex, Icon, Text } from "@chakra-ui/react";
 import { LogOut } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { Box, Flex, Icon, Text } from "@chakra-ui/react"; 
 
 interface Props {
     tittle: string

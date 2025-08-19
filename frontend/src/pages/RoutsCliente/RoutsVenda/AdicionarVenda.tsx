@@ -1,27 +1,21 @@
-import { Box, Button, Flex, Spinner, Text, Input } from "@chakra-ui/react";
-import Header from "../../../components/ui/Header";
-import BTReturn from "../../../components/ui/BTReturn";
+//Import de Bibliotecas;
 import React, { useEffect, useState } from "react";
-import { ItemVenda, Venda } from "./Interfaces";
-import { handleCreateVenda } from "./Services";
-import { menssage } from "../../../components/ui/toastMenssage";
-import { useNavigate } from "react-router-dom";
-import { optionSelect, Produto } from "../../RoutesProduto/Interface";
-import SelectFilter from "../../../components/selectFilter";
-import { fetchProdutos } from "../../RoutesProduto/Services";
+import { Box, Button, Flex, Spinner, Text, Input } from "@chakra-ui/react";
+
+//Import de Components;
 import { Cliente } from "../Interfaces";
 import { fetchClientes } from "../Services";
 import { stylesInputs } from "../../Styles";
-
-// Novo tipo para enviar ao backend
-interface VendaPayload {
-    cliente_id: number | null;
-    numeronf: number;
-    itens: ItemVenda[];
-}
+import { handleCreateVenda } from "./Services";
+import Header from "../../../components/ui/Header";
+import BTReturn from "../../../components/ui/BTReturn";
+import SelectFilter from "../../../components/selectFilter";
+import { fetchProdutos } from "../../RoutesProduto/Services";
+import { ItemVenda, Venda, VendaPayload } from "./Interfaces";
+import { menssage } from "../../../components/ui/toastMenssage";
+import { optionSelect, Produto } from "../../RoutesProduto/Interface";
 
 const AdicionarVenda = () => {
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [prodOptions, setProdOptions] = useState<optionSelect[]>([]);
     const [clienteOptions, setClienteOptions] = useState<optionSelect[]>([]);
@@ -94,7 +88,6 @@ const AdicionarVenda = () => {
         setVenda({ cliente_id: null, numeronf: 0 });
         setQuantidade(0);
         setValorUnitario(0);
-        //setItensVenda([]);
     };
 
     const submitVenda = async () => {

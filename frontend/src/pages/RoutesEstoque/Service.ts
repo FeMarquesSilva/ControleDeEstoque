@@ -1,11 +1,13 @@
 import axios from "axios";
 import { DescartEstoque, EntradaEstoque, SaidaPorVenda } from "./Interfaces";
 
+const API_URL = process.env.REACT_APP_NEXT_PUBLIC_API_URL;
+
 //Função para cadastrar nova entradaEstoque
 export const handlerEntradaEstoque = async (entradaEstoque: EntradaEstoque) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/entrada`, entradaEstoque, {
+        const response = await axios.post(`${API_URL}/estoque/entrada`, entradaEstoque, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -23,7 +25,7 @@ export const handlerEntradaEstoque = async (entradaEstoque: EntradaEstoque) => {
 export const handlerListarEstoque = async () => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque`,
+        const response = await axios.get(`${API_URL}/estoque`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +44,7 @@ export const handlerListarEstoque = async () => {
 export const handlerBuscarLotesResumo = async () => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/resumido`,
+        const response = await axios.get(`${API_URL}/estoque/resumido`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -62,7 +64,7 @@ export const handlerBuscarLotesResumo = async () => {
 export const handlerBuscarLotes = async () => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/lotes/listar-lotes`,
+        const response = await axios.get(`${API_URL}/lotes/listar-lotes`,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +83,7 @@ export const handlerBuscarLotes = async () => {
 export const handlerDescarteProduto = async (lote: DescartEstoque) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/descarte`, { lote },
+        const response = await axios.post(`${API_URL}/estoque/descarte`, { lote },
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -100,7 +102,7 @@ export const handlerDescarteProduto = async (lote: DescartEstoque) => {
 export const handlerSaidaPorVenda = async (saida: SaidaPorVenda) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/estoque/saida_venda`, { saida },
+        const response = await axios.post(`${API_URL}/estoque/saida_venda`, { saida },
             {
                 headers: {
                     'Content-Type': 'application/json',

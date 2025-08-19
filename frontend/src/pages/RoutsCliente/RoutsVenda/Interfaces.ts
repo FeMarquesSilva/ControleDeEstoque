@@ -47,3 +47,9 @@ export interface VendaDetalhada extends Venda {
   itensDetalhados: ItemVendaDetalhado[];
   totalVenda: number;
 }
+
+export interface VendaPayload {
+    cliente_id: number | null;
+    numeronf: number;
+    itens: ItemVenda[];
+}

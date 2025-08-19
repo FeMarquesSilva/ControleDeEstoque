@@ -1,11 +1,14 @@
-import { Box, Button, Flex, Input, Link, Spinner, Text } from "@chakra-ui/react";
+//Import de Bibliotecas;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Input, Link, Spinner, Text } from "@chakra-ui/react";
+
+//import de componentes;
 import { user } from "./Interface";
-import { menssage } from "../../components/ui/toastMenssage";
+import { validarEmail } from "../Functions";
 import { handleRegisterUser } from "./Services";
 import BTReturn from "../../components/ui/BTReturn";
-import { validarEmail } from "../Functions";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const Register = () => {
     const navigate = useNavigate();

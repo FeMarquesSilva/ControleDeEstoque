@@ -7,7 +7,7 @@ import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 //Imports de componentes;
 import { Cliente } from "./Interfaces";
 import { stylesInputs } from "../Styles";
-import { validarEmail } from "../Functions";
+import { validarCamposCliente } from "../Functions";
 import Header from "../../components/ui/Header";
 import { handleSubmitCliente } from "./Services";
 import BTReturn from "../../components/ui/BTReturn";
@@ -26,34 +26,11 @@ const AdicionarCliente = () => {
         email: "",
     })
 
-    const validarCampos = () => {
-        if (cliente.nome === "") {
-            menssage("Error", "Preencha todos os campos!", "error")
-            return false
-        } else if (cliente.cnpj === "") {
-            menssage("Error", "Preencha todos os campos!", "error")
-            return false
-        } else if (cliente.cnpj.replace(/\D/g, "").length < 14) {
-            menssage("Error", "CNPJ precisa ser completo", "error");
-            return false
-        } else if (cliente.endereco === "") {
-            menssage("Error", "Preencha todos os campos!", "error")
-            return false
-        } else if (cliente.telefone === "") {
-            menssage("Error", "Preencha todos os campos!", "error")
-            return false
-        } else if (!validarEmail(cliente.email)) {
-            return false
-        } else {
-            return true
-        }
-    }
-
     const submitCliente = async () => {
         if (loading) return;
         setLoading(true);
 
-        if (!validarCampos()) {
+        if (!validarCamposCliente(cliente)) {
             setLoading(false)
             return
         }

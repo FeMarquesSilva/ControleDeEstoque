@@ -1,23 +1,21 @@
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
+//Import de Bibliotecas;
 import { useEffect, useState } from "react";
-import { Cliente } from "./Interfaces";
-import { fetchClienteById, handleSubmitCliente, updateCliente } from "./Services";
 import { useNavigate, useParams } from "react-router-dom";
-import { menssage } from "../../components/ui/toastMenssage";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
+//Import de Componentes;
+import { Cliente } from "./Interfaces";
+import { stylesInputs } from "../Styles";
+import Header from "../../components/ui/Header";
+import { validarCamposCliente } from "../Functions";
+import BTReturn from "../../components/ui/BTReturn";
+import { menssage } from "../../components/ui/toastMenssage";
+import { fetchClienteById, updateCliente } from "./Services";
 
 const EditarCliente = () => {
 
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [cliente, setCliente] = useState<Cliente>({
         id: null,
         nome: "",
@@ -51,7 +49,10 @@ const EditarCliente = () => {
         if (loading) return;
         setLoading(true);
 
-        //Criar validação dos campo.
+        if (!validarCamposCliente(cliente)) {
+            setLoading(false)
+            return
+        }
 
         await updateCliente(cliente).then((response) => {
             setLoading(false);

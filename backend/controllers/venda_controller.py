@@ -23,7 +23,6 @@ def listar_vendas(id_usuario):
         } for v in vendas]
         
         return jsonify(vendas_list)
-    #exept
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
@@ -40,6 +39,7 @@ def listar_vendas_com_clientes():
             cliente = session.query(Cliente).filter(Cliente.id == venda.cliente_id).first()
             itens_query = session.query(VendaProduto).filter(VendaProduto.venda_id == venda.id).all()
             itens = []
+
 
             for item in itens_query:
                 produto = session.query(Produto).filter(Produto.id == item.produto_id).first()

@@ -1,16 +1,19 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+//Import de Bibliotecas;
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Flex } from "@chakra-ui/react";
+
+//Import de Componentes;
+import { Produto } from "./Interface";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { useEffect, useState } from "react";
 import { deleteProduto, fetchProdutos } from "./Services";
-import { useNavigate } from "react-router-dom";
 import { menssage } from "../../components/ui/toastMenssage";
-import { Produto } from "./Interface";
 
 const ListarProduto = () => {
 
-    const [produtos, setProdutos] = useState<Produto[]>([]);
     const navigate = useNavigate();
+    const [produtos, setProdutos] = useState<Produto[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {

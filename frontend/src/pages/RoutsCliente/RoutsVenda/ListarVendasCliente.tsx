@@ -1,17 +1,16 @@
-import { Box, Color, Flex } from "@chakra-ui/react";
+//Import de Bibliotecas;
 import { useEffect, useState } from "react";
+import { Box, Color, Flex } from "@chakra-ui/react";
 
-
-import { formatCurrency, formatDate } from "../../Functions";
-import { menssage } from "../../../components/ui/toastMenssage";
-import Header from "../../../components/ui/Header";
-import BTReturn from "../../../components/ui/BTReturn";
-import { handleListVendasCliente } from "./Services";
+//Import de Componentes;
 import { VendaPorCliente } from "./Interfaces";
-
+import { formatCurrency } from "../../Functions";
+import Header from "../../../components/ui/Header";
+import { handleListVendasCliente } from "./Services";
+import BTReturn from "../../../components/ui/BTReturn";
+import { menssage } from "../../../components/ui/toastMenssage";
 
 const ListarVendasMensal = () => {
-
     const [vendas, setVendas] = useState<VendaPorCliente[]>([]);
 
     useEffect(() => {

@@ -75,7 +75,11 @@ def create_produto(id_usuario):
     }), 201
 
 # Função de atualizar produtos
-def update_produto(id, data):
+def update_produto(id):
+    data = request.json
+    if not data:
+        return jsonify({'erro': 'Dados não fornecidos'}), 400
+    
     produto = session.query(Produto).filter(Produto.id == id).first()
     if not produto:
         return jsonify({'erro': 'Produto não encontrado'}), 404

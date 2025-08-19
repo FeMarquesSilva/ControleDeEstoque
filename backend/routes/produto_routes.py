@@ -36,8 +36,5 @@ def route_del_produto(id):
 # Rota para atualizar produtos
 @produtos_bp.route("/<int:id>", methods=['PUT'])
 def route_update_produto(id):
-    data = request.json
-    if not data:
-        return jsonify({'erro': 'Dados não fornecidos'}), 400
-    return update_produto(id, data)
+    return update_produto(id)
 

@@ -10,7 +10,7 @@ import BTReturn from "../../components/ui/BTReturn";
 import SelectFilter from "../../components/selectFilter";
 import { optionSelect } from "../RoutesProduto/Interface";
 import { menssage } from "../../components/ui/toastMenssage";
-import { handleGetAllVendas } from "../RoutsCliente/RoutsVenda/Services";
+import { handleListVendas } from "../RoutsCliente/RoutsVenda/Services";
 import { DescartEstoque, Lote, SaidaPorVenda, VendaSaida } from "./Interfaces";
 import { handlerBuscarLotes, handlerDescarteProduto, handlerSaidaPorVenda } from "./Service";
 
@@ -57,7 +57,7 @@ const RealizarSaida = () => {
         searchLotes()
 
         const searchVendas = async () => {
-            const response = await handleGetAllVendas()
+            const response = await handleListVendas()
             setVendas(response?.data)
 
             if (response?.data.length > 0 && numNfOptions.length === 0) {

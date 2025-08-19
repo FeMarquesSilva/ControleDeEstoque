@@ -1,23 +1,19 @@
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
+//Import de Bibliotecas;
 import { useState } from "react";
-import { Fornecedor } from "./Interfaces";
-import { handleSubmitFornecedor } from "./Services";
-import { menssage } from "../../components/ui/toastMenssage";
-import { useNavigate } from "react-router-dom";
 import { withMask } from "use-mask-input";
-import { validarEmail } from "../Functions";
+import { useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
+//Import de componentes;
+import { stylesInputs } from "../Styles";
+import { Fornecedor } from "./Interfaces";
+import Header from "../../components/ui/Header";
+import { handleSubmitFornecedor } from "./Services";
+import BTReturn from "../../components/ui/BTReturn";
+import { validarCamposFornecedor } from "../Functions";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const AdicionarFornecedor = () => {
-
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false);
     const [fornecedor, setFornecedor] = useState<Fornecedor>({
@@ -30,34 +26,11 @@ const AdicionarFornecedor = () => {
         status: true
     })
 
-    const validarCampos = () => {
-        if (fornecedor.nome === "") {
-            menssage("Erro", "Preencha todos os campos!", "error")
-            return false
-        } else if (fornecedor.cnpj === "") {
-            menssage("Erro", "Preencha todos os campos!", "error")
-            return false
-        } else if (fornecedor.cnpj.replace(/\D/g, "").length < 14) {
-            menssage("Error", "CNPJ precisa ser completo", "error");
-            return false;
-        } else if (fornecedor.contato === "") {
-            menssage("Erro", "Preencha todos os campos!", "error")
-            return false
-        } else if (fornecedor.endereco === "") {
-            menssage("Erro", "Preencha todos os campos!", "error")
-            return false
-        } else if (validarEmail(fornecedor.email) === false) {
-            return false
-        } else {
-            return true
-        }
-    }
-
     const submitForn = async () => {
         if (loading) return;
         setLoading(true);
 
-        if (!validarCampos()) {
+        if (!validarCamposFornecedor(fornecedor)) {
             setLoading(false)
             return
         }
@@ -83,7 +56,6 @@ const AdicionarFornecedor = () => {
             <Header tittle="Cadastrar Fornecedor" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}

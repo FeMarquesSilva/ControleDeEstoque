@@ -1,10 +1,12 @@
-import { user } from "./Interface";
 import axios from "axios";
+import { user } from "./Interface";
+
+const API_URL = process.env.REACT_APP_NEXT_PUBLIC_API_URL;
 
 // Função para cadastrar novo usuário enviando os dados do usuário para a API
 export const handleRegisterUser = async (usuario: user) => {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/usuarios/cadastrar`, usuario, {
+        const response = await axios.post(`${API_URL}/usuarios/cadastrar`, usuario, {
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -20,7 +22,7 @@ export const handleRegisterUser = async (usuario: user) => {
 // Função para fazer login do usuário
 export const handleLoginUser = async (email: string, senha: string) => {
     try {
-        const response = await axios.post(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/usuarios/login`, { email, senha }, {
+        const response = await axios.post(`${API_URL}/usuarios/login`, { email, senha }, {
             headers: {
                 'Content-Type': 'application/json',
             },

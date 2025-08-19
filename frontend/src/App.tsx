@@ -1,7 +1,7 @@
-import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
-import { Box, ChakraProvider, defaultSystem, Flex, Spinner } from "@chakra-ui/react";
+import React, { useEffect } from 'react';
 import { Toaster } from "./components/ui/toaster";
-import React, { useEffect, useState } from 'react';
+import { ChakraProvider, defaultSystem } from "@chakra-ui/react";
+import { createBrowserRouter, RouterProvider, useNavigate } from "react-router-dom";
 
 //Importando o componentes do sistema:
 import { menssage } from "./components/ui/toastMenssage";

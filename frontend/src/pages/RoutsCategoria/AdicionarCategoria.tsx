@@ -1,20 +1,15 @@
-import BTReturn from "../../components/ui/BTReturn";
+//Import de Bibliotecas;
 import { useState } from "react";
-import { Categoria as CategoriaInterface } from "./Interfaces";
-import { handleSubmitCategoria } from "./Services";
-import { menssage } from "../../components/ui/toastMenssage";
-import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
 
-const stylesInputs = {
-    backgroundColor: "#09090B",
-    width: "100%",
-    marginBottom: "10px",
-    padding: "8px",
-    border: "1px solid #ccc",
-    borderRadius: "5px",
-};
+//Import de componentes;
+import Header from "../../components/ui/Header";
+import { handleSubmitCategoria } from "./Services";
+import BTReturn from "../../components/ui/BTReturn";
+import { menssage } from "../../components/ui/toastMenssage";
+import { Categoria as CategoriaInterface } from "./Interfaces";
+import { stylesInputs } from "../Styles";
 
 const AdicionarCategoria = () => {
     const navigate = useNavigate()
@@ -28,7 +23,6 @@ const AdicionarCategoria = () => {
     const submitCategoria = async () => {
         if (loading) return;
 
-        // Validação simples
         if (!categoria.nome.trim()) {
             menssage("Atenção", "O campo Nome é obrigatório.", "warning");
             return;
@@ -58,7 +52,6 @@ const AdicionarCategoria = () => {
             <Header tittle="Cadastrar de Categoria" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}

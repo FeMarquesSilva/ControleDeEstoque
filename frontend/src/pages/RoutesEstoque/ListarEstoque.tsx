@@ -1,20 +1,21 @@
-import { Box, Color, Flex } from "@chakra-ui/react";
+//Import de Bibliotecas;
 import { useEffect, useState } from "react";
-import { menssage } from "../../components/ui/toastMenssage";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
-import { ListaEstoque } from "./Interfaces";
-import { handlerListarEstoque } from "./Service";
+import { Box, Flex } from "@chakra-ui/react";
+
+//Import de componentes;
 import { formatDate } from "../Functions";
+import { ListaEstoque } from "./Interfaces";
+import Header from "../../components/ui/Header";
+import { handlerListarEstoque } from "./Service";
+import BTReturn from "../../components/ui/BTReturn";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const ListarEstoque = () => {
-
     const [estoque, setEstoque] = useState<ListaEstoque[]>([]);
 
     useEffect(() => {
         const searchEstoque = async () => {
             const response = await handlerListarEstoque();
-            //Valido se deu suceeso o response:
             if (response?.status === 200) {
                 setEstoque(response.data);
             } else {

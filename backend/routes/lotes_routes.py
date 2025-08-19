@@ -1,7 +1,8 @@
 from flask import Blueprint
 
 from controllers import (
-    consulta_lotes
+    consulta_lotes,
+    buscar_id_user
 )
 
 lotes_bp = Blueprint("lotes", __name__, url_prefix="/lotes")

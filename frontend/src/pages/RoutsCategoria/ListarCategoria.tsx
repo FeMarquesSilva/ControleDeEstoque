@@ -1,16 +1,17 @@
-import { Box, Button, Flex, Text} from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Text} from "@chakra-ui/react";
+
+import Header from "../../components/ui/Header";
+import BTReturn from "../../components/ui/BTReturn";
 import { menssage } from "../../components/ui/toastMenssage";
 import { deleteCategoria, fetchCategorias } from "./Services";
 import { Categoria } from "./Interfaces";
 
 const ListarCategoria = () => {
 
-    const [categorias, setCategorias] = useState<Categoria[]>([]);
     const navigate = useNavigate();
+    const [categorias, setCategorias] = useState<Categoria[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {

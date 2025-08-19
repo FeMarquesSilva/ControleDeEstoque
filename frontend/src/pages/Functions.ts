@@ -1,4 +1,6 @@
+import { Cliente } from "./RoutsCliente/Interfaces";
 import { menssage } from "../components/ui/toastMenssage";
+import { Fornecedor } from "./RoutesFornecedor/Interfaces";
 
 //Função para formatar data dd/mm/aaaa;
 export const formatDate = (data: string | number | Date) => {
@@ -43,4 +45,52 @@ export const validarEmail = (email: string) => {
     }
 
     return true
+}
+
+// Função para validar Cliente;
+export const validarCamposCliente = (cliente: Cliente) => {
+    if (cliente.nome === "") {
+        menssage("Error", "Preencha todos os campos!", "error")
+        return false
+    } else if (cliente.cnpj === "") {
+        menssage("Error", "Preencha todos os campos!", "error")
+        return false
+    } else if (cliente.cnpj.replace(/\D/g, "").length < 14) {
+        menssage("Error", "CNPJ precisa ser completo", "error");
+        return false
+    } else if (cliente.endereco === "") {
+        menssage("Error", "Preencha todos os campos!", "error")
+        return false
+    } else if (cliente.telefone === "") {
+        menssage("Error", "Preencha todos os campos!", "error")
+        return false
+    } else if (!validarEmail(cliente.email)) {
+        return false
+    } else {
+        return true
+    }
+}
+
+// Função para validar Fornecedor;
+export const validarCamposFornecedor = (fornecedor: Fornecedor) => {
+    if (fornecedor.nome === "") {
+        menssage("Erro", "Preencha todos os campos!", "error")
+        return false
+    } else if (fornecedor.cnpj === "") {
+        menssage("Erro", "Preencha todos os campos!", "error")
+        return false
+    } else if (fornecedor.cnpj.replace(/\D/g, "").length < 14) {
+        menssage("Error", "CNPJ precisa ser completo", "error");
+        return false;
+    } else if (fornecedor.contato === "") {
+        menssage("Erro", "Preencha todos os campos!", "error")
+        return false
+    } else if (fornecedor.endereco === "") {
+        menssage("Erro", "Preencha todos os campos!", "error")
+        return false
+    } else if (validarEmail(fornecedor.email) === false) {
+        return false
+    } else {
+        return true
+    }
 }

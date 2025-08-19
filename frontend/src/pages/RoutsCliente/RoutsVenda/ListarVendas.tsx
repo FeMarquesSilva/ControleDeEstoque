@@ -1,13 +1,16 @@
+//Import de Bibliotecas;
+import { useEffect, useState, useMemo } from "react";
 import { Box, Flex, Text, Input } from "@chakra-ui/react";
+
+//Import de Componentes;
+import { fetchClientes } from "../Services";
+import { fetchVendasClientes } from "./Services";
+import { formatCurrency } from "../../Functions";
 import Header from "../../../components/ui/Header";
 import BTReturn from "../../../components/ui/BTReturn";
-import { useEffect, useState, useMemo } from "react";
-import { Venda, ItemVenda, VendaCliente, ClienteV, ProdutoV, VendaDetalhada, ItemVendaDetalhado } from "./Interfaces";
-import { fetchVendasClientes } from "./Services";
-import { fetchClientes } from "../Services";
 import { fetchProdutos } from "../../RoutesProduto/Services";
 import { menssage } from "../../../components/ui/toastMenssage";
-import { formatCurrency } from "../../Functions";
+import { VendaCliente, ClienteV, ProdutoV, VendaDetalhada, ItemVendaDetalhado } from "./Interfaces";
 
 const ListarVendas = () => {
   const [vendas, setVendas] = useState<VendaCliente[]>([]);

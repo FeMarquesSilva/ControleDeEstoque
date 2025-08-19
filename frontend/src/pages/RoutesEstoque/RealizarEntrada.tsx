@@ -15,7 +15,6 @@ import { menssage } from "../../components/ui/toastMenssage";
 import { optionSelect, Produto } from "../RoutesProduto/Interface";
 
 const RealizarEntrada = () => {
-    //Definição dos componentes (Com Hook de Reac) necessários;
     const [loading, setLoading] = useState(false);
     const [produto, setProduto] = useState<Produto[]>([])
     const [fila, setFila] = useState<EntradaEstoque[]>([]);

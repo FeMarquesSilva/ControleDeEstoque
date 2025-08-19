@@ -1,17 +1,19 @@
-import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
+//Import de Bibliotecas;
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { menssage } from "../../components/ui/toastMenssage";
+import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
+
+//Import de Componentes;
 import { Categoria } from "./Interfaces";
-import { fetchCategoriaById, updateCategoria } from "./Services";
 import { stylesInputs } from "../Styles";
+import Header from "../../components/ui/Header";
+import BTReturn from "../../components/ui/BTReturn";
+import { menssage } from "../../components/ui/toastMenssage";
+import { fetchCategoriaById, updateCategoria } from "./Services";
 
 const EditarCategoria = () => {
-
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [categoria, setCategoria] = useState<Categoria>({
         id: null,
         nome: "",
@@ -42,7 +44,10 @@ const EditarCategoria = () => {
         if (loading) return;
         setLoading(true);
 
-        //Criar validação dos campo.
+        if (!categoria.nome.trim()) {
+            menssage("Atenção", "O campo Nome é obrigatório.", "warning");
+            return;
+        }
 
         await updateCategoria(categoria).then((response) => {
             setLoading(false);
@@ -61,7 +66,6 @@ const EditarCategoria = () => {
             <Header tittle="Edição de Fornecedor" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}

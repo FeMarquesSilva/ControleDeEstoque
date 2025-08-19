@@ -53,7 +53,7 @@ class Fornecedor(Base):
     usuario_id: Mapped[int] = mapped_column(Integer)
     status: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
 
-    # 🔹 Agregação: Fornecedor possui Produtos, mas Produtos podem existir sem este Fornecedor
+    # Agregação: Fornecedor possui Produtos, mas Produtos podem existir sem este Fornecedor
     produtos = relationship("Produto", back_populates="fornecedor", cascade="save-update, merge")
 
 class Usuario(Base):
@@ -143,7 +143,7 @@ class Venda(Base):
     status: Mapped[str] = mapped_column(VARCHAR(20))
     usuario_id: Mapped[int] = mapped_column(Integer)
 
-    # 🔹 Composição: Venda → VendaProduto (itens só existem com Venda)
+    # Composição: Venda → VendaProduto (itens só existem com Venda)
     itens = relationship("VendaProduto", back_populates="venda", cascade="all, delete-orphan")
 
 class Lote(Base):
@@ -173,9 +173,8 @@ t_vendaproduto = Table(
 class VendaProduto(Base):
     __table__ = t_vendaproduto
 
-    # 🔹 Composição: Produto relacionado à VendaProduto
     produto = relationship("Produto", foreign_keys=[t_vendaproduto.c.produto_id])
-    # 🔹 Composição: Venda → VendaProduto
+    # Composição: Venda → VendaProduto
     venda = relationship("Venda", back_populates="itens", foreign_keys=[t_vendaproduto.c.venda_id])
 
 class Entradaestoque(Base):

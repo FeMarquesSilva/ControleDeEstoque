@@ -1,16 +1,16 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
+//Import de Bibliotecas;
 import { useEffect, useState } from "react";
+import { Box, Flex } from "@chakra-ui/react";
+
+//Import de componentes;
+import Header from "../../components/ui/Header";
 import { FornecedorProduto } from "./Interfaces";
+import BTReturn from "../../components/ui/BTReturn";
 import { fetchFornecedoresProdutos } from "./Services";
-import { useNavigate } from "react-router-dom";
 import { menssage } from "../../components/ui/toastMenssage";
 
 const ListarProdutosFornecedor = () => {
-
     const [fornecedores, setFornecedores] = useState<FornecedorProduto[]>([]);
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {

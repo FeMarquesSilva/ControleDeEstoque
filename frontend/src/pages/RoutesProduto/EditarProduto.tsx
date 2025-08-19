@@ -1,18 +1,19 @@
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
-import Header from "../../components/ui/Header";
-import BTReturn from "../../components/ui/BTReturn";
+//Import de Bibliotecas;
 import { useEffect, useState } from "react";
-
-import { fetchProdutoById, updateProduto } from "./Services";
 import { useNavigate, useParams } from "react-router-dom";
-import { menssage } from "../../components/ui/toastMenssage";
+import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+
+//Import de Componentes;
 import { Produto } from "./Interface";
 import { stylesInputs } from "../Styles";
+import Header from "../../components/ui/Header";
+import BTReturn from "../../components/ui/BTReturn";
+import { fetchProdutoById, updateProduto } from "./Services";
+import { menssage } from "../../components/ui/toastMenssage";
 
 const EditarProduto = () => {
-
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [produto, setProduto] = useState<Produto>({
         id: null,
         nome: "",
@@ -46,10 +47,27 @@ const EditarProduto = () => {
         }
     }, [id]);
 
-    const submitUptCliente = async () => {
+    //Valida se todos os campos de produto foram prenchidos, se não retorna menssagem e false:
+    const validarProduto = () => {
+        if (produto.nome === "" ||
+            produto.descricao === "" ||
+            produto.sku === "" ||
+            produto.unidademedida === "" ||
+            produto.fornecedor_id === null ||
+            produto.categoriaid === null) {
+            menssage("Erro", "Preencha todos os campos", "error");
+            return false
+        }
+        return true;
+    }
+
+    const submitUptProduto = async () => {
         if (loading) return;
         setLoading(true);
 
+        if (!validarProduto()){
+            return 
+        }
 
         await updateProduto(produto).then((response) => {
             setLoading(false);
@@ -116,7 +134,7 @@ const EditarProduto = () => {
                             color={"white"}
                             transition={"all 0.3s"}
                             _hover={{ backgroundColor: "rgba(85, 138, 80, 1)" }}
-                            onClick={() => { submitUptCliente() }}>{loading ? <Spinner /> : "Salvar"}</Button>
+                            onClick={() => { submitUptProduto() }}>{loading ? <Spinner /> : "Salvar"}</Button>
                     </Flex>
                 }
             </Box>

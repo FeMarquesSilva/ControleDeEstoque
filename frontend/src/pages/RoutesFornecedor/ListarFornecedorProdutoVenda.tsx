@@ -1,15 +1,16 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+//Import de Bibliotecas;
+import { useEffect, useState } from "react";
+import { Box, Flex } from "@chakra-ui/react";
+
+//Import de componentes;
+import { formatCurrency } from "../Functions";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { useEffect, useState } from "react";
 import { FornecedorProdutoVenda } from "./Interfaces";
-import { fetchFornecedoresProdutos, fetchFornecedoresProdutosVendas } from "./Services";
-import { useNavigate } from "react-router-dom";
+import { fetchFornecedoresProdutosVendas } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
-import { formatCurrency } from "../Functions";
 
 const ListarFornecedorProdutoVenda = () => {
-
     const [fornecedores, setFornecedores] = useState<FornecedorProdutoVenda[]>([]);
 
     useEffect(() => {

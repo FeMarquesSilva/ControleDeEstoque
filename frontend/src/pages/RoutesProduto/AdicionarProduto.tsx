@@ -1,24 +1,21 @@
+//Import de Bibliotecas;
+import React from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+
+//Import de componentes;
+import { handlerProduto } from "./Services";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { useEffect, useState } from "react";
-import React from "react";
-import SelectFilter from "../../components/selectFilter";
 import { optionSelect, Produto } from "./Interface";
-import { fetchFornecedores } from "../RoutesFornecedor/Services";
-import { Fornecedor } from "../RoutesFornecedor/Interfaces";
 import { Categoria } from "../RoutsCategoria/Interfaces";
+import SelectFilter from "../../components/selectFilter";
+import { Fornecedor } from "../RoutesFornecedor/Interfaces";
 import { fetchCategorias } from "../RoutsCategoria/Services";
-import { handlerProduto } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
-import { useNavigate } from "react-router-dom";
-
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
+import { fetchFornecedores } from "../RoutesFornecedor/Services";
+import { stylesInputs } from "../Styles";
 
 const AdicionarProduto = () => {
     const navigate = useNavigate()
@@ -115,7 +112,6 @@ const AdicionarProduto = () => {
             <Header tittle="Cadastrar Produto" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}

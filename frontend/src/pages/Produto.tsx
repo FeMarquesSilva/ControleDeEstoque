@@ -1,12 +1,13 @@
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+//Import de Bibliotecas;
+import { useNavigate } from "react-router-dom";
+import { Box, Flex, Text } from "@chakra-ui/react";
+
+//Import de componentes;
 import Header from "../components/ui/Header";
 import BTReturn from "../components/ui/BTReturn";
-import { useNavigate } from "react-router-dom";
 
 const Produto = () => {
-
     const navigate = useNavigate();
-
     const sections = [
         { nome: "Adicionar Produto", link: "/produtos/adicionar" },
         { nome: "Categoria", link: "/categorias" },

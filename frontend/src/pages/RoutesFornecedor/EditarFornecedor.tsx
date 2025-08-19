@@ -1,23 +1,20 @@
+//Import de Bibliotecas;
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+
+//Import de componentes;
+import { stylesInputs } from "../Styles";
+import { Fornecedor } from "./Interfaces";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { useEffect, useState } from "react";
-import { Fornecedor } from "./Interfaces";
-import { fetchFornecedorById, handleSubmitFornecedor, updateFornecedor } from "./Services";
-import { useNavigate, useParams } from "react-router-dom";
 import { menssage } from "../../components/ui/toastMenssage";
-
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
+import { fetchFornecedorById, updateFornecedor } from "./Services";
+import { validarCamposFornecedor } from "../Functions";
 
 const EditarFornecedor = () => {
-
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [fornecedor, setFornecedor] = useState<Fornecedor>({
         id: null,
         nome: "",
@@ -52,7 +49,10 @@ const EditarFornecedor = () => {
         if (loading) return;
         setLoading(true);
 
-        //Criar validação dos campo.
+        if (!validarCamposFornecedor(fornecedor)) {
+            setLoading(false)
+            return
+        }
 
         await updateFornecedor(fornecedor).then((response) => {
             setLoading(false);
@@ -71,7 +71,6 @@ const EditarFornecedor = () => {
             <Header tittle="Edição de Fornecedor" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro do produto */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}
