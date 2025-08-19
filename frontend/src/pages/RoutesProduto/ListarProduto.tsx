@@ -36,7 +36,6 @@ const ListarProduto = () => {
                     menssage("Erro", "Erro ao excluir produto. Tente novamente.", "error");
                 }
             } catch (error) {
-                console.error(error);
                 menssage("Erro", "Erro ao excluir produto. Tente novamente.", "error");
             }
         }

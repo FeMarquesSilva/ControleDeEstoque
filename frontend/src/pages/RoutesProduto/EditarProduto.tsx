@@ -2,36 +2,35 @@ import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { useEffect, useState } from "react";
-import { Cliente } from "./Interfaces";
-import { fetchClienteById, handleSubmitCliente, updateCliente } from "./Services";
+
+import { fetchProdutoById, updateProduto } from "./Services";
 import { useNavigate, useParams } from "react-router-dom";
 import { menssage } from "../../components/ui/toastMenssage";
+import { Produto } from "./Interface";
+import { stylesInputs } from "../Styles";
 
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
-
-const EditarCliente = () => {
+const EditarProduto = () => {
 
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    const [cliente, setCliente] = useState<Cliente>({
+    const [produto, setProduto] = useState<Produto>({
         id: null,
         nome: "",
-        cnpj: "",
-        telefone: "",
-        endereco: "",
-        email: "",
+        descricao: "",
+        sku: "",
+        unidademedida: "",
+        status: true,
+        fornecedor_id: null,
+        fornecedor: "",
+        categoriaid: null,
+        categoria: ""
     })
 
     const { id } = useParams<{ id: string }>();
-    const searchClienteById = async (id: number | null) => {
-        await fetchClienteById(id).then((response) => {
+    const searchProdutoById = async (id: number | null) => {
+        await fetchProdutoById(id).then((response) => {
             if (response?.status === 200) {
-                setCliente(response.data);
+                setProduto(response.data);
             } else {
                 menssage("Erro", "Erro ao buscar cliente. Tente novamente.", "error");
             }
@@ -43,7 +42,7 @@ const EditarCliente = () => {
 
     useEffect(() => {
         if (id) {
-            searchClienteById(Number(id));
+            searchProdutoById(Number(id));
         }
     }, [id]);
 
@@ -51,15 +50,14 @@ const EditarCliente = () => {
         if (loading) return;
         setLoading(true);
 
-        //Criar validação dos campo.
 
-        await updateCliente(cliente).then((response) => {
+        await updateProduto(produto).then((response) => {
             setLoading(false);
             if (response?.status === 200) {
-                menssage("Sucesso", "Cliente atualizado com sucesso!", "success");
+                menssage("Sucesso", "Produto atualizado com sucesso!", "success");
                 navigate(-1);
             } else {
-                menssage("Erro", "Erro ao atualizar cliente. Tente novamente.", "error");
+                menssage("Erro", "Erro ao atualizar Produto. Tente novamente.", "error");
             }
         });
 
@@ -67,7 +65,7 @@ const EditarCliente = () => {
 
     return (
         <Box>
-            <Header tittle="Edição de Cliente" />
+            <Header tittle="Edição de Produto" />
             <BTReturn />
 
             <Box
@@ -76,7 +74,7 @@ const EditarCliente = () => {
                 alignItems={"center"}
             >
 
-                {cliente.id === null ? <Text mt={"100px"} fontSize={"20px"} fontWeight={"bold"}>Carregando...</Text> :
+                {produto.id === null ? <Text mt={"100px"} fontSize={"20px"} fontWeight={"bold"}>Carregando...</Text> :
 
                     <Flex
                         mt={"80px"}
@@ -92,28 +90,23 @@ const EditarCliente = () => {
 
                         <Box>
                             <Text>Nome</Text>
-                            <input type={"text"} placeholder={"Nome do Cliente"} value={cliente.nome} style={stylesInputs}
-                                onChange={(e) => setCliente({ ...cliente, nome: e.target.value })} />
+                            <input type={"text"} placeholder={"Nome do Cliente"} value={produto.nome} style={stylesInputs}
+                                onChange={(e) => setProduto({ ...produto, nome: e.target.value })} />
                         </Box>
                         <Box>
-                            <Text>CNPJ</Text>
-                            <input type={"text"} placeholder={"CNPJ do Cliente"} value={cliente.cnpj} style={stylesInputs}
-                                onChange={(e) => setCliente({ ...cliente, cnpj: e.target.value })} />
+                            <Text>Descrição</Text>
+                            <input type={"text"} placeholder={"Descrição"} value={produto.descricao} style={stylesInputs}
+                                onChange={(e) => setProduto({ ...produto, descricao: e.target.value })} />
                         </Box>
                         <Box>
-                            <Text>Contato</Text>
-                            <input type={"text"} placeholder={"Contato do Cliente"} value={cliente.telefone} style={stylesInputs}
-                                onChange={(e) => setCliente({ ...cliente, telefone: e.target.value })} />
+                            <Text>SKU</Text>
+                            <input type={"text"} placeholder={"SKU do Produto"} value={produto.sku} style={stylesInputs}
+                                onChange={(e) => setProduto({ ...produto, sku: e.target.value })} />
                         </Box>
                         <Box>
-                            <Text>Endereço</Text>
-                            <input type={"text"} placeholder={"Endereço do Cliente"} value={cliente.endereco} style={stylesInputs}
-                                onChange={(e) => setCliente({ ...cliente, endereco: e.target.value })} />
-                        </Box>
-                        <Box>
-                            <Text>Email</Text>
-                            <input type={"email"} placeholder={"Email do Cliente"} value={cliente.email} style={stylesInputs}
-                                onChange={(e) => setCliente({ ...cliente, email: e.target.value })} />
+                            <Text>Unidade de Medida</Text>
+                            <input type={"text"} placeholder={"Unidade de Medida"} value={produto.unidademedida} style={stylesInputs}
+                                onChange={(e) => setProduto({ ...produto, unidademedida: e.target.value })} />
                         </Box>
 
                         <Button
@@ -131,4 +124,4 @@ const EditarCliente = () => {
     );
 };
 
-export default EditarCliente;
+export default EditarProduto;

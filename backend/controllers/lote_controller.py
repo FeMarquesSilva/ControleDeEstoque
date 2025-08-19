@@ -1,6 +1,7 @@
 from database import session
 from models import Lote
 from flask import request, jsonify
+from sqlalchemy import func
 
 def consulta_lotes(usuario_id):
     try:
@@ -21,3 +22,17 @@ def consulta_lotes(usuario_id):
         return jsonify(lotes_list)
     finally:
         session.remove()
+
+def consultar_total_produto_em_lotes(id):
+    try:
+        quantidade = (
+            session.query(func.sum(Lote.quantidade))
+            .filter(Lote.produto_id == id)
+            .scalar()
+        )
+        return {"quantidade": quantidade or 0}
+    finally:
+        session.close()
+        
+        
+        

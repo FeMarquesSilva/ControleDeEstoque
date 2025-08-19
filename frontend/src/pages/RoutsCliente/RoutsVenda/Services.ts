@@ -41,7 +41,7 @@ export const handleGetAllVendas = async () => {
 export const fetchVendasClientes = async () => {
     const token = localStorage.getItem("token");
     try {
-        const response = await axios.get(`${API_URL}/vendas_cliente`, {
+        const response = await axios.get(`${API_URL}/vendas/vendas_cliente`, {
             headers: {
                 "Content-Type": "application/json",
                 Authorization: `Bearer ${token}`,
