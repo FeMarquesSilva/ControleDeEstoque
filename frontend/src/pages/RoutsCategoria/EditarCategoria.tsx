@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { useEffect, useState } from "react";
@@ -6,13 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { menssage } from "../../components/ui/toastMenssage";
 import { Categoria } from "./Interfaces";
 import { fetchCategoriaById, updateCategoria } from "./Services";
-
-const stylesInputs = {
-    width: "100%",
-    padding: "5px",
-    borderRadius: "8px",
-    border: "1px solid #ccc",
-};
+import { stylesInputs } from "../Styles";
 
 const EditarCategoria = () => {
 
@@ -90,13 +84,25 @@ const EditarCategoria = () => {
 
                         <Box>
                             <Text>Nome</Text>
-                            <input type={"text"} placeholder={"Nome da Categoria"} value={categoria.nome} style={stylesInputs}
+                            <input type={"text"} placeholder={"Nome da Categoria"} style={stylesInputs} value={categoria.nome}
                                 onChange={(e) => setCategoria({ ...categoria, nome: e.target.value })} />
                         </Box>
                         <Box>
                             <Text>Descrição</Text>
-                            <input type={"text"} placeholder={"CNPJ do Fornecedor"} value={categoria.descricao} style={stylesInputs}
-                                onChange={(e) => setCategoria({ ...categoria, descricao: e.target.value })} />
+                            <Textarea
+                                style={stylesInputs}
+                                placeholder="Descrição da Categoria"
+                                maxLength={100}
+                                minH="80px"
+                                resize="vertical"
+                                value={categoria.descricao}
+                                onChange={(e) =>
+                                    setCategoria({ ...categoria, descricao: e.target.value })
+                                }
+                            />
+                            <Text fontSize="sm">
+                                {categoria.descricao.length} / 100
+                            </Text>
                         </Box>
 
                         <Button

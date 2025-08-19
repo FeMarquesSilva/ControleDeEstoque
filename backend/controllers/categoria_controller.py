@@ -51,7 +51,7 @@ def atualizar_categoria(id):
     for key, value in data.items():
         setattr(categoria, key, value)
     session.commit()
-    return jsonify(categoria.to_dict()), 200
+    return jsonify({'menssage': 'Categoria editada com sucesso'}), 200
 
 # Função para deletar uma categoria
 def deletar_categoria(id):
