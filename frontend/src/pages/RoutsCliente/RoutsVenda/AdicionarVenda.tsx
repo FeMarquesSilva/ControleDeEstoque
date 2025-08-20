@@ -115,6 +115,7 @@ const AdicionarVenda = () => {
 
             if (response && response.status === 201) {
                 menssage("Sucesso", "Venda cadastrada com sucesso!", "success");
+                setItensVenda([])
             } else {
                 menssage("Erro", "Erro ao cadastrar venda. Tente novamente.", "error");
             }
