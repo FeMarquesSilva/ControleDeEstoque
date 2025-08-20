@@ -7,7 +7,7 @@ import { Box, Button, Flex } from "@chakra-ui/react";
 import { Produto } from "./Interface";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { deleteProduto, fetchProdutos } from "./Services";
+import { fetchProdutos } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
 
 const ListarProduto = () => {
@@ -26,23 +26,6 @@ const ListarProduto = () => {
         };
         fetchData();
     }, []);
-
-    const handleDell = async (id: number) => {
-        if (window.confirm("Tem certeza que deseja excluir este produto?")) {
-            try {
-                const response = await deleteProduto(id);
-
-                if (response?.status === 200) {
-                    menssage("Sucesso", "Produto excluído com sucesso!", "success");
-                    setProdutos(produtos.filter(produto => produto.id !== id));
-                } else {
-                    menssage("Erro", "Erro ao excluir produto. Tente novamente.", "error");
-                }
-            } catch (error) {
-                menssage("Erro", "Erro ao excluir produto. Tente novamente.", "error");
-            }
-        }
-    }
 
     return (
         <Box>
@@ -94,13 +77,6 @@ const ListarProduto = () => {
                                     color={"white"}
                                     onClick={() => navigate(`/produtos/editar/${produto.id}`)}>
                                     Editar
-                                </Button>
-                                <Button
-                                    backgroundColor={"rgba(141, 23, 23, 1)"}
-                                    _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
-                                    color={"white"}
-                                    onClick={() => produto.id && handleDell(produto.id)}>
-                                    Excluir
                                 </Button>
                             </Flex>
                         </Flex>

@@ -90,20 +90,3 @@ def update_produto(id):
     session.commit()
 
     return jsonify({'mensagem': 'Produto atualizado com sucesso'}), 200
-
-# Função de deletar produtos
-def delete_produto(id):
-    estoque  = consultar_total_produto_em_lotes(id)
-    total = estoque.get("quantidade", 0)
-    
-    if total > 0:
-        return jsonify({'erro': 'Produto não pode ser deletado'}), 400
-
-    produto = session.query(Produto).filter(Produto.id == id).first()
-    if not produto:
-        return jsonify({'erro': 'Produto não encontrado'}), 404
-
-    session.delete(produto)
-    session.commit()
-
-    return jsonify({'mensagem': 'Produto deletado com sucesso'}), 200

@@ -4,7 +4,6 @@ from controllers import (
     create_produto,
     get_produtos_com_fornecedores_categorias,
     get_produto_por_id,
-    delete_produto,
     update_produto,
     buscar_id_user
 )
@@ -27,11 +26,6 @@ def post_produto():
 @produtos_bp.route("/<int:id>", methods=['GET'])
 def route_getByid_produto(id):
     return get_produto_por_id(id)
-
-# Rota para deletar produtos
-@produtos_bp.route("/<int:id>", methods=['DELETE'])
-def route_del_produto(id):
-    return delete_produto(id)
 
 # Rota para atualizar produtos
 @produtos_bp.route("/<int:id>", methods=['PUT'])
