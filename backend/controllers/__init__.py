@@ -41,7 +41,6 @@ from controllers.produto_controller import (
     create_produto,
     get_produtos_com_fornecedores_categorias,
     get_produto_por_id,
-    delete_produto,
     update_produto,
 )
 
