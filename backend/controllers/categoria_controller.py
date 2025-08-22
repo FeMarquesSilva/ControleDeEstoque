@@ -31,16 +31,38 @@ def listar_categorias(id_usuario):
     finally:
         session.remove()
 
-# Função para obter uma categoria pelo ID
-def obter_categoria(id):
-    categoria = session.query(Categoria).get(id)
+# Função para obter uma categoria pelo ID;
+def obter_categoria(id, id_usuario):
+    try:
+        # Consulta a categoria solicitada pelo usuário no banco de dados;
+        categoria = (
+            session.query(Categoria)
+            .filter(Categoria.usuario_id == id_usuario)
+            .get(id)
+        )
+    
+    # Caso não seja encontrada...
     if not categoria:
         return jsonify({"error": "Categoria não encontrada"}), 404
-    return jsonify({
+    
+    # Cria o dicionário com os dados da categoria;
+    categoria_dict = {
         'id': categoria.id,
         'nome': categoria.nome,
         'descricao': categoria.descricao
-        }), 200
+    }
+    
+    # Retorna os dados em formato JSON com status 200 (sucesso);
+    return jsonify(categoria_dict), 200
+    
+    # Em caso de erro, retorna a mensagem e status 500;
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+    # Encerra a sessão do banco;
+    finally:
+        session.remove()
 
 # Função para criar categoria
 def create_categoria(id_usuario):
