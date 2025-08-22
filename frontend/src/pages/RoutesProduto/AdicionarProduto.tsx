@@ -12,7 +12,7 @@ import { optionSelect, Produto } from "./Interface";
 import { Categoria } from "../RoutsCategoria/Interfaces";
 import SelectFilter from "../../components/selectFilter";
 import { Fornecedor } from "../RoutesFornecedor/Interfaces";
-import { fetchCategorias } from "../RoutsCategoria/Services";
+import { handlerCategorias } from "../RoutsCategoria/Services";
 import { menssage } from "../../components/ui/toastMenssage";
 import { fetchFornecedores } from "../RoutesFornecedor/Services";
 import { stylesInputs } from "../Styles";
@@ -53,7 +53,7 @@ const AdicionarProduto = () => {
         searchFornecedores();
 
         const searchCategorias = async () => {
-            const response = await fetchCategorias();
+            const response = await handlerCategorias();
 
             if (response?.data.length > 0 && categoriaOptions.length === 0) {
                 const novosItens = response?.data.map((categoria: Categoria) => ({

@@ -3,7 +3,6 @@ from controllers.categoria_controller import (
     listar_categorias,
     obter_categoria,
     atualizar_categoria,
-    deletar_categoria,
 )
 
 from controllers.clientes_controller import (

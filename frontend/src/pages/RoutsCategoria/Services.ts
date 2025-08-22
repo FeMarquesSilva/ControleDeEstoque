@@ -2,11 +2,10 @@ import { Categoria } from "./Interfaces"
 import axios from "axios"
 
 const API_URL = process.env.REACT_APP_NEXT_PUBLIC_API_URL;
+const token = localStorage.getItem("token");
 
-export const handleSubmitCategoria = async (categoria: Categoria) => {
-
-    const token = localStorage.getItem("token");
-
+// Função para cadastrar categoria;
+export const handlerSubmitCategoria = async (categoria: Categoria) => {
     try {
         const response = await axios.post(`${API_URL}/categorias`, categoria, {
             headers: {
@@ -22,9 +21,8 @@ export const handleSubmitCategoria = async (categoria: Categoria) => {
 
 }
 
-// Função para buscar a lista de categorias da API
-export const fetchCategorias = async () => {
-    const token = localStorage.getItem("token");
+// Função para buscar todas as categorias;
+export const handlerCategorias = async () => {
     try {
         const response = await axios.get(`${API_URL}/categorias`, {
             headers: {
@@ -39,27 +37,13 @@ export const fetchCategorias = async () => {
     }
 }
 
-// Função para deletar uma categoria da API
-export const deleteCategoria = async (id: number | null) => {
-    try {
-        const response = await axios.delete(`${API_URL}/categorias/${id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        return response
-    } catch (error) {
-        console.error(error)
-        return
-    }
-}
-
-// Função para buscar uma categoria específica da API
-export const fetchCategoriaById = async (id: number | null) => {
+// Função para buscar uma categoria específica;
+export const handlerCategoriaById = async (id: number | null) => {
     try {
         const response = await axios.get(`${API_URL}/categorias/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response
@@ -69,12 +53,13 @@ export const fetchCategoriaById = async (id: number | null) => {
     }
 }
 
-// Função para atualizar uma categoria na API
-export const updateCategoria = async (categoria: Categoria) => {
+// Função para atualizar uma categoria;
+export const handlerUpdateCategoria = async (categoria: Categoria) => {
     try {
         const response = await axios.put(`${API_URL}/categorias/${categoria.id}`, categoria, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response

@@ -9,7 +9,7 @@ import { stylesInputs } from "../Styles";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { menssage } from "../../components/ui/toastMenssage";
-import { fetchCategoriaById, updateCategoria } from "./Services";
+import { handlerCategoriaById, handlerUpdateCategoria } from "./Services";
 
 const EditarCategoria = () => {
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ const EditarCategoria = () => {
 
     const { id } = useParams<{ id: string }>();
     const searchForncedorById = async (id: number | null) => {
-        await fetchCategoriaById(id).then((response) => {
+        await handlerCategoriaById(id).then((response) => {
             if (response?.status === 200) {
                 setCategoria(response.data);
             } else {
@@ -49,7 +49,7 @@ const EditarCategoria = () => {
             return;
         }
 
-        await updateCategoria(categoria).then((response) => {
+        await handlerUpdateCategoria(categoria).then((response) => {
             setLoading(false);
             if (response?.status === 200) {
                 menssage("Sucesso", "Fornecedor atualizado com sucesso!", "success");

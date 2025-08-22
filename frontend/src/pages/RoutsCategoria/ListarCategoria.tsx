@@ -5,7 +5,7 @@ import { Box, Button, Flex, Text} from "@chakra-ui/react";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
 import { menssage } from "../../components/ui/toastMenssage";
-import { deleteCategoria, fetchCategorias } from "./Services";
+import { handlerCategorias } from "./Services";
 import { Categoria } from "./Interfaces";
 
 const ListarCategoria = () => {
@@ -15,7 +15,7 @@ const ListarCategoria = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetchCategorias();
+            const response = await handlerCategorias();
             if (response?.status === 200) {
                 setCategorias(response.data);
             } else {
@@ -26,30 +26,12 @@ const ListarCategoria = () => {
     }
         , []);
 
-    const handleDelete = async (id: number | null) => {
-        if (window.confirm("Tem certeza que deseja excluir esta categoria?")) {
-            await deleteCategoria(id).then((response) => {
-                if (response?.status === 204) {
-                    menssage("Sucesso", "Categoria excluída com sucesso!", "success");
-                    setCategorias(categorias.filter(categoria => categoria.id !== id));
-                } else {
-                    menssage("Erro", "Erro ao excluir categoria. Tente novamente.", "error");
-                }
-            }
-            ).catch((error) => {
-                console.error(error);
-                menssage("Erro", "Erro ao excluir categoria. Tente novamente.", "error");
-            });
-        }
-    }
-
 
     return (
         <Box>
             <Header tittle="Lista de Categorias" />
             <BTReturn />
 
-            { /* Componente do formulário para cadastro da categoria */}
             <Box
                 display={"flex"}
                 justifyContent={"center"}
@@ -60,7 +42,7 @@ const ListarCategoria = () => {
                     <Flex backgroundColor={"rgba(146, 105, 29, 1)"} fontWeight="bold" p={3} borderBottom="1px solid #ccc" justifyContent="space-between" gap={"50px"}>
                         <Box flex="1">ID</Box>
                         <Box flex="1">Nome</Box>
-                        <Box flex="2">Descrição</Box>
+                        <Box flex="1">Descrição</Box>
                         <Box flex="1">Ações</Box>
                     </Flex>
 
@@ -77,18 +59,13 @@ const ListarCategoria = () => {
                         >
                             <Box flex="1">{categoria.id}</Box>
                             <Box flex="1">{categoria.nome}</Box>
-                            <Box flex="2" w={"650px"}>{categoria.descricao}</Box>
-                            <Flex gap={2} flex="1">
+                            <Box flex="1" w={"650px"}>{categoria.descricao}</Box>
+                            <Flex flex="1" justifyContent={"center"}>
                                 <Button
                                     backgroundColor={"rgba(62, 43, 143, 1)"}
                                     _hover={{ backgroundColor: "rgba(113, 100, 172, 1)" }}
                                     color={"white"}
                                     onClick={() => {navigate(`/categorias/editar/${categoria.id}`)}}>Editar</Button>
-                                <Button
-                                    backgroundColor={"rgba(141, 23, 23, 1)"}
-                                    _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
-                                    color={"white"}
-                                    onClick={() => { handleDelete(categoria.id) }}>Excluir</Button>
                             </Flex>
                         </Flex>
                     ))}

@@ -5,7 +5,7 @@ import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
 
 //Import de componentes;
 import Header from "../../components/ui/Header";
-import { handleSubmitCategoria } from "./Services";
+import { handlerSubmitCategoria } from "./Services";
 import BTReturn from "../../components/ui/BTReturn";
 import { menssage } from "../../components/ui/toastMenssage";
 import { Categoria as CategoriaInterface } from "./Interfaces";
@@ -30,7 +30,7 @@ const AdicionarCategoria = () => {
 
         setLoading(true);
 
-        await handleSubmitCategoria(categoria)
+        await handlerSubmitCategoria(categoria)
             .then((response) => {
                 setLoading(false);
                 if (response?.status === 201) {
