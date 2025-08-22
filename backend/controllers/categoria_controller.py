@@ -2,20 +2,32 @@ from database import session
 from models import Categoria
 from flask import request, jsonify
 
-# Função para listar categorias
+# Função para listar categorias;
 def listar_categorias(id_usuario):
     try:
+        # Consulta todas as categorias do usuário no banco de dados;
         categorias = (
             session.query(Categoria)
             .filter(Categoria.usuario_id == id_usuario)
             .all()
         )
+        
+        # Cria uma lista de dicionários a partir dos objetos retornados;
         categoria_list = [{
             'id': categoria.id,
             'nome': categoria.nome,
             'descricao': categoria.descricao
             } for categoria in categorias]
+        
+        # Retonar os dados em JSON e status 200 (sucesso)
         return jsonify(categoria_list), 200
+    
+    # Em caso de erro, retorna a mensagem e status 500;
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
+    # Encerra a sessão do banco;
     finally:
         session.remove()
 
