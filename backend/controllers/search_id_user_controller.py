@@ -21,3 +21,6 @@ def buscar_id_user():
 
     except Exception:
         return None
+
+    finally:
+        session.remove()

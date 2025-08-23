@@ -24,10 +24,10 @@ from controllers.estoque_controller import (
 from controllers.fornecedores_controller import (
     listar_fornecedores,
     listar_fornecedor_id,
-    delete_fornecedor,
+    inativar_fornecedor,
     update_fornecedor,
     create_fornecedor,
-    listar_fornecedores_produtos,
+    obter_resumo_produtos_fornecedores,
     listar_fornecedores_produtos_vendas
 )
 
