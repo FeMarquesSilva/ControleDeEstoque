@@ -8,7 +8,6 @@ from controllers.categoria_controller import (
 from controllers.clientes_controller import (
     listar_clientes,
     listar_cliente_id,
-    delete_cliente,
     update_cliente,
     create_cliente
 )

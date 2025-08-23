@@ -3,8 +3,7 @@ from flask import Blueprint
 from controllers import (
     create_cliente, 
     listar_clientes, 
-    listar_cliente_id,
-    delete_cliente, 
+    listar_cliente_id, 
     update_cliente, 
     buscar_id_user
 )
@@ -24,10 +23,6 @@ def route_get_clientes():
 @clientes_bp.route("/<int:id>", methods=["GET"])
 def route_get_cliente(id):
     return listar_cliente_id(id)
-
-@clientes_bp.route("/<int:id>", methods=["DELETE"])
-def route_delete_cliente(id):
-    return delete_cliente(id)
 
 @clientes_bp.route("/<int:id>", methods=["PUT"])
 def route_update_cliente(id):

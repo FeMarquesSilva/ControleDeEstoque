@@ -7,7 +7,7 @@ import { Box, Button, Flex, Text} from "@chakra-ui/react";
 import { Cliente } from "./Interfaces";
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";
-import { deleteCliente, fetchClientes } from "./Services";
+import { fetchClientes } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
 
 const ListarClientes = () => {
@@ -26,24 +26,6 @@ const ListarClientes = () => {
         fetchData();
     }
         , []);
-
-    const handleDelete = async (id: number | null) => {
-        if (window.confirm("Tem certeza que deseja excluir este cliente?")) {
-            await deleteCliente(id).then((response) => {
-                if (response?.status === 200) {
-                    menssage("Sucesso", "Cliente excluído com sucesso!", "success");
-                    setClientes(clientes.filter(cliente => cliente.id !== id));
-                } else {
-                    menssage("Erro", "Erro ao excluir cliente. Tente novamente.", "error");
-                }
-            }
-            ).catch((error) => {
-                console.error(error);
-                menssage("Erro", "Erro ao excluir cliente. Tente novamente.", "error");
-            });
-        }
-    }
-
 
     return (
         <Box>
@@ -64,7 +46,7 @@ const ListarClientes = () => {
                         <Box flex="2">Email</Box>
                         <Box flex="2">Contato</Box>
                         <Box flex="3">Endereço</Box>
-                        <Box flex="1.6">Ação</Box>
+                        <Box flex="1">Ação</Box>
                     </Flex>
 
                     {/* Linhas */}
@@ -84,17 +66,12 @@ const ListarClientes = () => {
                             <Box flex="2">{cliente.email}</Box>
                             <Box flex="2">{cliente.telefone}</Box>
                             <Box flex="3">{cliente.endereco}</Box>
-                            <Flex gap={2} flex="1">
+                            <Flex gap={2} flex="1" justifyContent={"center"}>
                                 <Button
                                     backgroundColor={"rgba(62, 43, 143, 1)"}
                                     _hover={{ backgroundColor: "rgba(113, 100, 172, 1)" }}
                                     color={"white"}
                                     onClick={() => {navigate(`/clientes/editar/${cliente.id}`)}}>Editar</Button>
-                                <Button
-                                    backgroundColor={"rgba(141, 23, 23, 1)"}
-                                    _hover={{ backgroundColor: "rgba(167, 80, 80, 1)" }}
-                                    color={"white"}
-                                    onClick={() => { handleDelete(cliente.id) }}>Excluir</Button>
                             </Flex>
                         </Flex>
                     ))}
