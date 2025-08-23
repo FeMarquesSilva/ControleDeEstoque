@@ -22,8 +22,10 @@ def route_get_clientes():
 
 @clientes_bp.route("/<int:id>", methods=["GET"])
 def route_get_cliente(id):
-    return listar_cliente_id(id)
+    usuario_id = buscar_id_user()
+    return listar_cliente_id(id, usuario_id)
 
 @clientes_bp.route("/<int:id>", methods=["PUT"])
 def route_update_cliente(id):
-    return update_cliente(id)
+    usuario_id = buscar_id_user()
+    return update_cliente(usuario_id, id)

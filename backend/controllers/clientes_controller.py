@@ -107,10 +107,12 @@ def update_cliente(usuario_id, id):
     
     try:
         # Busca o cliente pelo ID
-        cliente = session.query(Cliente).filter(
-            Cliente.usuario_id == usuario_id,
-            Cliente.id == id
-        ).first()
+        cliente = (
+            session.query(Cliente)
+            .filter(Cliente.usuario_id == usuario_id)
+            .filter(Cliente.id == id)
+            .first()
+        )
 
         if not cliente:
             return jsonify({'error': 'Cliente não encontrado'}), 404

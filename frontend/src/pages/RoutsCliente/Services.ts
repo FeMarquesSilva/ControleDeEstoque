@@ -39,10 +39,12 @@ export const fetchClientes = async () => {
 
 // Função para buscar um cliente específico da API
 export const fetchClienteById = async (id: number | null) => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.get(`${API_URL}/clientes/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
         return response
@@ -54,10 +56,12 @@ export const fetchClienteById = async (id: number | null) => {
 
 // Função para atualizar um cliente na API
 export const updateCliente = async (cliente: Cliente) => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.put(`${API_URL}/clientes/${cliente.id}`, cliente, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             },
         })
         return response

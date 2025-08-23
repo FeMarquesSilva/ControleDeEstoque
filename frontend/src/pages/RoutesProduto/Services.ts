@@ -2,10 +2,10 @@ import axios from "axios";
 import { Produto } from "./Interface";
 
 const API_URL = process.env.REACT_APP_NEXT_PUBLIC_API_URL;
-const token = localStorage.getItem('token')
 
 //Função para cadastrar Produto:
 export const handlerProduto = async (produto: Produto) => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${API_URL}/produtos/cadastro`, produto, {
             headers: {
@@ -22,6 +22,7 @@ export const handlerProduto = async (produto: Produto) => {
 
 // Função para listar produtos
 export const fetchProdutos = async () => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.get(`${API_URL}/produtos`, {
             headers: {
@@ -38,6 +39,7 @@ export const fetchProdutos = async () => {
 
 // Função para buscar produto por id
 export const fetchProdutoById = async (id: number | null) => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.get(`${API_URL}/produtos/${id}`, {
             headers: {
@@ -54,6 +56,7 @@ export const fetchProdutoById = async (id: number | null) => {
 
 // Função para deletar produto
 export const deleteProduto = async (id: number) => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.delete(`${API_URL}/produtos/${id}`, {
             headers: {

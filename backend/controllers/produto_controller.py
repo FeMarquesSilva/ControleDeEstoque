@@ -105,10 +105,12 @@ def update_produto(usuario_id, id):
         return jsonify({'error': 'Dados não fornecidos'}), 400
 
     try:
-        produto = (session.query(Produto).filter(
-            Produto.id == id,
-            Produto.usuario_id == usuario_id
-        ).first())
+        produto = (
+            session.query(Produto)
+            .filter(Produto.id == id)
+            .filter(Produto.usuario_id == usuario_id)
+            .first()
+        )
 
         if not produto:
             return jsonify({'error': 'Produto não encontrado'}), 404
