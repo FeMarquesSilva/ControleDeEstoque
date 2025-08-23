@@ -11,7 +11,7 @@ def listar_categorias(id_usuario):
             .filter(Categoria.usuario_id == id_usuario)
             .all()
         )
-        
+
         # Cria uma lista de dicionários a partir dos objetos retornados;
         categoria_list = [{
             'id': categoria.id,
@@ -69,8 +69,7 @@ def create_categoria(id_usuario):
     if not data:
         return jsonify({'message': 'Dados não informados'}), 400
     
-    # Valida campos obrigatórios;
-    if 'nome' not in data or 'descricao' not in data:
+    if not data['nome'] or not data['descricao']:
         return jsonify({'message': 'Campos "nome" e "descricao" são obrigatórios'}), 400
     
     try:
@@ -97,12 +96,16 @@ def create_categoria(id_usuario):
         session.remove()
 
 # Função para atualizar uma categoria
-def atualizar_categoria(id):
+def atualizar_categoria(id, id_usuario):
     data = request.get_json()
     
     try:
         # Busca a categoria pelo ID
-        categoria = session.query(Categoria).get(id)
+        categoria = (
+            session.query(Categoria)
+            .filter(Categoria.usuario_id == id_usuario)
+            .get(id)
+        )
         
         # Verifica se a categoria existe
         if not categoria:

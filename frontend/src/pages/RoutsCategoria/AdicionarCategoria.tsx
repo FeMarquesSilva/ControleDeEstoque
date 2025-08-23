@@ -23,8 +23,8 @@ const AdicionarCategoria = () => {
     const submitCategoria = async () => {
         if (loading) return;
 
-        if (!categoria.nome.trim()) {
-            menssage("Atenção", "O campo Nome é obrigatório.", "warning");
+        if (!categoria.nome.trim() || !categoria.descricao.trim()) {
+            menssage("Atenção", "Os campos Nome e Descrição são obrigatórios.", "warning");
             return;
         }
 

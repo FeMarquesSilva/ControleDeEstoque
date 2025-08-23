@@ -4,7 +4,6 @@ from controllers import (
     create_categoria,
     listar_categorias,
     obter_categoria,
-    obter_categoria,
     atualizar_categoria,
     buscar_id_user
 )
@@ -32,4 +31,5 @@ def route_criar_categoria():
 # Rota para atualizar categoria por ID
 @categorias_bp.route("/<int:id>", methods=['PUT'])
 def route_atualizar_categoria(id):
-    return atualizar_categoria(id)
+    usuario_id = buscar_id_user()
+    return atualizar_categoria(id, buscar_id_user)
