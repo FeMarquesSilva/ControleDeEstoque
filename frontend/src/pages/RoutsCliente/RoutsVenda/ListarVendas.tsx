@@ -45,7 +45,7 @@ const ListarVendas = () => {
   const vendasDetalhadas: VendaDetalhada[] = useMemo(() => {
     return vendas.map((venda) => {
       const cliente_nome =
-        clientes.find((c) => c.id === venda.cliente[0].id )?.nome || "Desconhecido";
+        clientes.find((c) => c.id === venda.cliente[0].id)?.nome || "Desconhecido";
 
       const itensDetalhados: ItemVendaDetalhado[] = (venda.itens || []).map(
         (item) => {
@@ -79,22 +79,22 @@ const ListarVendas = () => {
     return vendasDetalhadas
       //Valida em padrão minusculo se possuí o cliente filtrado em vendas;
       .filter((v) => filtroCliente
-          ? v.cliente_nome.toLowerCase().includes(filtroCliente.toLowerCase())
-          : true
+        ? v.cliente_nome.toLowerCase().includes(filtroCliente.toLowerCase())
+        : true
       )
       //converte o numero de nf em string e valida com o filtro;
-      .filter((v) => filtroNF 
-        ? v.numeronf.toString().includes(filtroNF) 
+      .filter((v) => filtroNF
+        ? v.numeronf.toString().includes(filtroNF)
         : true
       )
       //Verifica se pelo menos um item da venda contem o produto solicitado em minúsculas e valida o filtro;
       .filter((v) => filtroProduto
-          ? v.itensDetalhados.some((i) =>
-              i.produto_nome.toLowerCase().includes(filtroProduto.toLowerCase())
-            )
-          : true
+        ? v.itensDetalhados.some((i) =>
+          i.produto_nome.toLowerCase().includes(filtroProduto.toLowerCase())
+        )
+        : true
       );
-      //Caso algum dos filtro (componentes) abaixo forem alterados, essa função é executada.
+    //Caso algum dos filtro (componentes) abaixo forem alterados, essa função é executada.
   }, [vendasDetalhadas, filtroCliente, filtroNF, filtroProduto]);
 
   return (
@@ -139,6 +139,11 @@ const ListarVendas = () => {
               p={4}
               mb={4}
               width="80%"
+              backgroundColor={"rgba(20, 20, 20, 1)"}
+              cursor={"pointer"}
+              boxShadow="md"
+              transition="all 0.3s"
+              _hover={{ boxShadow: "lg", transform: "scale(1.01)" }}
             >
               <Text>
                 <strong>Cliente:</strong> {venda.cliente_nome}
@@ -153,11 +158,11 @@ const ListarVendas = () => {
                   {venda.itensDetalhados.map((item, idxItem) => (
                     <Text key={idxItem}>
                       {item.produto_nome} - Qtde: {item.quantidade} - Unitário:{" "}
-                      {formatCurrency(Number(item.valorunitario.toFixed(2)))} - Total: { formatCurrency(Number(item.total.toFixed(2)))}
+                      {formatCurrency(Number(item.valorunitario.toFixed(2)))} - Total: {formatCurrency(Number(item.total.toFixed(2)))}
                     </Text>
                   ))}
                   <Text fontWeight="bold" mt={1}>
-                    Total da Venda: { formatCurrency(Number(venda.totalVenda.toFixed(2)))}
+                    Total da Venda: {formatCurrency(Number(venda.totalVenda.toFixed(2)))}
                   </Text>
                 </Box>
               )}
