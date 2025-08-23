@@ -20,19 +20,11 @@ def consulta_lotes(usuario_id):
         } for l in lotes]
         
         return jsonify(lotes_list)
+    
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 500
+    
     finally:
+        # Encerra a sessão do banco;
         session.remove()
-
-def consultar_total_produto_em_lotes(id):
-    try:
-        quantidade = (
-            session.query(func.sum(Lote.quantidade))
-            .filter(Lote.produto_id == id)
-            .scalar()
-        )
-        return {"quantidade": quantidade or 0}
-    finally:
-        session.close()
-        
-        
-        

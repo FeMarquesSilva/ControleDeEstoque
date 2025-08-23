@@ -32,7 +32,6 @@ from controllers.fornecedores_controller import (
 
 from controllers.lote_controller import (
     consulta_lotes,
-    consultar_total_produto_em_lotes
 )
 
 from controllers.produto_controller import (

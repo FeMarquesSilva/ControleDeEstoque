@@ -33,23 +33,24 @@ def route_lista_fornecedores_produtos_vendas():
 
 # Rota para buscar fornecedor por ID
 @fornecedores_bp.route("/<int:id>", methods=['GET'])
-def get_fornecedor(id):
+def route_listar_fornecedor(id):
     usuario_id = buscar_id_user()
     return listar_fornecedor_id(id, usuario_id)
 
 # Rota para deletar fornecedor pelo ID
 @fornecedores_bp.route("/<int:id>", methods=['DELETE'])
-def route_delete_fornecedor(id):
-    return inativar_fornecedor(id)
+def route_inativar_fornecedor(id):
+    usuario_id = buscar_id_user()
+    return inativar_fornecedor(id, usuario_id)
 
 # Rota para atualizar fornecedor pelo ID
 @fornecedores_bp.route("/<int:id>", methods=['PUT'])
-def upt_fornecedor(id):
+def route_update_fornecedor(id):
     usuario_id = buscar_id_user() 
     return update_fornecedor(id, usuario_id)
 
 # Rota para criar fornecedor
 @fornecedores_bp.route("/cadastro", methods=['POST'])
-def post_fornecedor():
+def route_create_fornecedor():
     usuario_id = buscar_id_user()
     return create_fornecedor(usuario_id)

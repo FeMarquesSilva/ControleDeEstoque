@@ -205,9 +205,13 @@ def update_fornecedor(id, id_usuario):
         session.remove()
 
 # Rota para inativar fornecedor pelo ID
-def inativar_fornecedor(id):
+def inativar_fornecedor(id, id_usuario):
     try:
-        fornecedor = session.query(Fornecedor).get(id)
+        fornecedor = (
+            session.query(Fornecedor)
+            .filter(Categoria.usuario_id == id_usuario)
+            .get(id)
+        )
         
         if not fornecedor:
             session.close()

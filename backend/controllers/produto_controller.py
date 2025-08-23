@@ -1,7 +1,7 @@
 from database import session
 from models import Produto, Fornecedor, Categoria
 from flask import request, jsonify
-from controllers import consultar_total_produto_em_lotes
+#from controllers import consultar_total_produto_em_lotes
 
 # Função de listar produtos com join com fornecedores e categorias
 def get_produtos_com_fornecedores_categorias(id_usuario):
