@@ -22,7 +22,7 @@ def post_produto():
     usuario_id = buscar_id_user()
     return create_produto(usuario_id)
 
-# Rota para deletar produtos
+# Rota para buscar produto por id
 @produtos_bp.route("/<int:id>", methods=['GET'])
 def route_getByid_produto(id):
     return get_produto_por_id(id)
@@ -30,5 +30,6 @@ def route_getByid_produto(id):
 # Rota para atualizar produtos
 @produtos_bp.route("/<int:id>", methods=['PUT'])
 def route_update_produto(id):
-    return update_produto(id)
+    usuario_id = buscar_id_user()
+    return update_produto(usuario_id, id)
 

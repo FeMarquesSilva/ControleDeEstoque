@@ -23,9 +23,11 @@ def listar_vendas(id_usuario):
         } for v in vendas]
         
         return jsonify(vendas_list)
+    
     except Exception as e:
         print(e)
         return jsonify({'error': str(e)}), 500
+    
     finally:
         session.remove()
                                 
@@ -64,55 +66,74 @@ def listar_vendas_com_clientes():
         print(f"Erro ao listar vendas: {e}")
         return jsonify({'erro': 'Erro ao listar vendas'}), 500
 
+    finally:
+        session.remove()
+
 # Listar vendas por cliente
 def listar_vendas_por_cliente(cliente_id):
-    vendas = session.query(Venda, Cliente).join(
-        Cliente, Venda.cliente_id == Cliente.id
-    ).filter(Venda.cliente_id == cliente_id).all()
+    try:
+        vendas = session.query(Venda, Cliente).join(
+            Cliente, Venda.cliente_id == Cliente.id
+        ).filter(Venda.cliente_id == cliente_id).all()
 
-    resultado = []
-    for venda, cliente in vendas:
-        itens = session.query(VendaProduto, Produto).join(
-            Produto, VendaProduto.produto_id == Produto.id
-        ).filter(VendaProduto.venda_id == venda.id).all()
+        resultado = []
+        for venda, cliente in vendas:
+            itens = session.query(VendaProduto, Produto).join(
+                Produto, VendaProduto.produto_id == Produto.id
+            ).filter(VendaProduto.venda_id == venda.id).all()
 
-        resultado.append({
-            'venda_id': venda.id,
-            'cliente': {'id': cliente.id, 'nome': cliente.nome},
-            'valor_total': venda.valor_total,
-            'itens': [{
-                'produto_id': produto.id,
-                'nome': produto.nome,
-                'quantidade': vp.quantidade,
-                'valor': vp.valorunitario
-            } for vp, produto in itens]
-        })
-    return jsonify(resultado), 200
+            resultado.append({
+                'venda_id': venda.id,
+                'cliente': {'id': cliente.id, 'nome': cliente.nome},
+                'valor_total': venda.valor_total,
+                'itens': [{
+                    'produto_id': produto.id,
+                    'nome': produto.nome,
+                    'quantidade': vp.quantidade,
+                    'valor': vp.valorunitario
+                } for vp, produto in itens]
+            })
+        return jsonify(resultado), 200
+
+    except Exception as e:
+        print(f"Erro ao listar vendas por cliente: {e}")
+        return jsonify({'erro': 'Erro ao listar vendas por cliente'}), 500
+    
+    finally:
+        session.remove()
 
 # Listar vendas por produto
 def listar_vendas_por_produto(produto_id):
-    vendas = session.query(Venda, Cliente).join(
-        Cliente, Venda.cliente_id == Cliente.id
-    ).join(VendaProduto).filter(VendaProduto.produto_id == produto_id).all()
+    try:
+        vendas = session.query(Venda, Cliente).join(
+            Cliente, Venda.cliente_id == Cliente.id
+        ).join(VendaProduto).filter(VendaProduto.produto_id == produto_id).all()
 
-    resultado = []
-    for venda, cliente in vendas:
-        itens = session.query(VendaProduto, Produto).join(
-            Produto, VendaProduto.produto_id == Produto.id
-        ).filter(VendaProduto.venda_id == venda.id).all()
+        resultado = []
+        for venda, cliente in vendas:
+            itens = session.query(VendaProduto, Produto).join(
+                Produto, VendaProduto.produto_id == Produto.id
+            ).filter(VendaProduto.venda_id == venda.id).all()
 
-        resultado.append({
-            'venda_id': venda.id,
-            'cliente': {'id': cliente.id, 'nome': cliente.nome},
-            'valor_total': venda.valor_total,
-            'itens': [{
-                'produto_id': produto.id,
-                'nome': produto.nome,
-                'quantidade': vp.quantidade,
-                'valor': vp.valorunitario
-            } for vp, produto in itens]
-        })
-    return jsonify(resultado), 200
+            resultado.append({
+                'venda_id': venda.id,
+                'cliente': {'id': cliente.id, 'nome': cliente.nome},
+                'valor_total': venda.valor_total,
+                'itens': [{
+                    'produto_id': produto.id,
+                    'nome': produto.nome,
+                    'quantidade': vp.quantidade,
+                    'valor': vp.valorunitario
+                } for vp, produto in itens]
+            })
+        return jsonify(resultado), 200
+
+    except Exception as e:
+        print(f"Erro ao listar vendas por produto: {e}")
+        return jsonify({'erro': 'Erro ao listar vendas por produto'}), 500
+
+    finally:
+        session.remove()
 
 def listar_vendas_total_cliente(id_usuario):
     resultados = (
