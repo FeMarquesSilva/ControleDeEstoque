@@ -37,21 +37,6 @@ export const fetchClientes = async () => {
     }
 }
 
-// Função para deletar um cliente da API
-export const deleteCliente = async (id: number | null) => {
-    try {
-        const response = await axios.delete(`${API_URL}/clientes/${id}`, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        return response
-    } catch (error) {
-        console.error(error)
-        return
-    }
-}
-
 // Função para buscar um cliente específico da API
 export const fetchClienteById = async (id: number | null) => {
     try {
