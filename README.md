@@ -24,6 +24,9 @@
 - No arquivo .env do frontend, adicione e configure as seguintes variáveis:
     - REACT_APP_NEXT_PUBLIC_API_URL=""
 
+- Estamos utilizando a biblioteca do pyrebase4, ela não possui uma validação de token, contornamos isso utilizando a authenticação que retorna os dados
+    do usuario, caso seja vazio, é invalido.
+
 ## Modo de Utilizar
 1. Clone o repositório.
 2. Acesse a pasta "backend" com o comando "cd ./backend".
