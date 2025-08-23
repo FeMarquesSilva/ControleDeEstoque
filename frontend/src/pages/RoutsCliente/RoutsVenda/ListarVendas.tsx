@@ -28,7 +28,6 @@ const ListarVendas = () => {
           fetchClientes(),
           fetchProdutos(),
         ]);
-        console.log(vendasRes?.data, clientesRes?.data, produtosRes?.data);
         if (vendasRes?.status === 200) setVendas(vendasRes.data);
         if (clientesRes?.status === 200) setClientes(clientesRes.data);
         if (produtosRes?.status === 200) setProdutos(produtosRes.data);
@@ -74,24 +73,27 @@ const ListarVendas = () => {
     });
   }, [vendas, clientes, produtos]);
 
-  // Filtragem dinâmica por input
+  // Filtragem dinâmica por input com useMemo para 'memorizar o resultado' caso haja mudança nos filtros;
   const vendasFiltradas = useMemo(() => {
     return vendasDetalhadas
-      .filter((v) =>
-        filtroCliente
+      //Valida em padrão minusculo se possuí o cliente filtrado em vendas;
+      .filter((v) => filtroCliente
           ? v.cliente_nome.toLowerCase().includes(filtroCliente.toLowerCase())
           : true
       )
-      .filter((v) =>
-        filtroNF ? v.numeronf.toString().includes(filtroNF) : true
+      //converte o numero de nf em string e valida com o filtro;
+      .filter((v) => filtroNF 
+        ? v.numeronf.toString().includes(filtroNF) 
+        : true
       )
-      .filter((v) =>
-        filtroProduto
+      //Verifica se pelo menos um item da venda contem o produto solicitado em minúsculas e valida o filtro;
+      .filter((v) => filtroProduto
           ? v.itensDetalhados.some((i) =>
               i.produto_nome.toLowerCase().includes(filtroProduto.toLowerCase())
             )
           : true
       );
+      //Caso algum dos filtro (componentes) abaixo forem alterados, essa função é executada.
   }, [vendasDetalhadas, filtroCliente, filtroNF, filtroProduto]);
 
   return (
