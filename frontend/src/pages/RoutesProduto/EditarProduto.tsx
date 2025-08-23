@@ -1,7 +1,7 @@
 //Import de Bibliotecas;
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 
 //Import de Componentes;
 import { Produto } from "./Interface";
@@ -82,7 +82,7 @@ const EditarProduto = () => {
     }
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Edição de Produto" />
             <BTReturn />
 
@@ -108,22 +108,22 @@ const EditarProduto = () => {
 
                         <Box>
                             <Text>Nome</Text>
-                            <input type={"text"} placeholder={"Nome do Cliente"} value={produto.nome} style={stylesInputs}
+                            <Input type={"text"} placeholder={"Nome do Cliente"} value={produto.nome} {...stylesInputs}
                                 onChange={(e) => setProduto({ ...produto, nome: e.target.value })} />
                         </Box>
                         <Box>
                             <Text>Descrição</Text>
-                            <input type={"text"} placeholder={"Descrição"} value={produto.descricao} style={stylesInputs}
+                            <Input type={"text"} placeholder={"Descrição"} value={produto.descricao} {...stylesInputs}
                                 onChange={(e) => setProduto({ ...produto, descricao: e.target.value })} />
                         </Box>
                         <Box>
                             <Text>SKU</Text>
-                            <input type={"text"} placeholder={"SKU do Produto"} value={produto.sku} style={stylesInputs}
+                            <Input type={"text"} placeholder={"SKU do Produto"} value={produto.sku} {...stylesInputs}
                                 onChange={(e) => setProduto({ ...produto, sku: e.target.value })} />
                         </Box>
                         <Box>
                             <Text>Unidade de Medida</Text>
-                            <input type={"text"} placeholder={"Unidade de Medida"} value={produto.unidademedida} style={stylesInputs}
+                            <Input type={"text"} placeholder={"Unidade de Medida"} value={produto.unidademedida} {...stylesInputs}
                                 onChange={(e) => setProduto({ ...produto, unidademedida: e.target.value })} />
                         </Box>
 

@@ -26,7 +26,7 @@ const ListarEstoque = () => {
     }, [])
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Lista do Estoque" />
             <BTReturn />
 

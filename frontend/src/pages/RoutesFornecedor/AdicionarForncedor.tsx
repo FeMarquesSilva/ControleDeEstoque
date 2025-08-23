@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { withMask } from "use-mask-input";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 
 //Import de componentes;
 import { stylesInputs } from "../Styles";
@@ -52,7 +52,7 @@ const AdicionarFornecedor = () => {
     }
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Cadastrar Fornecedor" />
             <BTReturn />
 
@@ -76,33 +76,33 @@ const AdicionarFornecedor = () => {
 
                     <Box>
                         <Text>Nome</Text>
-                        <input type={"text"} placeholder={"Nome do Fornecedor"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Nome do Fornecedor"} {...stylesInputs}
                             onChange={(e) => setFornecedor({ ...fornecedor, nome: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>CNPJ</Text>
-                        <input type={"text"}
+                        <Input type={"text"}
                             ref={withMask("99.999.999/9999-99")}
                             placeholder={"00.000.000/0000-00"}
-                            style={stylesInputs}
+                            {...stylesInputs}
                             onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value.replace(/\D/g, ""), })} />
                     </Box>
                     <Box>
                         <Text>Telefone</Text>
-                        <input type={"text"}
+                        <Input type={"text"}
                             placeholder={"Telefone do Fornecedor"}
-                            style={stylesInputs}
+                            {...stylesInputs}
                             ref={withMask("(99) 9 9999-9999")}
                             onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value.replace(/\D/g, "") })} />
                     </Box>
                     <Box>
                         <Text>Endereço</Text>
-                        <input type={"text"} placeholder={"Endereço do Fornecedor"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Endereço do Fornecedor"} {...stylesInputs}
                             onChange={(e) => setFornecedor({ ...fornecedor, endereco: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Email</Text>
-                        <input type={"email"} placeholder={"Email do Fornecedor"} style={stylesInputs}
+                        <Input type={"email"} placeholder={"Email do Fornecedor"} {...stylesInputs}
                             onChange={(e) => setFornecedor({ ...fornecedor, email: e.target.value })} />
                     </Box>
 

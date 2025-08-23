@@ -1,5 +1,6 @@
 import React from "react";
 import { optionSelect } from "../pages/RoutesProduto/Interface";
+import { stylesInputs } from "../pages/Styles";
 
 interface SelectProps {
   options: optionSelect[];
@@ -13,12 +14,7 @@ const SelectFilter = ({ options, value, onChange, placeholder }: SelectProps) =>
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      style={{
-        width: "100%",
-        padding: "5px",
-        borderRadius: "8px",
-        border: "1px solid #ccc",
-      }}
+      style={stylesInputs}
     >
       {placeholder && (
         <option value="" disabled>

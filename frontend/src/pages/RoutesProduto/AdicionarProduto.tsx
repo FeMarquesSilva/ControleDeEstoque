@@ -2,7 +2,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 
 //Import de componentes;
 import { handlerProduto } from "./Services";
@@ -108,7 +108,7 @@ const AdicionarProduto = () => {
     }
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Cadastrar Produto" />
             <BTReturn />
 
@@ -132,22 +132,22 @@ const AdicionarProduto = () => {
 
                     <Box>
                         <Text>Nome</Text>
-                        <input type={"text"} placeholder={"Nome do Produto"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Nome do Produto"} {...stylesInputs}
                             onChange={(e) => setProduto({ ...produto, nome: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Descrição</Text>
-                        <input type={"text"} placeholder={"Descrição do Produto"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Descrição do Produto"} {...stylesInputs}
                             onChange={(e) => setProduto({ ...produto, descricao: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>SKU</Text>
-                        <input type={"text"} placeholder={"SKU"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"SKU"} {...stylesInputs}
                             onChange={(e) => setProduto({ ...produto, sku: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Unidade de Medida</Text>
-                        <input type={"text"} placeholder={"Unidade de Medida"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Unidade de Medida"} {...stylesInputs}
                             onChange={(e) => setProduto({ ...produto, unidademedida: e.target.value })} />
                     </Box>
 

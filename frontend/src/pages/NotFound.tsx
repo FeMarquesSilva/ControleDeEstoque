@@ -24,6 +24,7 @@ const NotFound = () => {
         </Text>
         <Button
           colorScheme="teal"
+          backgroundColor={"rgba(80, 0, 0, 1)"}
           onClick={() => navigate(-1)}
         >
           Voltar para a página inicial

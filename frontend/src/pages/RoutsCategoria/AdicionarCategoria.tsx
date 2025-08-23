@@ -1,7 +1,7 @@
 //Import de Bibliotecas;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text, Textarea } from "@chakra-ui/react";
 
 //Import de componentes;
 import Header from "../../components/ui/Header";
@@ -48,7 +48,7 @@ const AdicionarCategoria = () => {
     };
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Cadastrar de Categoria" />
             <BTReturn />
 
@@ -72,13 +72,13 @@ const AdicionarCategoria = () => {
 
                     <Box>
                         <Text>Nome</Text>
-                        <input type={"text"} placeholder={"Nome da Categoria"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Nome da Categoria"} {...stylesInputs}
                             onChange={(e) => setCategoria({ ...categoria, nome: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Descrição</Text>
                         <Textarea
-                            style={stylesInputs}
+                            {...stylesInputs}
                             placeholder="Descrição da Categoria"
                             maxLength={100}
                             minH="80px"

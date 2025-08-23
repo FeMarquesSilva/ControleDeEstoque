@@ -9,6 +9,7 @@ import { validarEmail } from "../Functions";
 import { handleRegisterUser } from "./Services";
 import BTReturn from "../../components/ui/BTReturn";
 import { menssage } from "../../components/ui/toastMenssage";
+import { stylesInputs } from "../Styles";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ const Register = () => {
     const handleSubmit = async () => {
         if (loading) return;
         setLoading(true);
-        
+
         if (!validateData()) return;
 
         if (!validarEmail(usuario.email)) {
@@ -65,7 +66,7 @@ const Register = () => {
     };
 
     return (
-        <Flex w={"100%"} h={"100vh"} align={"center"} justify={"center"}>
+        <Flex w={"100%"} h={"100vh"} align={"center"} justify={"center"} backgroundColor={"rgba(32, 32, 32, 1)"}>
 
             <Box position={"absolute"} top={5} left={5}>
                 <BTReturn />
@@ -85,18 +86,14 @@ const Register = () => {
                 <Text fontSize={"18px"} mb={1} color={"white"}>Nome de Usuário:</Text>
                 <Input
                     placeholder={"Digite Seu Nome Completo"}
-                    borderRadius={"10px"}
-                    mb={4}
-                    bg={"black"}
+                    {...stylesInputs}
                     onChange={(e) => setUsuario({ ...usuario, nome: e.target.value })}
                 />
 
                 <Text fontSize={"18px"} mb={1} color={"white"}>E-mail:</Text>
                 <Input
                     placeholder={"Digite seu e-mail"}
-                    borderRadius={"10px"}
-                    mb={4}
-                    bg={"black"}
+                    {...stylesInputs}
                     onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
                 />
 
@@ -104,15 +101,14 @@ const Register = () => {
                 <Input
                     type={"password"}
                     placeholder={"Digite sua senha"}
-                    borderRadius={"10px"}
-                    mb={2}
-                    bg={"black"}
+                    {...stylesInputs}
                     onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
                 />
 
                 <Flex mt={"10px"}>
                     <Button
                         flex={1}
+                        mt={2}
                         h={"36px"}
                         bg={loading ? "#819cbbff" : "#2c60a5ff"}
                         color={"white"}

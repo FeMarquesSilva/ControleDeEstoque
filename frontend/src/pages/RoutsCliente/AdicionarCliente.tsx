@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { withMask } from "use-mask-input";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 
 //Imports de componentes;
 import { Cliente } from "./Interfaces";
@@ -52,7 +52,7 @@ const AdicionarCliente = () => {
     }
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Cadastrar Cliente" />
             <BTReturn />
 
@@ -76,33 +76,33 @@ const AdicionarCliente = () => {
 
                     <Box>
                         <Text>Nome</Text>
-                        <input type={"text"} placeholder={"Nome do Cliente"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Nome do Cliente"} {...stylesInputs}
                             onChange={(e) => setCliente({ ...cliente, nome: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>CNPJ</Text>
-                        <input type={"text"}
+                        <Input type={"text"}
                             ref={withMask("99.999.999/9999-99")}
                             placeholder={"00.000.000/0000-00"}
-                            style={stylesInputs}
+                            {...stylesInputs}
                             onChange={(e) => setCliente({ ...cliente, cnpj: e.target.value.replace(/\D/g, "") })} />
                     </Box>
                     <Box>
                         <Text>Telefone</Text>
-                        <input type={"text"}
+                        <Input type={"text"}
                             placeholder={"Telefone do Cliente"}
-                            style={stylesInputs}
+                            {...stylesInputs}
                             ref={withMask("(99) 9 9999-9999")}
                             onChange={(e) => setCliente({ ...cliente, telefone: e.target.value.replace(/\D/g, "") })} />
                     </Box>
                     <Box>
                         <Text>Endereço</Text>
-                        <input type={"text"} placeholder={"Endereço do Cliente"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Endereço do Cliente"} {...stylesInputs}
                             onChange={(e) => setCliente({ ...cliente, endereco: e.target.value })} />
                     </Box>
                     <Box>
                         <Text>Email</Text>
-                        <input type={"email"} placeholder={"Email do Cliente"} style={stylesInputs}
+                        <Input type={"email"} placeholder={"Email do Cliente"} {...stylesInputs}
                             onChange={(e) => setCliente({ ...cliente, email: e.target.value })} />
                     </Box>
 

@@ -1,7 +1,7 @@
 //Import de Bibliotecas;
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Box, Button, Flex, Spinner, Text, Textarea } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text, Textarea } from "@chakra-ui/react";
 
 //Import de Componentes;
 import { Categoria } from "./Interfaces";
@@ -62,7 +62,7 @@ const EditarCategoria = () => {
     }
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Edição de Fornecedor" />
             <BTReturn />
 
@@ -88,13 +88,13 @@ const EditarCategoria = () => {
 
                         <Box>
                             <Text>Nome</Text>
-                            <input type={"text"} placeholder={"Nome da Categoria"} style={stylesInputs} value={categoria.nome}
+                            <Input type={"text"} placeholder={"Nome da Categoria"} {...stylesInputs} value={categoria.nome}
                                 onChange={(e) => setCategoria({ ...categoria, nome: e.target.value })} />
                         </Box>
                         <Box>
                             <Text>Descrição</Text>
                             <Textarea
-                                style={stylesInputs}
+                                {...stylesInputs}
                                 placeholder="Descrição da Categoria"
                                 maxLength={100}
                                 minH="80px"

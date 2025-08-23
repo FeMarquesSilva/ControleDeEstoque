@@ -1,7 +1,7 @@
 //Import de bibliotecas;
 import React from "react";
 import { useEffect, useState } from "react";
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 
 //Import de Componentes;
 import { stylesInputs } from "../Styles";
@@ -124,7 +124,7 @@ const RealizarEntrada = () => {
     }
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Realizar Entrada no Estoque" />
             <BTReturn />
 
@@ -148,7 +148,7 @@ const RealizarEntrada = () => {
 
                     <Box>
                         <Text>Número do Lote</Text>
-                        <input type={"text"} placeholder={"Número do Lote"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Número do Lote"} {...stylesInputs}
                             value={entradaEstoque.numero_lote}
                             onChange={(e) => setEntradaEstoque({ ...entradaEstoque, numero_lote: e.target.value })} />
                     </Box>
@@ -172,7 +172,7 @@ const RealizarEntrada = () => {
 
                     <Box>
                         <Text>Validade</Text>
-                        <input type={"date"} placeholder={"Data de Validade"} style={stylesInputs}
+                        <Input type={"date"} placeholder={"Data de Validade"} {...stylesInputs}
                             value={entradaEstoque.validade instanceof Date ? entradaEstoque.validade.toISOString().split('T')[0] : ""}
                             onChange={(e) => {
                                 const [year, month, day] = e.target.value.split("-");
@@ -185,7 +185,7 @@ const RealizarEntrada = () => {
 
                     <Box>
                         <Text>Quantidade</Text>
-                        <input type={"text"} placeholder={"Quantidade do Produto"} style={stylesInputs}
+                        <Input type={"text"} placeholder={"Quantidade do Produto"} {...stylesInputs}
                             value={entradaEstoque.quantidade}
                             onChange={(e) => validarQuantidade(Number(e.target.value))} />
                     </Box>

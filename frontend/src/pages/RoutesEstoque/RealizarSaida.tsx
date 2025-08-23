@@ -1,6 +1,6 @@
 //Imports de bibliotecas;
 import React, { useEffect, useState } from "react";
-import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Spinner, Text } from "@chakra-ui/react";
 
 //Imports de componentes;
 import { stylesInputs } from "../Styles";
@@ -198,7 +198,7 @@ const RealizarSaida = () => {
 
 
     return (
-        <Box>
+        <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
             <Header tittle="Realizar Saída" />
             <BTReturn />
 
@@ -261,7 +261,7 @@ const RealizarSaida = () => {
                     {selectedMotiv === "1" ?
                         <Box>
                             <Text>Quantidade</Text>
-                            <input type={"text"} placeholder={"Qtd. do Produto do Lote"} style={stylesInputs} value={Number(descarte.quantidade)}
+                            <Input type={"text"} placeholder={"Qtd. do Produto do Lote"} {...stylesInputs} value={Number(descarte.quantidade)}
                                 onChange={(e) => setDescarte({ ...descarte, quantidade: Number(e.target.value) })}
                             />
                         </Box>

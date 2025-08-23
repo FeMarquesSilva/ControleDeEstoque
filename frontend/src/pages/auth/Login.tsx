@@ -7,6 +7,7 @@ import { Box, Button, Flex, Input, Link, Spinner, Text } from "@chakra-ui/react"
 import { user } from "./Interface";
 import { handleLoginUser } from "./Services";
 import { menssage } from "../../components/ui/toastMenssage";
+import { stylesInputs } from "../Styles";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ const Login = () => {
   };
 
   return (
-    <Flex w={"100%"} h={"100vh"} align={"center"} justify={"center"}>
+    <Flex w={"100%"} h={"100vh"} align={"center"} justify={"center"} backgroundColor={"rgba(32, 32, 32, 1)"}>
       <Box
         bg={"#CC9E3A"}
         p={10}
@@ -67,9 +68,7 @@ const Login = () => {
         <Text fontSize={"18px"} mb={1} color={"white"}>Usuário:</Text>
         <Input
           placeholder={"Digite seu e-mail"}
-          borderRadius={"10px"}
-          mb={4}
-          bg={"black"}
+          {...stylesInputs}
           onChange={(e) => setUsuario({ ...usuario, email: e.target.value })}
         />
 
@@ -78,13 +77,12 @@ const Login = () => {
         <Input
           type={"password"}
           placeholder={"Digite sua senha"}
-          borderRadius={"10px"}
-          mb={2}
-          bg={"black"}
+          {...stylesInputs}
           onChange={(e) => setUsuario({ ...usuario, senha: e.target.value })}
         />
 
         <Link
+          mt={2}
           fontSize={"14px"}
           fontWeight={"bold"}
           color={"white"}

@@ -11,6 +11,7 @@ import BTReturn from "../../../components/ui/BTReturn";
 import { fetchProdutos } from "../../RoutesProduto/Services";
 import { menssage } from "../../../components/ui/toastMenssage";
 import { VendaCliente, ClienteV, ProdutoV, VendaDetalhada, ItemVendaDetalhado } from "./Interfaces";
+import { stylesInputs } from "../../Styles";
 
 const ListarVendas = () => {
   const [vendas, setVendas] = useState<VendaCliente[]>([]);
@@ -97,7 +98,7 @@ const ListarVendas = () => {
   }, [vendasDetalhadas, filtroCliente, filtroNF, filtroProduto]);
 
   return (
-    <Box>
+    <Box backgroundColor={"rgba(32, 32, 32, 1)"} color={"white"} minH={"100vh"}>
       <Header tittle="Lista de Vendas" />
       <BTReturn />
       <Flex direction="column" align="center" mt={4} width="100%">
@@ -110,16 +111,19 @@ const ListarVendas = () => {
           <Input
             placeholder="Filtrar por Cliente"
             value={filtroCliente}
+            {...stylesInputs}
             onChange={(e) => setFiltroCliente(e.target.value)}
           />
           <Input
             placeholder="Filtrar por NF"
             value={filtroNF}
+            {...stylesInputs}
             onChange={(e) => setFiltroNF(e.target.value)}
           />
           <Input
             placeholder="Filtrar por Produto"
             value={filtroProduto}
+            {...stylesInputs}
             onChange={(e) => setFiltroProduto(e.target.value)}
           />
         </Flex>
