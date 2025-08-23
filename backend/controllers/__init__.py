@@ -48,7 +48,8 @@ from controllers.search_id_user_controller import (
 
 from controllers.user_auth_controller import (
     cadastrar_usuario,
-    login_usuario
+    login_usuario,
+    redefinir_senha
 )
 
 from controllers.venda_controller import (

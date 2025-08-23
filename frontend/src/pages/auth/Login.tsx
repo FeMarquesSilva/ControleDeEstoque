@@ -89,6 +89,7 @@ const Login = () => {
           _hover={{ textDecoration: "underline" }}
           display={"block"}
           mb={4}
+          onClick={() => {navigate("/reset-pass")}}
         >
           Esqueci minha senha
         </Link>

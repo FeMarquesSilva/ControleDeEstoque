@@ -79,3 +79,18 @@ def login_usuario():
 
     finally:
         session.remove()
+        
+def redefinir_senha():
+    data = request.get_json()
+    email = data.get('email')
+    try:
+        auth.send_password_reset_email(email)
+        print("Email encaminhado para: ", email)
+        return jsonify({'mensagem': 'e-mail de redefinição encaminhado.'}), 200
+    
+    except Exception as e:
+        return jsonify({'erro': str(e)}), 401
+
+    finally:
+        session.remove()
+        

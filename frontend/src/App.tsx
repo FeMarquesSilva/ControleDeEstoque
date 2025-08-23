@@ -9,6 +9,7 @@ import { menssage } from "./components/ui/toastMenssage";
 //Auth;
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import ResetPass from './pages/auth/ResetPass';
 
 //Principais;
 import Home from './pages/Home';
@@ -89,6 +90,7 @@ const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
 const router = createBrowserRouter([
   { path: "/", element: <Login /> },
   { path: "/register", element: <Register /> },
+  { path: "/reset-pass", element: <ResetPass /> },
   { path: "/home", element: (<PrivateRoute element={<Home />} />) },
   { path: "/fornecedores", element: (<PrivateRoute element={<Fornecedor />} />) },
   { path: "/clientes", element: (<PrivateRoute element={<Clientes />} />) },

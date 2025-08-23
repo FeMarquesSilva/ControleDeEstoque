@@ -33,3 +33,18 @@ export const handleLoginUser = async (email: string, senha: string) => {
         return;
     }
 };
+
+// Função para fazer redefinição de senha
+export const handleResentPass = async (email: string) => {
+    try {
+        const response = await axios.post(`${API_URL}/usuarios/reset-pass`, { email }, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return;
+    }
+};

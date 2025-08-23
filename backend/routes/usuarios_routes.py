@@ -3,7 +3,8 @@ from flask import Blueprint, jsonify
 from controllers import (
     login_usuario,
     cadastrar_usuario,
-    validar_token
+    validar_token,
+    redefinir_senha
 )
 
 usuarios_bp = Blueprint("usuarios", __name__, url_prefix="/usuarios")
@@ -15,6 +16,10 @@ def post_user():
 @usuarios_bp.route("/login", methods=['POST'])
 def post_login():
     return login_usuario()
+
+@usuarios_bp.route("/reset-pass", methods=['POST'])
+def post_reset_password():
+    return redefinir_senha()
 
 @usuarios_bp.route("/token", methods=['GET'])
 def post_token():
