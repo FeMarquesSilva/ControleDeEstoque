@@ -5,14 +5,12 @@ const API_URL = process.env.REACT_APP_NEXT_PUBLIC_API_URL;
 
 // Função para enviar os dados do fornecedor para a API
 export const handleSubmitFornecedor = async (fornecedor: Fornecedor) => {
-
     const token = localStorage.getItem("token");
-
     try {
         const response = await axios.post(`${API_URL}/fornecedores/cadastro`, fornecedor, {
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response
@@ -32,7 +30,7 @@ export const fetchFornecedores = async () => {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // envia o token
+                    'Authorization': `Bearer ${token}`,
                 },
             }
         )
@@ -87,10 +85,12 @@ export const fetchFornecedoresProdutosVendas = async () => {
 
 // Função para deletar um fornecedor da API
 export const deleteFornecedor = async (id: number | null) => {
+    const token = localStorage.getItem("token");
     try {
         const response = await axios.delete(`${API_URL}/fornecedores/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response
@@ -102,10 +102,12 @@ export const deleteFornecedor = async (id: number | null) => {
 
 // Função para buscar um fornecedor específico da API
 export const fetchFornecedorById = async (id: number | null) => {
+    const token = localStorage.getItem("token");
     try {
         const response = await axios.get(`${API_URL}/fornecedores/${id}`, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response
@@ -117,10 +119,12 @@ export const fetchFornecedorById = async (id: number | null) => {
 
 // Função para atualizar um fornecedor na API
 export const updateFornecedor = async (fornecedor: Fornecedor) => {
+    const token = localStorage.getItem("token");
     try {
         const response = await axios.put(`${API_URL}/fornecedores/${fornecedor.id}`, fornecedor, {
             headers: {
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
             },
         })
         return response

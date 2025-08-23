@@ -47,6 +47,7 @@ import ListarFornecedorProdutoVenda from "./pages/RoutesFornecedor/ListarFornece
 
 //Não encontrado;
 import NotFound from "./pages/NotFound";
+import axios from 'axios';
 
 const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   const navigate = useNavigate();
@@ -55,9 +56,26 @@ const PrivateRoute = ({ element }: { element: React.ReactNode }) => {
   useEffect(() => {
     const checkToken = async () => {
       if (!token) {
-        menssage('Usuário Inválido', 'Você precisa estar logado para acessar essa página.', 'error');
-        navigate('/');
+        menssage("Usuário Inválido", "Você precisa estar logado.", "error");
+        navigate("/");
         return;
+      }
+
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_NEXT_PUBLIC_API_URL}/usuarios/token`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.data || response.data.valid === false) {
+          throw new Error("Token inválido");
+        }
+
+      } catch (error) {
+        menssage("Sessão Expirada", "Faça login novamente.", "error");
+        localStorage.removeItem("token");
+        navigate("/");
       }
     };
 

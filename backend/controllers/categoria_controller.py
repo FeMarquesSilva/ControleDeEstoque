@@ -100,24 +100,24 @@ def atualizar_categoria(id, id_usuario):
     data = request.get_json()
     
     try:
-        # Busca a categoria pelo ID
+        # Busca a categoria pelo ID;
         categoria = (
             session.query(Categoria)
+            .filter(Categoria.id == id)
             .filter(Categoria.usuario_id == id_usuario)
-            .get(id)
+            .first()
         )
         
-        # Verifica se a categoria existe
+        # Verifica se a categoria existe;
         if not categoria:
             return jsonify({"error": "Categoria não encontrada"}), 404
         
-        # Atualiza os campos do objeto com os dados recebidos
+        # Atualiza os campos do objeto com os dados recebidos;
         for key, value in data.items():
             setattr(categoria, key, value)
         
-        # Salva as alterações no banco
+        # Salva as alterações no banco;
         session.commit()
-        
         return jsonify({'menssage': 'Categoria editada com sucesso'}), 200
     
     except Exception as e:

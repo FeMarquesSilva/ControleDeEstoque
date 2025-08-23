@@ -23,16 +23,15 @@ from controllers.estoque_controller import (
 from controllers.fornecedores_controller import (
     listar_fornecedores,
     listar_fornecedor_id,
-    delete_fornecedor,
+    inativar_fornecedor,
     update_fornecedor,
     create_fornecedor,
-    listar_fornecedores_produtos,
+    obter_resumo_produtos_fornecedores,
     listar_fornecedores_produtos_vendas
 )
 
 from controllers.lote_controller import (
     consulta_lotes,
-    consultar_total_produto_em_lotes
 )
 
 from controllers.produto_controller import (
@@ -43,7 +42,8 @@ from controllers.produto_controller import (
 )
 
 from controllers.search_id_user_controller import (
-    buscar_id_user
+    buscar_id_user,
+    validar_token
 )
 
 from controllers.user_auth_controller import (

@@ -32,4 +32,4 @@ def route_criar_categoria():
 @categorias_bp.route("/<int:id>", methods=['PUT'])
 def route_atualizar_categoria(id):
     usuario_id = buscar_id_user()
-    return atualizar_categoria(id, buscar_id_user)
+    return atualizar_categoria(id, usuario_id)

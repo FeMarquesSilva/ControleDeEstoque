@@ -42,7 +42,7 @@ const ListarProdutosFornecedor = () => {
                     <Flex backgroundColor={"rgba(146, 105, 29, 1)"} fontWeight="bold" p={3} borderBottom="1px solid #ccc" justifyContent="space-between" gap={"50px"}>
                         <Box flex="2" w={"550px"}>Nome Fornecedor</Box>
                         <Box flex="2">Nome Produto</Box>
-                        <Box flex="2">Total Fornecido</Box>
+                        <Box flex="2">Total</Box>
                     </Flex>
 
                     {/* Linhas */}

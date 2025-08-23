@@ -2,10 +2,10 @@ from flask import Blueprint
 
 from controllers import (
     listar_fornecedores,
-    listar_fornecedores_produtos,
+    obter_resumo_produtos_fornecedores,
     listar_fornecedores_produtos_vendas,
     listar_fornecedor_id,
-    delete_fornecedor,
+    inativar_fornecedor,
     update_fornecedor,
     create_fornecedor,
     buscar_id_user
@@ -23,7 +23,7 @@ def route_lista_fornecedores():
 @fornecedores_bp.route("/produtos", methods=['GET'])
 def route_lista_fornecedores_produtos():
     usuario_id = buscar_id_user()
-    return listar_fornecedores_produtos(usuario_id)
+    return obter_resumo_produtos_fornecedores(usuario_id)
 
 # Rota para listar todos os produtos por fornecedores:
 @fornecedores_bp.route("/produtos/vendas", methods=['GET'])
@@ -33,21 +33,24 @@ def route_lista_fornecedores_produtos_vendas():
 
 # Rota para buscar fornecedor por ID
 @fornecedores_bp.route("/<int:id>", methods=['GET'])
-def get_fornecedor(id):
-    return listar_fornecedor_id(id)
+def route_listar_fornecedor(id):
+    usuario_id = buscar_id_user()
+    return listar_fornecedor_id(id, usuario_id)
 
 # Rota para deletar fornecedor pelo ID
 @fornecedores_bp.route("/<int:id>", methods=['DELETE'])
-def route_delete_fornecedor(id):
-    return delete_fornecedor(id)
+def route_inativar_fornecedor(id):
+    usuario_id = buscar_id_user()
+    return inativar_fornecedor(id, usuario_id)
 
 # Rota para atualizar fornecedor pelo ID
 @fornecedores_bp.route("/<int:id>", methods=['PUT'])
-def upt_fornecedor(id):
-    return update_fornecedor(id)
+def route_update_fornecedor(id):
+    usuario_id = buscar_id_user() 
+    return update_fornecedor(id, usuario_id)
 
 # Rota para criar fornecedor
 @fornecedores_bp.route("/cadastro", methods=['POST'])
-def post_fornecedor():
+def route_create_fornecedor():
     usuario_id = buscar_id_user()
     return create_fornecedor(usuario_id)
