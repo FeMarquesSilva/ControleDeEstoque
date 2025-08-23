@@ -42,7 +42,8 @@ from controllers.produto_controller import (
 )
 
 from controllers.search_id_user_controller import (
-    buscar_id_user
+    buscar_id_user,
+    validar_token
 )
 
 from controllers.user_auth_controller import (

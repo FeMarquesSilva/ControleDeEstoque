@@ -19,8 +19,16 @@ def buscar_id_user():
         usuario = session.query(Usuario).filter_by(_uid_firebase=uid_firebase).first()
         return usuario.id if usuario else None
 
-    except Exception:
+    except Exception as e:
+        print(f"Erro ao validar token: {e}")
         return None
 
     finally:
         session.remove()
+        
+def validar_token():
+    usuario_id = buscar_id_user()
+    if usuario_id == None:
+        return False
+    else:
+        return True
