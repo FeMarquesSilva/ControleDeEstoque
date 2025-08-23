@@ -66,7 +66,7 @@ const AdicionarProduto = () => {
 
         searchCategorias();
 
-    }, []);
+    });
 
     //Valida se todos os campos de produto foram prenchidos, se não retorna menssagem e false:
     const validarProduto = () => {

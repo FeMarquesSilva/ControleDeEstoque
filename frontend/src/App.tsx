@@ -39,7 +39,7 @@ import ListarClientes from "./pages/RoutsCliente/ListarClientes";
 import ListarCategorias from "./pages/RoutsCategoria/ListarCategoria";
 import ListarProduto from "./pages/RoutesProduto/ListarProduto";
 import ListarEstoque from "./pages/RoutesEstoque/ListarEstoque";
-import ListarVendas from "./pages/RoutsCliente/RoutsVenda/ListarVendas";
+import ListarVendas from './pages/RoutsCliente/RoutsVenda/ListarVendas';
 import ListarEstoqueResumo from "./pages/RoutesEstoque/ListarEstoqueResumo";
 import ListarVendasCliente from "./pages/RoutsCliente/RoutsVenda/ListarVendasCliente";
 import ListarProdutosFornecedor from "./pages/RoutesFornecedor/ListarProdutosFornecedor";

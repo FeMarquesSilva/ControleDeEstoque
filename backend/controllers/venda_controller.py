@@ -4,6 +4,56 @@ from models import Venda, VendaProduto, Produto, Cliente
 from datetime import datetime
 from sqlalchemy import func
 
+# Listar as vendas detalhadas com todos os dados;
+def listar_vendas_detalhadas(id_usuario):
+    try:
+        resultados = (
+            session.query(
+                Venda.id.label("venda_id"),
+                Venda.numeronf.label("numero_nf"),
+                Venda.valor_total,
+                Cliente.nome.label("nome_cliente"),
+                Produto.nome.label("produto_nome"),
+                VendaProduto.quantidade,
+                VendaProduto.valorunitario
+            )
+            .join(Cliente, Cliente.id == Venda.cliente_id)
+            .join(VendaProduto, VendaProduto.venda_id == Venda.id)
+            .join(Produto, Produto.id == VendaProduto.produto_id)
+            .filter(Venda.usuario_id == id_usuario)
+            .all()
+        )
+
+        # Dicionário temporário para agrupar por venda
+        vendas_dict = {}
+
+        for r in resultados:
+            if r.venda_id not in vendas_dict:
+                vendas_dict[r.venda_id] = {
+                    "nome_cliente": r.nome_cliente,
+                    "numero_nf": r.numero_nf,
+                    "valor_total": float(r.valor_total),
+                    "itens": []
+                }
+
+            # adiciona item dentro da venda
+            vendas_dict[r.venda_id]["itens"].append({
+                "produto": r.produto_nome,
+                "quantidade": r.quantidade,
+                "valorunitario": float(r.valorunitario)
+            })
+
+        # converte dict em lista para retornar
+        vendas = list(vendas_dict.values())
+
+        return jsonify(vendas), 200
+
+    except Exception as e:
+        return jsonify({"erro": str(e)}), 500
+
+    finally:
+        session.close()
+
 # Listar todas as vendas
 def listar_vendas(id_usuario):
     try:
@@ -28,44 +78,6 @@ def listar_vendas(id_usuario):
         print(e)
         return jsonify({'error': str(e)}), 500
     
-    finally:
-        session.remove()
-                                
-# Listar todas vendas com clientes
-def listar_vendas_com_clientes():
-    try:
-        vendas = session.query(Venda).all()
-        resultado = []
-
-        for venda in vendas:
-            cliente = session.query(Cliente).filter(Cliente.id == venda.cliente_id).first()
-            itens_query = session.query(VendaProduto).filter(VendaProduto.venda_id == venda.id).all()
-            itens = []
-
-
-            for item in itens_query:
-                produto = session.query(Produto).filter(Produto.id == item.produto_id).first()
-                itens.append({
-                    'produto_id': item.produto_id,
-                    'quantidade': item.quantidade,
-                    'valorunitario': item.valorunitario,
-                    'produto_nome': produto.nome if produto else "Produto Desconhecido"
-                })
-
-            resultado.append({
-                'id': venda.id,
-                'numeronf': venda.numeronf,
-                'valor_total': venda.valor_total,
-                'cliente': [{'id': cliente.id, 'nome': cliente.nome}] if cliente else [],
-                'itens': itens
-            })
-
-        return jsonify(resultado), 200
-
-    except Exception as e:
-        print(f"Erro ao listar vendas: {e}")
-        return jsonify({'erro': 'Erro ao listar vendas'}), 500
-
     finally:
         session.remove()
 

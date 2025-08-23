@@ -1,5 +1,5 @@
 //Import de Bibliotecas;
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Button, Flex, Spinner, Text, Input } from "@chakra-ui/react";
 
 //Import de Components;
@@ -55,7 +55,7 @@ const AdicionarVenda = () => {
             }
         };
         searchClientes();
-    }, []);
+    });
 
     const adicionarItemVenda = () => {
         if (!selectedProd || quantidade <= 0 || valorUnitario <= 0) {

@@ -1,7 +1,7 @@
 //Import de Bibliotecas;
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Flex, Text} from "@chakra-ui/react";
+import { Box, Button, Flex} from "@chakra-ui/react";
 
 //Import de Componentes;
 import { Cliente } from "./Interfaces";

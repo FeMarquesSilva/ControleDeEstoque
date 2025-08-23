@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Button, Flex, Text} from "@chakra-ui/react";
+import { Box, Button, Flex} from "@chakra-ui/react";
 
 import Header from "../../components/ui/Header";
 import BTReturn from "../../components/ui/BTReturn";

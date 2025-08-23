@@ -1,6 +1,6 @@
 //Import de Bibliotecas;
 import { useEffect, useState } from "react";
-import { Box, Color, Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 //Import de Componentes;
 import { VendaPorCliente } from "./Interfaces";
