@@ -31,18 +31,17 @@ def buscar_estoque(id_usuario):
             .all()
         )
         
-        lista = []
-        for r in resultados:
-            lista.append({
-                "id": r.id,
-                "numero_lote": r.numero_lote,
-                "nome_produto": r.nome_produto,
-                "qtd_produto": r.qtd_produto,
-                "data_entrada": r.data_entrada.isoformat() if r.data_entrada else None,
-                "data_validade": r.data_validade.isoformat() if r.data_validade else None,
-                "categoria": r.categoria
-            })
-        return jsonify(lista)
+        estoque_list = [{
+            "id": r.id,
+            "numero_lote": r.numero_lote,
+            "nome_produto": r.nome_produto,
+            "qtd_produto": r.qtd_produto,
+            "data_entrada": r.data_entrada.isoformat() if r.data_entrada else None,
+            "data_validade": r.data_validade.isoformat() if r.data_validade else None,
+            "categoria": r.categoria
+        } for r in resultados]
+
+        return jsonify(estoque_list)
     
     except Exception as e:
         print(e)
