@@ -183,8 +183,9 @@ def update_fornecedor(id, id_usuario):
     try:
         fornecedor = (
             session.query(Fornecedor)
-            .filter(Categoria.usuario_id == id_usuario)
-            .get(id)
+            .filter(Fornecedor.id == id)
+            .filter(Fornecedor.usuario_id == id_usuario)
+            .first()
         )
         
         if not fornecedor:
@@ -209,8 +210,9 @@ def inativar_fornecedor(id, id_usuario):
     try:
         fornecedor = (
             session.query(Fornecedor)
-            .filter(Categoria.usuario_id == id_usuario)
-            .get(id)
+            .filter(Fornecedor.id == id)
+            .filter(Fornecedor.usuario_id == id_usuario)
+            .first()
         )
         
         if not fornecedor:

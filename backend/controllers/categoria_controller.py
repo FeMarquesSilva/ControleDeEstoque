@@ -103,8 +103,9 @@ def atualizar_categoria(id, id_usuario):
         # Busca a categoria pelo ID;
         categoria = (
             session.query(Categoria)
+            .filter(Categoria.id == id)
             .filter(Categoria.usuario_id == id_usuario)
-            .get(id)
+            .first()
         )
         
         # Verifica se a categoria existe;

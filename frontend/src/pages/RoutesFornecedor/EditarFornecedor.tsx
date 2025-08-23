@@ -1,4 +1,5 @@
 //Import de Bibliotecas;
+import { withMask } from "use-mask-input";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, Flex, Spinner, Text } from "@chakra-ui/react";
@@ -98,13 +99,21 @@ const EditarFornecedor = () => {
                         </Box>
                         <Box>
                             <Text>CNPJ</Text>
-                            <input type={"text"} placeholder={"CNPJ do Fornecedor"} value={fornecedor.cnpj} style={stylesInputs}
-                                onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value })} />
+                            <input type={"text"}
+                                ref={withMask("99.999.999/9999-99")}
+                                placeholder={"00.000.000/0000-00"}
+                                value={fornecedor.cnpj}
+                                style={stylesInputs}
+                                onChange={(e) => setFornecedor({ ...fornecedor, cnpj: e.target.value.replace(/\D/g, ""), })} />
                         </Box>
                         <Box>
-                            <Text>Contato</Text>
-                            <input type={"text"} placeholder={"Contato do Fornecedor"} value={fornecedor.contato} style={stylesInputs}
-                                onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value })} />
+                            <Text>Telefone</Text>
+                            <input type={"text"}
+                                placeholder={"Telefone do Fornecedor"}
+                                value={fornecedor.contato}
+                                style={stylesInputs}
+                                ref={withMask("(99) 9 9999-9999")}
+                                onChange={(e) => setFornecedor({ ...fornecedor, contato: e.target.value.replace(/\D/g, "") })} />
                         </Box>
                         <Box>
                             <Text>Endereço</Text>

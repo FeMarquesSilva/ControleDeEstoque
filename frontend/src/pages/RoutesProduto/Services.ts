@@ -73,6 +73,7 @@ export const deleteProduto = async (id: number) => {
 
 // Função para atualizar produto
 export const updateProduto = async (produto: Produto) => {
+    const token = localStorage.getItem('token')
     try {
         const response = await axios.put(`${API_URL}/produtos/${produto.id}`, produto, {
             headers: {

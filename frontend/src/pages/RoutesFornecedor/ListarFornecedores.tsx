@@ -15,25 +15,24 @@ const ListarFornecedores = () => {
     const [fornecedores, setFornecedores] = useState<Fornecedor[]>([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-
-            const response = await fetchFornecedores();
-            if (response?.status === 200) {
-                setFornecedores(response.data);
-            } else {
-                menssage("Erro", "Erro ao buscar fornecedores. Tente novamente.", "error");
-            }
-        };
         fetchData();
-    }
-        , []);
+    }, []);
+
+    const fetchData = async () => {
+        const response = await fetchFornecedores();
+        if (response?.status === 200) {
+            setFornecedores(response.data);
+        } else {
+            menssage("Erro", "Erro ao buscar fornecedores. Tente novamente.", "error");
+        }
+    };
 
     const handleDell = async (id: number | null) => {
         if (window.confirm("Tem certeza que deseja excluir este fornecedor?")) {
             await deleteFornecedor(id).then((response) => {
                 if (response?.status === 200) {
                     menssage("Sucesso", "Fornecedor excluído com sucesso!", "success");
-                    setFornecedores(fornecedores.filter(fornecedor => fornecedor.id !== id));
+                    fetchData()
                 } else {
                     menssage("Erro", "Erro ao excluir fornecedor. Tente novamente.", "error");
                 }
@@ -61,7 +60,7 @@ const ListarFornecedores = () => {
                     {/* Cabeçalho */}
                     <Flex backgroundColor={"rgba(146, 105, 29, 1)"} fontWeight="bold" p={3} borderBottom="1px solid #ccc" justifyContent="space-between" gap={"50px"}>
                         <Box flex="1" onClick={() => console.log(fornecedores)}>ID</Box>
-                        <Box flex="2">Nome</Box>
+                        <Box flex="2" onClick={() => {console.log(fornecedores)}}>Nome</Box>
                         <Box flex="2">CNPJ</Box>
                         <Box flex="3">Email</Box>
                         <Box flex="2">Contato</Box>
