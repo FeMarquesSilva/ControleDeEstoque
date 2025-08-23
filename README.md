@@ -31,12 +31,13 @@
 1. Clone o repositório.
 2. Acesse a pasta "backend" com o comando "cd ./backend".
 3. Crie um ambiente virtual de python com o comando "python -m venv (nome do ambiente)"
-4. Instale as dependências com o comando `pip install -r requirements.txt`.
-5. Rode o backend com o comando "python app.py" ainda no ambiente virtual.
-6. Acesse a pasta "frontend" com o comando "cd ./frontend".
-7. Instale as dependências com o comando `npm install`.
-8. Rode o frontend com o comando `npm start`.
-9. Acesse o site em http://localhost:3000.
+4. Atualize o pip para ultima versão "python -m pip install --upgrade pip"
+5. Instale as dependências com o comando `pip install -r requirements.txt`.
+6. Rode o backend com o comando "python app.py" ainda no ambiente virtual.
+7. Acesse a pasta "frontend" com o comando "cd ./frontend".
+8. Instale as dependências com o comando `npm install`.
+9. Rode o frontend com o comando `npm start`.
+10. Acesse o site em http://localhost:3000.
 
 ## Tecnologias Utilizadas
 **Backend**
