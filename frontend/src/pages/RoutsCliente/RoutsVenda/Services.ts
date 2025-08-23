@@ -72,57 +72,6 @@ export const handleListVendasCliente = async () => {
     }
 };
 
-// Função para deletar uma venda
-export const handleDeleteVenda = async (vendaId: number) => {
-    const token = localStorage.getItem("token");
-    try {
-        const response = await axios.delete(`${API_URL}/vendas/${vendaId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return response;
-    } catch (error) {
-        console.error(error);
-        return;
-    }
-};
-
-// Função para listar vendas por cliente
-export const handleListVendasPorCliente = async (clienteId: number) => {
-    const token = localStorage.getItem("token");
-    try {
-        const response = await axios.get(`${API_URL}/vendas/cliente/${clienteId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return response;
-    } catch (error) {
-        console.error(error);
-        return;
-    }
-};
-
-// Função para listar vendas por produto
-export const handleListVendasPorProduto = async (produtoId: number) => {
-    const token = localStorage.getItem("token");
-    try {
-        const response = await axios.get(`${API_URL}/vendas/produto/${produtoId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        return response;
-    } catch (error) {
-        console.error(error);
-        return;
-    }
-};
-
 // Função para listar vendas por data (formato string "YYYY-MM-DD")
 export const handleListVendasPorData = async (data: string) => {
     const token = localStorage.getItem("token");

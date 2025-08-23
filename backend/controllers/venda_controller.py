@@ -81,31 +81,27 @@ def listar_vendas(id_usuario):
     finally:
         session.remove()
 
-# Listar vendas por cliente
-def listar_vendas_por_cliente(cliente_id):
+# Total comprado por cliente;
+def listar_vendas_total_cliente(id_usuario):
     try:
-        vendas = session.query(Venda, Cliente).join(
-            Cliente, Venda.cliente_id == Cliente.id
-        ).filter(Venda.cliente_id == cliente_id).all()
+        resultados = (
+            session.query(
+                Cliente.nome.label("cliente"),
+                func.sum(Venda.valor_total).label("total_venda")
+            )
+            .join(Cliente, Cliente.id == Venda.cliente_id)
+            .filter(Venda.usuario_id == id_usuario)
+            .group_by(Cliente.nome) 
+            .order_by(Cliente.nome)
+            .all()
+        )
+        
+        lista = [{
+                "cliente": r.cliente,
+                "total_venda": float(r.total_venda)
+            } for r in resultados ]
 
-        resultado = []
-        for venda, cliente in vendas:
-            itens = session.query(VendaProduto, Produto).join(
-                Produto, VendaProduto.produto_id == Produto.id
-            ).filter(VendaProduto.venda_id == venda.id).all()
-
-            resultado.append({
-                'venda_id': venda.id,
-                'cliente': {'id': cliente.id, 'nome': cliente.nome},
-                'valor_total': venda.valor_total,
-                'itens': [{
-                    'produto_id': produto.id,
-                    'nome': produto.nome,
-                    'quantidade': vp.quantidade,
-                    'valor': vp.valorunitario
-                } for vp, produto in itens]
-            })
-        return jsonify(resultado), 200
+        return jsonify(lista)
 
     except Exception as e:
         print(f"Erro ao listar vendas por cliente: {e}")
@@ -113,62 +109,6 @@ def listar_vendas_por_cliente(cliente_id):
     
     finally:
         session.remove()
-
-# Listar vendas por produto
-def listar_vendas_por_produto(produto_id):
-    try:
-        vendas = session.query(Venda, Cliente).join(
-            Cliente, Venda.cliente_id == Cliente.id
-        ).join(VendaProduto).filter(VendaProduto.produto_id == produto_id).all()
-
-        resultado = []
-        for venda, cliente in vendas:
-            itens = session.query(VendaProduto, Produto).join(
-                Produto, VendaProduto.produto_id == Produto.id
-            ).filter(VendaProduto.venda_id == venda.id).all()
-
-            resultado.append({
-                'venda_id': venda.id,
-                'cliente': {'id': cliente.id, 'nome': cliente.nome},
-                'valor_total': venda.valor_total,
-                'itens': [{
-                    'produto_id': produto.id,
-                    'nome': produto.nome,
-                    'quantidade': vp.quantidade,
-                    'valor': vp.valorunitario
-                } for vp, produto in itens]
-            })
-        return jsonify(resultado), 200
-
-    except Exception as e:
-        print(f"Erro ao listar vendas por produto: {e}")
-        return jsonify({'erro': 'Erro ao listar vendas por produto'}), 500
-
-    finally:
-        session.remove()
-
-def listar_vendas_total_cliente(id_usuario):
-    resultados = (
-        session.query(
-            Cliente.nome.label("cliente"),
-            func.sum(Venda.valor_total).label("total_venda")
-        )
-        .join(Cliente, Cliente.id == Venda.cliente_id)
-        .filter(Venda.usuario_id == id_usuario)
-        .group_by(Cliente.nome) 
-        .order_by(Cliente.nome)
-        .all()
-    )
-    
-    lista = [
-        {
-            "cliente": r.cliente,
-            "total_venda": float(r.total_venda)
-        }
-        for r in resultados
-    ]
-
-    return jsonify(lista)
 
 # Função para criar venda (sem mexer no estoque)
 def criar_venda(id_usuario):
@@ -219,15 +159,9 @@ def criar_venda(id_usuario):
 
     except Exception as e:
         print(e)
+        # Desfazer todas as operações pendentes que ainda não foram confirmadas;
         session.rollback()
         return jsonify({'error': str(e)}), 500
-
-# Deletar venda
-def deletar_venda(venda_id):
-    venda = session.query(Venda).filter(Venda.id == venda_id).first()
-    if not venda:
-        return jsonify({'error': 'Venda não encontrada'}), 404
-
-    session.delete(venda)
-    session.commit()
-    return jsonify({'message': 'Venda deletada com sucesso'}), 200
+    
+    finally:
+        session.remove()
